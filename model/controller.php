@@ -20,7 +20,6 @@ class Controller
             array_push($arr, $row);
         }
         print_r(json_encode($arr, JSON_PRETTY_PRINT));
-        //print_r(json_encode($arr));
         exit;
     }
 }
