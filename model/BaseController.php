@@ -1,12 +1,12 @@
 <?php
-class Controller
+class BaseController
 {
     public $conn;
     function __construct($connection)
     {
         $this->conn = $connection;
     }
-    protected function sendOutput($data, $headers = array())
+    protected function SendOutput($data, $headers = array())
     {
         $this->SetHeaders($headers);
 
@@ -17,11 +17,11 @@ class Controller
         print_r(json_encode($arr, JSON_PRETTY_PRINT));
         exit;
     }
-    public function sendError($headers = array())
+    public function SendError($headers = array())
     {
         $this->SetHeaders($headers);
 
-        $err = "parametri non corretti";
+        $err = "incorrect_parameters";
         print_r(json_encode($err));
         exit;
     }
