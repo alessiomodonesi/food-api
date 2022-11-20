@@ -1,8 +1,10 @@
+use sandwiches;
+
 insert into category(name, iva_tax)
 values
-('panino', 0.22),
-('bevanda', 0.18),
-('piadina', 0.22);
+('panino', 22),
+('bevanda', 18),
+('piadina', 22);
 
 insert into nutritional_value(kcal, fats, carbohydrates, proteins)
 values
