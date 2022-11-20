@@ -1,5 +1,5 @@
 <?php
-require("BaseController.php");
+require("baseController.php");
 class ProductController extends BaseController
 {
     public function CheckIngredient()
