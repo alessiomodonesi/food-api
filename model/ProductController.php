@@ -2,20 +2,20 @@
 require("BaseController.php");
 class ProductController extends BaseController
 {
-    public function CheckIngredient()//Mostro ingredienti disponibili e loro quantità
+    public function CheckIngredient()
     {
-        $sql = "select distinct i.name as 'Nome ingrediente',i.available_quantity as 'Quantita disponibile'
-                from ingredient i
-                order by i.ID;";
+        $sql = "select distinct name as 'Nome ingrediente', available_quantity as 'Quantita disponibile'
+                from ingredient
+                order by ID;";
 
         $result = $this->conn->query($sql);
         $this->SendOutput($result, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
     }
-    public function CheckProduct()//Mostro prodotti disponibili e loro quantità
+    public function CheckProduct()
     {
-        $sql = "select distinct p.name as 'Nome prodotto',p.quantity as 'Quantita disponibile'
-                from product p
-                order by p.ID;";
+        $sql = "select distinct name as 'Nome prodotto', quantity as 'Quantita disponibile'
+                from product 
+                order by ID;";
 
         $result = $this->conn->query($sql);
         $this->SendOutput($result, array('Content-Type: application/json', 'HTTP/1.1 200 OK'));
