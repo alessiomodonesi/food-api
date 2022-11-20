@@ -1,7 +1,7 @@
 <?php
     require("../../db/connectDB.php");
-    require("../../model/ProductController.php");
+    require("../../model/testController.php");
 
-    $controller = new ProductController($conn);
+    $controller = new TestController($conn);
     $controller->CheckProduct();
 ?>
