@@ -121,6 +121,12 @@ tag_ID INT AUTO_INCREMENT PRIMARY KEY,
 tag NVARCHAR(32) NOT NULL
 );
 
+CREATE TABLE class(
+ID INT AUTO_INCREMENT PRIMARY KEY,
+year_class INT NOT NULL,
+section_class NVARCHAR(1) NOT NULL
+);
+
 -- tabelle di mezzo
 
 CREATE TABLE order_product(
@@ -176,4 +182,12 @@ CHECK (ingredient_quantity > 0),
 FOREIGN KEY (product_ID) REFERENCES product(ID),
 FOREIGN KEY (ingredient_ID) REFERENCES ingredient(ID),
 CONSTRAINT pk_product_ingredient PRIMARY KEY (product_ID, ingredient_ID)
+);
+
+CREATE TABLE account_class (
+class_ID INT NOT NULL,
+account_ID INT NOT NULL,
+start_year DATE NOT NULL,
+FOREIGN KEY (class_ID) REFERENCES class(ID),
+FOREIGN KEY (account_ID) REFERENCES account(ID)
 );
