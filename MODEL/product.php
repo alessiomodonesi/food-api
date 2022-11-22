@@ -1,5 +1,5 @@
 <?php
-require("BaseController.php");
+require("base.php");
 class ProductController extends BaseController
 {
     public function GetArchieveProduct()

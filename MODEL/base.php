@@ -6,12 +6,6 @@ class BaseController
     {
         $this->conn = $connection;
     }
-    /**
-     * Send API output.
-     *
-     * @param mixed  $data
-     * @param array[string] $httpHeaders
-     */
 
     //Mostra contenuto json come jsonencode passandogli le informazioni che si vogliono vedere
     protected function SendOutput($data, $headers = array())

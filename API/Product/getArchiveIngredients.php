@@ -1,6 +1,6 @@
 <?php
 require("../../DB/connect.php");
-require("../../MODEL/productController.php");
+require("../../MODEL/product.php");
 
 if (isset($_GET["panino"]))
     $panino = $_GET["panino"];

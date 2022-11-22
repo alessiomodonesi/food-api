@@ -2,7 +2,7 @@
     Class Order
     {
         protected $conn;
-        protected $table_name = "order0";
+        protected $table_name = "user_order";
 
         protected $user_ID;
         protected $total_price;
