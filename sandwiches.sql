@@ -1,5 +1,3 @@
--- creazione database
-
 CREATE DATABASE sandwiches;
 USE sandwiches;
 
@@ -17,20 +15,20 @@ active BIT DEFAULT 1
 CREATE TABLE category(
 ID INT AUTO_INCREMENT PRIMARY KEY,
 name NVARCHAR(16) NOT NULL,
-iva_tax DECIMAL NOT NULL,
+iva_tax DECIMAL(10,2) NOT NULL,
 CHECK (iva_tax > 0)
 );
 
 CREATE TABLE nutritional_value(
 ID INT AUTO_INCREMENT PRIMARY KEY,
 kcal INT NOT NULL,
-fats DECIMAL NOT NULL,
-saturated_fats DECIMAL,
-carbohydrates DECIMAL NOT NULL,
-sugars DECIMAL,
-proteins DECIMAL NOT NULL,
-salt DECIMAL,
-fiber DECIMAL,
+fats DECIMAL(10,2) NOT NULL,
+saturated_fats DECIMAL(10,2),
+carbohydrates DECIMAL(10,2) NOT NULL,
+sugars DECIMAL(10,2),
+proteins DECIMAL(10,2) NOT NULL,
+salt DECIMAL(10,2),
+fiber DECIMAL(10,2),
 CHECK (kcal > 0),
 CHECK (fats >= 0),
 CHECK (carbohydrates >= 0),
@@ -55,14 +53,14 @@ CREATE TABLE ingredient(
 ID INT AUTO_INCREMENT PRIMARY KEY,
 name NVARCHAR(32) NOT NULL,
 description NVARCHAR(128),
-available_quantity DECIMAL NOT NULL,
+available_quantity DECIMAL(10,2) NOT NULL,
 CHECK (available_quantity >= 0)
 );
 
 CREATE TABLE cart(
 ID INT AUTO_INCREMENT PRIMARY KEY,
 user_ID INT NOT NULL,
-total_price DECIMAL NOT NULL,
+total_price DECIMAL(10,2) NOT NULL,
 CHECK (total_price > 0),
 FOREIGN KEY (user_ID) REFERENCES account(ID)
 );
@@ -85,7 +83,7 @@ description NVARCHAR(64) NOT NULL
 CREATE TABLE user_order(
 ID INT AUTO_INCREMENT PRIMARY KEY,
 user_ID INT NOT NULL,
-total_price DECIMAL NOT NULL,
+total_price DECIMAL(10,2) NOT NULL,
 date_hour_sale DATETIME NOT NULL DEFAULT current_timestamp,
 break_ID INT NOT NULL,
 status_ID INT NOT NULL,
