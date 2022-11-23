@@ -56,6 +56,15 @@
             return $stmt;
         }
 
+        function getArchiveOrderUser($id) // Ottiene gli ordini in base alla ricreazione
+        {
+            $query = "SELECT * FROM $this->table_name WHERE user_ID = $id";
+
+            $stmt = $this->conn->query($query);
+
+            return $stmt;
+        }
+
         function delete($id){ // Annulla un ordine
 
             $query = "UPDATE $this->table_name SET status_ID = 3 WHERE ID = $id";
@@ -106,7 +115,7 @@
         */
 
         function setOrder($user_ID, $total_price, $break_ID, $status_ID, $pickup_ID, $json){ // Crea un ordine di vetrina
-            
+
             $query = "INSERT INTO $this->table_name (user_ID, total_price, break_ID, status_ID, pickup_ID, json)
                       VALUES (?, ?, ?, ?, ?, ?)";
             
