@@ -55,6 +55,8 @@ ID INT AUTO_INCREMENT PRIMARY KEY,
 name NVARCHAR(32) NOT NULL,
 description NVARCHAR(128),
 available_quantity DECIMAL(10,2) NOT NULL,
+extra_ready BIT DEFAULT 0,
+active BIT DEFAULT 1,
 CHECK (available_quantity >= 0)
 );
 
