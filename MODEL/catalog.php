@@ -7,7 +7,7 @@
         protected $validity_end_date;
         protected $conn;
 
-        protected $table_name = "catalogue";
+        protected $table_name = "catalog";
 
         public function __construct($db)
         {

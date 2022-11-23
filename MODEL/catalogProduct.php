@@ -5,7 +5,7 @@
         protected $product_ID;
         protected $conn;
 
-        protected $table_name = "catalogue_product";
+        protected $table_name = "catalog_product";
 
         public function __construct($db)
         {
@@ -14,7 +14,7 @@
 
         public function getCatalogueProduct($id)
         {
-            $query = "SELECT * FROM $this->table_name WHERE catalogue_ID=$id";
+            $query = "SELECT * FROM $this->table_name WHERE catalog_ID=$id";
 
             $stmt = $this->conn->query($query);
 
