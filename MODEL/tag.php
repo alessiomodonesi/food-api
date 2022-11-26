@@ -48,7 +48,7 @@
 
         function getTag($id)
         {
-            $query = "SELECT * FROM $this->table_name WHERE ID = $id";
+            $query = "SELECT * FROM $this->table_name WHERE tag_ID = $id";
 
             $stmt = $this->conn->query($query);
 
