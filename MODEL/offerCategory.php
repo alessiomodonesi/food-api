@@ -18,12 +18,9 @@
 
             $stmt = $this->conn->prepare($query);
             $stmt->bind_param("ii", $offer_ID, $category_ID);
-
-            if($stmt->execute()){
-                return $stmt;
-            }else{
-                return "";
-            }
+            $stmt->execute();
+            
+            return $stmt->affected_rows;
         }
     }
 ?>
