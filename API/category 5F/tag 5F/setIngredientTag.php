@@ -1,34 +1,32 @@
 <?php
-    header("Access-Control-Allow-Origin: *");
-    header("Content-Type: application/json; charset=UTF-8");
-    header("Access-Control-Allow-Methods: POST");
-    header("Access-Control-Max-Age: 3600");
-    header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=UTF-8");
 
-    include_once dirname(__FILE__) . '/../../../COMMON/connect.php';
-    include_once dirname(__FILE__) . '/../../../MODEL/ingredientTag.php';
+include_once dirname(__FILE__) . '/../../../COMMON/connect.php';
+include_once dirname(__FILE__) . '/../../../MODEL/ingredientTag.php';
 
-    $database = new Database();
-    $db = $database->connect();
+$database = new Database();
+$db = $database->connect();
 
-    $data = json_decode(file_get_contents("php://input"));
+if (!strpos($_SERVER["REQUEST_URI"], "tag_ID=") || !strpos($_SERVER["REQUEST_URI"], "ingredient_ID=") ) // Controlla se l'URI contiene ?ID
+{
+    http_response_code(400);
+    die(json_encode(array("Message" => "Bad request")));
+}
 
-    if(empty($data)){
-        http_response_code(400);
-        die(json_encode(array("Message" => "Bad request")));
-    }
+$tag_ID = explode("&", explode("tag_ID=", $_SERVER['REQUEST_URI'])[1])[0]; 
 
-    $ingredientTag = new IngredientTag($db);
-    
-    if(!empty($record = $ingredientTag->setIngredientTag($data->ingredient_ID, $data->tag_ID)))
-    {
-        http_response_code(201);
-        echo json_encode(array("Message"=> "Created"));
-    }
-    else
-    {
-        http_response_code(503);
-        echo json_encode(array("Message"=>'Error'));
-    }
 
+$ingredient_ID = explode("&", explode("ingredient_ID=" ,$_SERVER['REQUEST_URI'])[1])[0]; 
+
+$ingredientTag = new IngredientTag($db);
+$stmt = $ingredientTag->setIngredientTag($ingredient_ID, $tag_ID);
+
+if ($stmt > 0)
+{
+    echo "Association inserted";
+}
+else {
+    echo "Association failed";
+}
 ?>

@@ -14,16 +14,20 @@ if (!strpos($_SERVER["REQUEST_URI"], "tag_ID=") || !strpos($_SERVER["REQUEST_URI
     die(json_encode(array("Message" => "Bad request")));
 }
 
-$tag_ID = explode("tag_ID=" ,$_SERVER['REQUEST_URI'])[1]; 
-$ingredient_ID = explode("ingredient_ID=" ,$_SERVER['REQUEST_URI'])[1]; 
+$tag_ID = explode("&", explode("tag_ID=" ,$_SERVER['REQUEST_URI'])[1])[0]; 
+
+$ingredient_ID = explode("&", explode("ingredient_ID=", $_SERVER['REQUEST_URI'])[1])[0]; 
+
 $ingredientTag = new IngredientTag($db);
 $stmt = $ingredientTag->deleteIngredientTag($ingredient_ID, $tag_ID);
 
-if ($stmt === TRUE)
+if ($stmt > 0)
 {
-    echo "delete carried out";
+    http_response_code(200);
+    echo "Association deleted";
 }
 else {
-    echo "\n\nNo record";
+    http_response_code(503);
+    echo "Association not deleted";
 }
 ?>

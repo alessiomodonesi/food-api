@@ -26,17 +26,12 @@
             $query = "INSERT INTO $this->table_name (tag) VALUES (?)";
 
             $stmt = $this->conn->prepare($query);
+
             $stmt->bind_param('s', $tag);
-
-            if($stmt->execute()){
-                return $stmt;
-            }else{
-                return "";
-            }
+            $stmt->execute();
+            
+            return $this->conn->affected_rows;
         }
-
-        
-
 
         function getTag($id)
         {

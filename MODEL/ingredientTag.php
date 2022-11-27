@@ -18,7 +18,7 @@
 
             $stmt = $this->conn->query($query);
 
-            return $stmt;
+            return $this->conn->affected_rows;
         }
 
         function setIngredientTag($ingredient_ID, $tag_ID)
@@ -27,11 +27,11 @@
 
             $stmt = $this->conn->prepare($query);
             $stmt->bind_param('ii', $ingredient_ID, $tag_ID);
-
+            
             if($stmt->execute()){
-                return $stmt;
+                return $this->conn->affected_rows;
             }else{
-                return "";
+                return $this->conn->affected_rows;
             }
         }
     }

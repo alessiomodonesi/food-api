@@ -20,7 +20,7 @@
 
     $tag = new Tag($db);
     
-    if(!empty($record = $tag->createTag($data->tag)))
+    if($tag->createTag($data->tag) > 0)
     {
         http_response_code(201);
         echo json_encode(array("Message"=> "Created"));
