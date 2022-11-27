@@ -3,7 +3,7 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
 include_once dirname(__FILE__) . '/../../../COMMON/connect.php';
-include_once dirname(__FILE__) . '/../../../MODEL/tag.php';
+include_once dirname(__FILE__) . '/../../../MODEL/ingredientTag.php';
 
 $database = new Database();
 $db = $database->connect();
@@ -16,8 +16,8 @@ if (!strpos($_SERVER["REQUEST_URI"], "tag_ID=") || !strpos($_SERVER["REQUEST_URI
 
 $tag_ID = explode("tag_ID=" ,$_SERVER['REQUEST_URI'])[1]; 
 $ingredient_ID = explode("ingredient_ID=" ,$_SERVER['REQUEST_URI'])[1]; 
-$tag = new Tag($db);
-$stmt = $tag->deleteIngredientTag($ingredient_ID, $tag_ID);
+$ingredientTag = new IngredientTag($db);
+$stmt = $ingredientTag->deleteIngredientTag($ingredient_ID, $tag_ID);
 
 if ($stmt === TRUE)
 {

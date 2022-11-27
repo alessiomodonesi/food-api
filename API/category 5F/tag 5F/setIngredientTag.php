@@ -6,7 +6,7 @@
     header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
     include_once dirname(__FILE__) . '/../../../COMMON/connect.php';
-    include_once dirname(__FILE__) . '/../../../MODEL/tag.php';
+    include_once dirname(__FILE__) . '/../../../MODEL/ingredientTag.php';
 
     $database = new Database();
     $db = $database->connect();
@@ -18,9 +18,9 @@
         die(json_encode(array("Message" => "Bad request")));
     }
 
-    $tag = new Tag($db);
+    $ingredientTag = new IngredientTag($db);
     
-    if(!empty($record = $tag->setIngredientTag($data->ingredient_ID, $data->tag_ID)))
+    if(!empty($record = $ingredientTag->setIngredientTag($data->ingredient_ID, $data->tag_ID)))
     {
         http_response_code(201);
         echo json_encode(array("Message"=> "Created"));

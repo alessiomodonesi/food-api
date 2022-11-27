@@ -3,7 +3,6 @@
     {
         protected $conn;
         protected $table_name = "tag";
-        protected $middle_table_name = "ingredient_tag";
 
         protected $tag;
 
@@ -36,14 +35,7 @@
             }
         }
 
-        function deleteIngredientTag($ingredient_ID, $tag_ID)
-        {
-            $query = "DELETE FROM $this->middle_table_name WHERE ingredient_ID = $ingredient_ID AND tag_ID = $tag_ID";
-
-            $stmt = $this->conn->query($query);
-
-            return $stmt;
-        }
+        
 
 
         function getTag($id)
@@ -55,18 +47,6 @@
             return $stmt;
         }
 
-        function setIngredientTag($ingredient_ID, $tag_ID)
-        {
-            $query = "INSERT INTO $this->middle_table_name (ingredient_ID, tag_ID) VALUES (?, ?)";
-
-            $stmt = $this->conn->prepare($query);
-            $stmt->bind_param('ii', $ingredient_ID, $tag_ID);
-
-            if($stmt->execute()){
-                return $stmt;
-            }else{
-                return "";
-            }
-        }
+        
     }
 ?>
