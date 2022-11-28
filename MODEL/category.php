@@ -35,7 +35,6 @@ class Category
     public function createCategory($category_name, $iva_tax)
     {
         $query = "INSERT INTO $this->category_table_name (name, iva_tax) VALUES ('$category_name', $iva_tax)";
-        echo $query;
         $stmt = $this -> conn -> query($query);
         return $stmt;
     }
