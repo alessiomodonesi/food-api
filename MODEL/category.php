@@ -34,14 +34,15 @@ class Category
 
     public function createCategory($category_name, $iva_tax)
     {
-        $query = "INSERT INTO $this->category_table_name VALUES ($category_name, $iva_tax)";
+        $query = "INSERT INTO $this->category_table_name (name, iva_tax) VALUES ('$category_name', $iva_tax)";
+        echo $query;
         $stmt = $this -> conn -> query($query);
         return $stmt;
     }
 
     public function setProductCategory($category_ID, $product_ID)
     {
-        $query = "UPDATE $this->product_table SET category_ID = $category_ID WHERE ID = $product_ID";
+        $query = "UPDATE $this->product_table_name SET category_ID = $category_ID WHERE ID = $product_ID";
         $stmt = $this -> conn -> query($query);
         return $stmt;
     }
