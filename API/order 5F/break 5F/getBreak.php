@@ -2,8 +2,8 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-include_once dirname(__FILE__) . '/../../DB/connect.php';
-include_once dirname(__FILE__) . '/../../MODEL/break.php';
+include_once dirname(__FILE__) . '/../config/database.php';
+include_once dirname(__FILE__) . '/../models/break.php';
 
 $database = new Database();
 $db = $database->connect();
@@ -23,20 +23,21 @@ $stmt = $break -> getBreak($id);
 if ($stmt->num_rows > 0) // Se la funzione getBreak ha ritornato dei record
 {
     $break_arr = array();
-    $break_arr['records'] = array();
     while($record = $stmt->fetch_assoc()) // trasforma una riga in un array e lo fa per tutte le righe di un record
     {
        extract($record); // importa variabili da un array
        $break_record = array(
         'break_time' => $break_time,
        );
-       array_push($break_arr['records'], $break_record); // appende il record all'array che contiene tutti i record
+       array_push($break_arr, $break_record); // appende il record all'array che contiene tutti i record
     }
     echo json_encode($break_arr);
     http_response_code(200);
-    return json_encode($break_arr);
+    return json_encode($break_arr, JSON_PRETTY_PRINT);
 }
 else {
     echo "\n\nNo record";
+    http_response_code(404);
+    return json_encode(array("Message" => "No record"));
 }
 ?>

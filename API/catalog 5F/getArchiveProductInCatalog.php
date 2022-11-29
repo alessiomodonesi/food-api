@@ -2,9 +2,9 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-include_once dirname(__FILE__) . '/../../DB/connect.php';
-include_once dirname(__FILE__) . '/../../MODEL/catalog.php';
-include_once dirname(__FILE__) . '/../../MODEL/catalogProduct.php';
+include_once dirname(__FILE__) . '/../config/database.php';
+include_once dirname(__FILE__) . '/../models/catalog.php';
+include_once dirname(__FILE__) . '/../models/catalogProduct.php';
 
 if (!strpos($_SERVER["REQUEST_URI"], "?ID=")) // Controlla se l'URI contiene ?ID
 {
@@ -25,7 +25,6 @@ if ($stmt->num_rows > 0) // Se la funzione getArchiveOrder ha ritornato dei reco
 {
     $catalogProd = new CatalogProduct($db);
     $catalog_arr = array();
-    $catalog_arr['records'] = array();
     while($record = $stmt->fetch_assoc()) // trasforma una riga in un array e lo fa per tutte le righe di un record
     {
        extract($record);
@@ -50,7 +49,7 @@ if ($stmt->num_rows > 0) // Se la funzione getArchiveOrder ha ritornato dei reco
 
             array_push($catalog_record['products'], $product);
         }
-    array_push($catalog_arr['records'], $catalog_record);
+    array_push($catalog_arr, $catalog_record);
     }
     }
     echo json_encode($catalog_arr, JSON_PRETTY_PRINT);
@@ -58,5 +57,7 @@ if ($stmt->num_rows > 0) // Se la funzione getArchiveOrder ha ritornato dei reco
 }
 else {
     echo "\n\nNo record";
+    http_response_code(404);
+    return json_encode(array("Message" => "No record"));
 }
 ?>

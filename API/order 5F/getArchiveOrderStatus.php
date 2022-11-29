@@ -2,8 +2,8 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-include_once dirname(__FILE__) . '/../../DB/connect.php';
-include_once dirname(__FILE__) . '/../../MODEL/order.php';
+include_once dirname(__FILE__) . '/../config/database.php';
+include_once dirname(__FILE__) . '/../models/order.php';
 
 $database = new Database();
 $db = $database->connect();
@@ -23,7 +23,6 @@ $stmt = $order->getArchiveOrderStatus($id);
 if ($stmt->num_rows > 0) // Se la funzione getArchiveOrderStatus ha ritornato dei record
 {
     $order_arr = array();
-    $order_arr['records'] = array();
     while($record = $stmt->fetch_assoc()) // trasforma una riga in un array e lo fa per tutte le righe di un record
     {
        extract($record);
@@ -37,13 +36,15 @@ if ($stmt->num_rows > 0) // Se la funzione getArchiveOrderStatus ha ritornato de
         'pickup_ID' => $pickup_ID,
         'json' => json_decode($json)
        );
-       array_push($order_arr['records'], $order_record);
+       array_push($order_arr, $order_record);
     }
-    echo json_encode($order_arr);
+    echo json_encode($order_arr, JSON_PRETTY_PRINT);
     http_response_code(200);
     return json_encode($order_arr);
 }
 else {
     echo "\n\nNo record";
+    http_response_code(404);
+    return json_encode(array("Message" => "No record"));
 }
 ?>

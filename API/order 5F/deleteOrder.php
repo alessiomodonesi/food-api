@@ -2,8 +2,8 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-include_once dirname(__FILE__) . '/../../DB/connect.php';
-include_once dirname(__FILE__) . '/../../MODEL/order.php';
+include_once dirname(__FILE__) . '/../config/database.php';
+include_once dirname(__FILE__) . '/../models/order.php';
 
 $database = new Database();
 $db = $database->connect();
@@ -23,8 +23,13 @@ $stmt = $order->delete($id);
 if ($stmt === TRUE)
 {
     echo "delete carried out";
+    http_response_code(200);
+    return json_encode(array("Message" => "delete carried out"));
+    
 }
 else {
     echo "\n\nNo record";
+    http_response_code(404);
+    return json_encode(array("Message" => "No record"));
 }
 ?>
