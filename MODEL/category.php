@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Modello per le API che riguardano le categorie
+ * Realizzato dal gruppo Rossi, Di Lena, Marchetto G., Lavezzi, Ferrari
+ * Classe 5F
+ * A.S. 2022-2023
+ */
+
 class Category
 {
     protected $conn;
@@ -18,14 +25,21 @@ class Category
         return $stmt;
     }
 
-    public function getCategoryWithCategoryID($category_id)
+    /**
+     * Per la non possibilità di realizzare un overload dei metodi, è stato necessario scrivere
+     * due metodi diversi per realizzare la query dell'API getCategory.
+     */
+
+    public function getCategoryWithCategoryID($category_id) //getCategory in base all'ID della categoria
+
     {
         $query = "SELECT ID, name, iva_tax FROM $this->category_table_name WHERE ID = $category_id";
         $stmt = $this->conn->query($query);
         return $stmt;
     }
 
-    public function getCategoryWithCategoryName($category_name)
+    public function getCategoryWithCategoryName($category_name) //getCategory in base al nome della categoria
+
     {
         $query = "SELECT ID, name, iva_tax FROM $this->category_table_name WHERE name = '$category_name'";
         $stmt = $this->conn->query($query);

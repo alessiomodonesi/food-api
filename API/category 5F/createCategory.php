@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * API per la creazione di una categoria
+ * Realizzato dal gruppo Rossi, Di Lena, Marchetto G., Lavezzi, Ferrari
+ * Classe 5F
+ * A.S. 2022-2023
+ */
+
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
