@@ -24,6 +24,13 @@ VALUES
 ('Settore A itis'),
 ('Settore B itis');
 
+INSERT INTO nutritional_value(kcal, fats, carbohydrates, proteins)
+VALUES
+(235, 25, 80, 7),
+(348, 30, 63, 6),
+(249, 17, 65, 25),
+(80, 0, 10, 1);
+
 INSERT INTO product(name, price, description, quantity, nutritional_value)
 VALUES
 ('panino al prosciutto', 3, 'panino fatto col miglior prosciutto in cirolazione', 26, 1),
@@ -31,13 +38,6 @@ VALUES
 ('panino proteico', 3, 'panino che possono mangiare solo i veri jimbro', 15, 3),
 ('coca cola', 1, 'bevanda frizzante', 24, 4),
 ('panino col formaggio', 1.20, 'panino con il formaggio del despar', 15, 2);
-
-INSERT INTO nutritional_value(kcal, fats, carbohydrates, proteins)
-VALUES
-(235, 25, 80, 7),
-(348, 30, 63, 6),
-(249, 17, 65, 25),
-(80, 0, 10, 1);
 
 INSERT INTO `status`(description)
 VALUES
@@ -62,7 +62,7 @@ INSERT INTO `cart`(`user`)
 VALUES 
 ('1');
 
-INSERT INTO offer(price, expiry)
+INSERT INTO offer(price, expiry, description)
 VALUES
 ('10', '2022/01/21', 'offerta n. 1'),
 ('20', '2021/03/01', 'offerta n. 2');
@@ -81,7 +81,7 @@ VALUES
 (1, 4, 1),
 (1, 1, 2);
 
-INSERT INTO user_class(user, class, `year`)
+INSERT INTO user_class(`user`, class, `year`)
 VALUES
 (1,1, '2022'),
 (2,3, '2021'),
@@ -100,9 +100,15 @@ VALUES
 (5, 5);
 
 -- import mancanti
-CREATE  TABLE sandwiches.product_tag ( 
-	product          INT UNSIGNED NOT NULL,
-	tag              INT UNSIGNED NOT NULL    
+
+ CREATE  TABLE sandwiches.`order` ( 
+	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
+	`user`               INT UNSIGNED NOT NULL,
+	created              TIMESTAMP  NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+	pickup               INT UNSIGNED NOT NULL,
+	break                INT UNSIGNED NOT NULL,
+	`status`             INT UNSIGNED NOT NULL,
+	json                 LONGTEXT
  );
 
 CREATE  TABLE sandwiches.reset ( 
@@ -112,11 +118,6 @@ CREATE  TABLE sandwiches.reset (
 	requested            TIMESTAMP  NOT NULL DEFAULT (CURRENT_TIMESTAMP),
 	expires              TIMESTAMP  NOT NULL,
 	completed            BOOLEAN  NOT NULL DEFAULT (FALSE)    
- );
-
- CREATE  TABLE sandwiches.product_offer ( 
-	product          INT UNSIGNED NOT NULL,
-	offer            INT UNSIGNED NOT NULL  
  );
 
  CREATE  TABLE sandwiches.favourite ( 
@@ -140,12 +141,12 @@ CREATE  TABLE sandwiches.reset (
 	break            INT UNSIGNED NOT NULL     
  );
 
- CREATE  TABLE sandwiches.`order` ( 
-	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
-	`user`               INT UNSIGNED NOT NULL,
-	created              TIMESTAMP  NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-	pickup               INT UNSIGNED NOT NULL,
-	break                INT UNSIGNED NOT NULL,
-	`status`             INT UNSIGNED NOT NULL,
-	json                 LONGTEXT
+ CREATE  TABLE sandwiches.product_tag ( 
+	product          INT UNSIGNED NOT NULL,
+	tag              INT UNSIGNED NOT NULL    
+ );
+
+  CREATE  TABLE sandwiches.product_offer ( 
+	product          INT UNSIGNED NOT NULL,
+	offer            INT UNSIGNED NOT NULL  
  );
