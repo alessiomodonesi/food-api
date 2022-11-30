@@ -11,8 +11,8 @@ CREATE  TABLE sandwiches.break (
  );
 
 CREATE  TABLE sandwiches.cart_product ( 
-	cart                 INT UNSIGNED NOT NULL,
-	product              INT UNSIGNED NOT NULL,
+	cart_id              INT UNSIGNED NOT NULL,
+	product_id           INT UNSIGNED NOT NULL,
 	quantity             INT UNSIGNED
  );
 
@@ -32,8 +32,8 @@ CREATE  TABLE sandwiches.ingredient (
  );
 
 CREATE  TABLE sandwiches.ingredient_allergen ( 
-	ingredient           INT UNSIGNED NOT NULL,
-	allergen             INT UNSIGNED NOT NULL
+	ingredient_id        INT UNSIGNED NOT NULL,
+	allergen_id          INT UNSIGNED NOT NULL
  );
 
 CREATE  TABLE sandwiches.pickup ( 
@@ -42,8 +42,8 @@ CREATE  TABLE sandwiches.pickup (
  );
 
 CREATE  TABLE sandwiches.pickup_break ( 
-	pickup               INT UNSIGNED NOT NULL,
-	break                INT UNSIGNED NOT NULL     
+	pickup_id            INT UNSIGNED NOT NULL,
+	break_id             INT UNSIGNED NOT NULL     
  );
 
 CREATE  TABLE sandwiches.product ( 
@@ -69,8 +69,8 @@ CREATE  TABLE sandwiches.nutritional_value (
  );
 
 CREATE  TABLE sandwiches.product_ingredient ( 
-	product              INT UNSIGNED NOT NULL,
-	ingredient           INT UNSIGNED NOT NULL     
+	product_id           INT UNSIGNED NOT NULL,
+	ingredient_id        INT UNSIGNED NOT NULL     
  );
 
 CREATE  TABLE sandwiches.`status` ( 
@@ -87,35 +87,38 @@ CREATE  TABLE sandwiches.`user` (
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	name                 VARCHAR(50)  NOT NULL,
 	surname              VARCHAR(50)  NOT NULL,
-	class                INT UNSIGNED NOT NULL,
 	email                VARCHAR(128)  NOT NULL,
 	password             VARCHAR(128)  NOT NULL,
 	active               BOOLEAN  NOT NULL DEFAULT (TRUE)    
  );
 
  CREATE  TABLE sandwiches.user_class (
-	user                 INT UNSIGNED NOT NULL,
-	class                INT UNSIGNED NOT NULL,
+	user_id              INT UNSIGNED NOT NULL,
+	class_id             INT UNSIGNED NOT NULL,
 	`year`               YEAR NOT NULL
  );
 
 CREATE  TABLE sandwiches.cart ( 
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
-	`user`               INT UNSIGNED NOT NULL     
+	user                 INT UNSIGNED NOT NULL     
  );
 
 CREATE  TABLE sandwiches.favourite ( 
-	`user`               INT UNSIGNED NOT NULL,
-	product              INT UNSIGNED NOT NULL,
+	user_id              INT UNSIGNED NOT NULL,
+	product_id           INT UNSIGNED NOT NULL,
 	created              TIMESTAMP   DEFAULT (CURRENT_TIMESTAMP)    
  );
 
 CREATE  TABLE sandwiches.offer ( 
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
-	product              INT UNSIGNED NOT NULL,
 	price                DECIMAL(4,2) UNSIGNED NOT NULL,
 	expiry               TIMESTAMP  NOT NULL,
 	description          VARCHAR(128)       
+ );
+
+CREATE  TABLE sandwiches.product_offer ( 
+	product_id           INT UNSIGNED NOT NULL,
+	offer_id             INT UNSIGNED NOT NULL  
  );
 
 CREATE  TABLE sandwiches.`order` ( 
@@ -129,13 +132,13 @@ CREATE  TABLE sandwiches.`order` (
  );
 
 CREATE  TABLE sandwiches.product_order ( 
-	product              INT UNSIGNED NOT NULL,
-	`order`              INT UNSIGNED NOT NULL
+	product_id           INT UNSIGNED NOT NULL,
+	order_id             INT UNSIGNED NOT NULL
  );
 
 CREATE  TABLE sandwiches.product_tag ( 
-	product              INT UNSIGNED NOT NULL,
-	tag                  INT UNSIGNED NOT NULL    
+	product_id           INT UNSIGNED NOT NULL,
+	tag_id               INT UNSIGNED NOT NULL    
  );
 
 CREATE  TABLE sandwiches.reset ( 
