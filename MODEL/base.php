@@ -1,4 +1,13 @@
 <?php
+
+define(
+    'JSON_OK',
+    array(
+        'Content-Type: application/json',
+        'HTTP/1.1 200 OK'
+    )
+);
+
 class BaseController
 {
     public $conn;
@@ -6,7 +15,7 @@ class BaseController
     {
         $this->conn = $connection;
     }
-
+    
     //Mostra contenuto json come jsonencode passandogli le informazioni che si vogliono vedere
     protected function SendOutput($data, $headers = array())
     {
@@ -25,6 +34,13 @@ class BaseController
 
         $err = "incorrect_parameters";
         print_r(json_encode($err));
+        exit;
+    }
+    public function SendState($state, $headers = array())
+    {
+        $this->SetHeaders($headers);
+
+        print_r(json_encode($state));
         exit;
     }
     protected function SetHeaders($httpHeaders = array())

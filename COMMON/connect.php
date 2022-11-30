@@ -1,17 +1,18 @@
 <?php 
 Class Database
 {
-    protected $serverName = "localhost";
-    protected $dbName = "sandwiches";
-    protected $username = "root";
-    protected $password = "";
+    protected $server = "claudiodressadore.net";
+    protected $db = "sandwiches";
+    protected $username = "evomatic";
+    protected $password = "evomatic2022";
+    protected $port = "3306";
     public $conn;
 
     public function connect()
     {
         try
         {
-            $this->conn = new mysqli($this->serverName, $this->username, $this->password, $this->dbName);
+            $this->conn = new mysqli($this->server, $this->username, $this->password, $this->db, $this->port);
         }
         catch (mysqli $ex)
         {
