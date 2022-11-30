@@ -11,8 +11,8 @@ CREATE  TABLE sandwiches.break (
  );
 
 CREATE  TABLE sandwiches.cart_product ( 
-	cart_id              INT UNSIGNED NOT NULL,
-	product_id           INT UNSIGNED NOT NULL,
+	cart                 INT UNSIGNED NOT NULL,
+	product              INT UNSIGNED NOT NULL,
 	quantity             INT UNSIGNED
  );
 
@@ -32,8 +32,8 @@ CREATE  TABLE sandwiches.ingredient (
  );
 
 CREATE  TABLE sandwiches.ingredient_allergen ( 
-	ingredient_id        INT UNSIGNED NOT NULL,
-	allergen_id          INT UNSIGNED NOT NULL
+	ingredient       INT UNSIGNED NOT NULL,
+	allergen         INT UNSIGNED NOT NULL
  );
 
 CREATE  TABLE sandwiches.pickup ( 
@@ -42,8 +42,8 @@ CREATE  TABLE sandwiches.pickup (
  );
 
 CREATE  TABLE sandwiches.pickup_break ( 
-	pickup_id            INT UNSIGNED NOT NULL,
-	break_id             INT UNSIGNED NOT NULL     
+	pickup           INT UNSIGNED NOT NULL,
+	break            INT UNSIGNED NOT NULL     
  );
 
 CREATE  TABLE sandwiches.product ( 
@@ -69,8 +69,8 @@ CREATE  TABLE sandwiches.nutritional_value (
  );
 
 CREATE  TABLE sandwiches.product_ingredient ( 
-	product_id           INT UNSIGNED NOT NULL,
-	ingredient_id        INT UNSIGNED NOT NULL     
+	product          INT UNSIGNED NOT NULL,
+	ingredient       INT UNSIGNED NOT NULL     
  );
 
 CREATE  TABLE sandwiches.`status` ( 
@@ -93,20 +93,20 @@ CREATE  TABLE sandwiches.`user` (
  );
 
  CREATE  TABLE sandwiches.user_class (
-	user_id              INT UNSIGNED NOT NULL,
-	class_id             INT UNSIGNED NOT NULL,
+	user             INT UNSIGNED NOT NULL,
+	class            INT UNSIGNED NOT NULL,
 	`year`               YEAR NOT NULL
  );
 
 CREATE  TABLE sandwiches.cart ( 
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
-	user                 INT UNSIGNED NOT NULL     
+	`user`               INT UNSIGNED NOT NULL     
  );
 
 CREATE  TABLE sandwiches.favourite ( 
-	user_id              INT UNSIGNED NOT NULL,
-	product_id           INT UNSIGNED NOT NULL,
-	created              TIMESTAMP   DEFAULT (CURRENT_TIMESTAMP)    
+	`user`           INT UNSIGNED NOT NULL,
+	product          INT UNSIGNED NOT NULL,
+	created          TIMESTAMP   DEFAULT (CURRENT_TIMESTAMP)    
  );
 
 CREATE  TABLE sandwiches.offer ( 
@@ -117,8 +117,8 @@ CREATE  TABLE sandwiches.offer (
  );
 
 CREATE  TABLE sandwiches.product_offer ( 
-	product_id           INT UNSIGNED NOT NULL,
-	offer_id             INT UNSIGNED NOT NULL  
+	product          INT UNSIGNED NOT NULL,
+	offer            INT UNSIGNED NOT NULL  
  );
 
 CREATE  TABLE sandwiches.`order` ( 
@@ -132,13 +132,13 @@ CREATE  TABLE sandwiches.`order` (
  );
 
 CREATE  TABLE sandwiches.product_order ( 
-	product_id           INT UNSIGNED NOT NULL,
-	order_id             INT UNSIGNED NOT NULL
+	product          INT UNSIGNED NOT NULL,
+	`order`          INT UNSIGNED NOT NULL
  );
 
 CREATE  TABLE sandwiches.product_tag ( 
-	product_id           INT UNSIGNED NOT NULL,
-	tag_id               INT UNSIGNED NOT NULL    
+	product          INT UNSIGNED NOT NULL,
+	tag              INT UNSIGNED NOT NULL    
  );
 
 CREATE  TABLE sandwiches.reset ( 
@@ -150,7 +150,7 @@ CREATE  TABLE sandwiches.reset (
 	completed            BOOLEAN  NOT NULL DEFAULT (FALSE)    
  );
 
-ALTER TABLE sandwiches.cart_product ADD CONSTRAINT fk_cart_product_product FOREIGN KEY ( product ) REFERENCES sandwiches.product ( id );
+ALTER TABLE sandwiches.cart_product ADD CONSTRAINT fk_cart_product_product FOREIGN KEY ( product) REFERENCES sandwiches.product ( id );
 
 ALTER TABLE sandwiches.cart_product ADD CONSTRAINT fk_cart_product_cart FOREIGN KEY ( cart ) REFERENCES sandwiches.cart ( id );
 
@@ -170,13 +170,13 @@ ALTER TABLE sandwiches.product_ingredient ADD CONSTRAINT fk_product_ingredient_i
 
 ALTER TABLE sandwiches.favourite ADD CONSTRAINT fk_favourite_user FOREIGN KEY ( `user` ) REFERENCES sandwiches.`user` ( id );
 
-ALTER TABLE sandwiches.favourite ADD CONSTRAINT fk_favourite_product FOREIGN KEY ( product ) REFERENCES sandwiches.product ( id );
+ALTER TABLE sandwiches.favourite ADD CONSTRAINT fk_favourite_product FOREIGN KEY ( product) REFERENCES sandwiches.product ( id );
 
-ALTER TABLE sandwiches.product_tag  ADD CONSTRAINT fk_product_tag_product FOREIGN KEY ( product ) REFERENCES sandwiches.product ( id );
+ALTER TABLE sandwiches.product_tag  ADD CONSTRAINT fk_product_tag_product FOREIGN KEY ( product) REFERENCES sandwiches.product ( id );
 
-ALTER TABLE sandwiches.product_tag  ADD CONSTRAINT fk_product_tag_tag FOREIGN KEY ( tag ) REFERENCES sandwiches.tag ( id );
+ALTER TABLE sandwiches.product_tag  ADD CONSTRAINT fk_product_tag_tag FOREIGN KEY ( tag) REFERENCES sandwiches.tag ( id );
 
-ALTER TABLE sandwiches.product_order  ADD CONSTRAINT fk_product_order_product FOREIGN KEY ( product ) REFERENCES sandwiches.product ( id );
+ALTER TABLE sandwiches.product_order  ADD CONSTRAINT fk_product_order_product FOREIGN KEY ( product) REFERENCES sandwiches.product ( id );
 
 ALTER TABLE sandwiches.product_order  ADD CONSTRAINT fk_product_order_order FOREIGN KEY ( `order` ) REFERENCES sandwiches.`order` ( id );
 
@@ -196,6 +196,6 @@ ALTER TABLE sandwiches.user_class  ADD CONSTRAINT fk_user_class_user FOREIGN KEY
 
 ALTER TABLE sandwiches.user_class  ADD CONSTRAINT fk_user_class_class FOREIGN KEY ( class ) REFERENCES sandwiches.class ( id );
 
-ALTER TABLE sandwiches.product_offer ADD CONSTRAINT fk_product_offer_product FOREIGN KEY ( product ) REFERENCES sandwiches.class ( id );
+ALTER TABLE sandwiches.product_offer ADD CONSTRAINT fk_product_offer_product FOREIGN KEY ( product ) REFERENCES sandwiches.product ( id );
 
-ALTER TABLE sandwiches.product_offer  ADD CONSTRAINT fk_product_offer_offer FOREIGN KEY ( offer ) REFERENCES sandwiches.class ( id ); 
+ALTER TABLE sandwiches.product_offer  ADD CONSTRAINT fk_product_offer_offer FOREIGN KEY ( offer ) REFERENCES sandwiches.offer ( id ); 
