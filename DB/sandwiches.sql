@@ -2,7 +2,7 @@ CREATE DATABASE sandwiches;
 
 CREATE  TABLE sandwiches.allergen ( 
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
-	name                 VARCHAR(50)  NOT NULL     
+	name                 VARCHAR(64)  NOT NULL     
  );
 
 CREATE  TABLE sandwiches.break ( 
@@ -24,7 +24,7 @@ CREATE  TABLE sandwiches.class (
 
 CREATE  TABLE sandwiches.ingredient ( 
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
-	name                 VARCHAR(50)  NOT NULL,
+	name                 VARCHAR(64)  NOT NULL,
 	description          VARCHAR(128),
 	price                DECIMAL(4,2) UNSIGNED,
 	extra                BOOLEAN NOT NULL DEFAULT (FALSE),
@@ -48,7 +48,7 @@ CREATE  TABLE sandwiches.pickup_break (
 
 CREATE  TABLE sandwiches.product ( 
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
-	name                 VARCHAR(50)  NOT NULL,
+	name                 VARCHAR(64)  NOT NULL,
 	price                DECIMAL(4,2) UNSIGNED NOT NULL,
 	description          VARCHAR(128),
 	quantity             INT  NOT NULL,
@@ -75,18 +75,18 @@ CREATE  TABLE sandwiches.product_ingredient (
 
 CREATE  TABLE sandwiches.`status` ( 
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
-	description          VARCHAR(50)  NOT NULL     
+	description          VARCHAR(64)  NOT NULL     
  );
 
 CREATE  TABLE sandwiches.tag ( 
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
-	name                 VARCHAR(20)  NOT NULL     
+	name                 VARCHAR(32)  NOT NULL     
  );
 
 CREATE  TABLE sandwiches.`user` ( 
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
-	name                 VARCHAR(50)  NOT NULL,
-	surname              VARCHAR(50)  NOT NULL,
+	name                 VARCHAR(64)  NOT NULL,
+	surname              VARCHAR(64)  NOT NULL,
 	email                VARCHAR(128)  NOT NULL,
 	password             VARCHAR(128)  NOT NULL,
 	active               BOOLEAN  NOT NULL DEFAULT (TRUE)    
@@ -182,8 +182,6 @@ ALTER TABLE sandwiches.product_order  ADD CONSTRAINT fk_product_order_order FORE
 
 ALTER TABLE sandwiches.reset  ADD CONSTRAINT fk_reset_user FOREIGN KEY ( `user` ) REFERENCES sandwiches.`user` ( id );
 
-ALTER TABLE sandwiches.offer  ADD CONSTRAINT fk_offer_product FOREIGN KEY ( product ) REFERENCES sandwiches.product ( id );
-
 ALTER TABLE sandwiches.`order`  ADD CONSTRAINT fk_order_user FOREIGN KEY ( `user` ) REFERENCES sandwiches.`user` ( id );
 
 ALTER TABLE sandwiches.`order`  ADD CONSTRAINT fk_order_status FOREIGN KEY ( status ) REFERENCES sandwiches.status ( id );
@@ -197,3 +195,7 @@ ALTER TABLE sandwiches.product  ADD CONSTRAINT fk_product_nutritional_value FORE
 ALTER TABLE sandwiches.user_class  ADD CONSTRAINT fk_user_class_user FOREIGN KEY ( `user` ) REFERENCES sandwiches.`user` ( id );
 
 ALTER TABLE sandwiches.user_class  ADD CONSTRAINT fk_user_class_class FOREIGN KEY ( class ) REFERENCES sandwiches.class ( id );
+
+ALTER TABLE sandwiches.product_offer ADD CONSTRAINT fk_product_offer_product FOREIGN KEY ( product ) REFERENCES sandwiches.class ( id );
+
+ALTER TABLE sandwiches.product_offer  ADD CONSTRAINT fk_product_offer_offer FOREIGN KEY ( offer ) REFERENCES sandwiches.class ( id ); 
