@@ -8,10 +8,13 @@ if (isset($_GET["name"]))
 if (isset($_GET["description"]))
     $description = $_GET["description"];
 
-if (isset($_GET["avariable_quantity"]))
-    $avariable_quantity = $_GET["avariable_quantity"];
+if (isset($_GET["quantity"]))
+    $quantity = $_GET["quantity"];
 
 
-$controller = new ProductController($conn);
-$controller->setIngredient($name, $description, $avariable_quantity);
+$database = new Database();
+$db_connection = $database->connect();
+
+$controller = new ProductController($db_connection);
+$controller->setIngredient($name, $description, $quantity);
 ?>

@@ -2,6 +2,9 @@
 require("../../COMMON/connect.php");
 require("../../MODEL/product.php");
 
-$controller = new ProductController($conn);
+$database = new Database();
+$db_connection = $database->connect();
+
+$controller = new ProductController($db_connection);
 $controller->CheckIngredient();
 ?>

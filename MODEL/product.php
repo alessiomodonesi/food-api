@@ -15,10 +15,9 @@ class ProductController extends BaseController
     public function CheckIngredient() //Mostro ingredienti disponibili e loro quantità
 
     {
-        $sql = "select distinct i.name, i.available_quantity
+        $sql = "select distinct i.name, i.quantity
                 from ingredient i
-                where i.active = 1
-                order by i.ID;";
+                order by i.id;";
 
         $result = $this->conn->query($sql);
         $this->SendOutput($result, JSON_OK);
@@ -74,13 +73,13 @@ class ProductController extends BaseController
         $result = $this->conn->query($sql);
         $this->SendOutput($result, JSON_OK);
     }
-    public function setIngredient($name, $description, $avariable_quantity)
+    public function setIngredient($name, $description, $quantity)
     {
-        $sql = "insert into ingredient(name, description, available_quantity)
+        $sql = "insert into ingredient(name, description, quantity)
         values
-        (" . $name . "," . $description . "," . $avariable_quantity . ");";
+        (" . $name . "," . $description . "," . $quantity . ");";
 
-        $result = $this->conn->query($sql);
+        $this->conn->query($sql);
         $this->CheckIngredient();
     }
     public function setProduct($name, $price, $description, $quantity, $category_ID, $nutritional_value_ID)
@@ -92,25 +91,7 @@ class ProductController extends BaseController
         $result = $this->conn->query($sql);
         $this->CheckProduct();
     }
-    public function AddIngredient($ingredient)
-    {
-        $sql = "insert into ingredient(name, description, available_quantity)
-        values
-        (" . $ingredient["name"] . "," . $ingredient["description"] . "," . $ingredient["available_quantity"] . ")";
 
-        $result = $this->conn->query($sql);
-        $this->SendOutput($result, JSON_OK);
-    }
-    public function AddProduct($product)
-    {
-        //insert into product(name, price, description, quantity, category_ID, nutritional_value_ID)
-        $sql = "insert into product(name, price, description, quantity, category_ID, nutritional_value_ID)
-                values
-                (" . $product["name"] . ", " . $product["price"] . ", " . $product["description"] . ", " . $product["quantity"] . ", " . $product["category_ID"] . ", " . $product["nutritional_value_ID"] . ");";
-
-        $result = $this->conn->query($sql);
-        $this->SendOutput($result, JSON_OK);
-    }
     public function ReActiveProduct($product_ID)
     {
         $sql = "update product p
