@@ -1,6 +1,6 @@
 <?php
-include_once dirname(__FILE__) . '/../config/database.php';
-include_once dirname(__FILE__) . '/../models/catalog.php';
+include_once dirname(__FILE__) . '/../../COMMON/connect.php';
+include_once dirname(__FILE__) . '/../../MODEL/catalog.php';
 
 $database = new Database();
 $db = $database->connect();
