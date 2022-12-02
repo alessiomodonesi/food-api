@@ -5,8 +5,8 @@
     header("Access-Control-Max-Age: 3600");
     header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-    include_once dirname(__FILE__) . '/../../../COMMON/connect.php';
-    include_once dirname(__FILE__) . '/../../../MODEL/tag.php';
+    include_once dirname(__FILE__) . '/../../COMMON/connect.php';
+    include_once dirname(__FILE__) . '/../../MODEL/allergen.php';
 
     $database = new Database();
     $db = $database->connect();
@@ -18,9 +18,9 @@
         die(json_encode(array("Message" => "Bad request")));
     }
 
-    $tag = new Tag($db);
+    $allergen = new Allergen($db);
     
-    if($tag->createTag($data->tag) > 0)
+    if($allergen->createAllergen($data->name) > 0)
     {
         http_response_code(201);
         echo json_encode(array("Message"=> "Created"));

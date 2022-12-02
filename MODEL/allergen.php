@@ -1,10 +1,10 @@
 <?php
-    class Tag
+    class Allergen
     {
         protected $conn;
-        protected $table_name = "tag";
+        protected $table_name = "allergen";
 
-        protected $tag;
+        protected $name;
 
 
         public function __construct($db)
@@ -12,7 +12,7 @@
             $this->conn = $db; 
         }
         
-        function getArchiveTag()
+        function getArchiveAllergen()
         {
             $query = "SELECT * FROM $this->table_name";
 
@@ -21,21 +21,21 @@
             return $stmt;
         }
 
-        function createTag($tag)
+        function createAllergen($name)
         {
-            $query = "INSERT INTO $this->table_name (tag) VALUES (?)";
+            $query = "INSERT INTO $this->table_name (name) VALUES (?)";
 
             $stmt = $this->conn->prepare($query);
 
-            $stmt->bind_param('s', $tag);
+            $stmt->bind_param('s', $name);
             $stmt->execute();
             
             return $this->conn->affected_rows;
         }
 
-        function getTag($id)
+        function getAllergen($id)
         {
-            $query = "SELECT * FROM $this->table_name WHERE tag_ID = $id";
+            $query = "SELECT * FROM $this->table_name WHERE ID = $id";
 
             $stmt = $this->conn->query($query);
 
