@@ -5,9 +5,9 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-include_once dirname(__FILE__) . '/../config/database.php';
-include_once dirname(__FILE__) . '/../models/order.php';
-include_once dirname(__FILE__) . '/../models/orderProduct.php';
+include_once dirname(__FILE__) . '/../../COMMON/connect.php';
+include_once dirname(__FILE__) . '/../../MODEL/order.php';
+include_once dirname(__FILE__) . '/../../MODEL/orderProduct.php';
 
 $database = new Database();
 $db = $database->connect(); 

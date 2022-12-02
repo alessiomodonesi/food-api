@@ -2,8 +2,8 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
-include_once dirname(__FILE__) . '/../config/database.php';
-include_once dirname(__FILE__) . '/../models/pickupBreak.php';
+include_once dirname(__FILE__) . '/../../../COMMON/connect.php';
+include_once dirname(__FILE__) . '/../../../MODEL/pickupBreak.php';
 
 $database = new Database();
 $db = $database->connect();
