@@ -7,5 +7,5 @@ if (isset($_GET["ingrediente"]))
 
 $controller = new ProductController($conn);
 
-$controller->DeleteIngredient($ingredient_ID);
+//$controller->DeleteIngredient($ingredient_ID);
 ?>

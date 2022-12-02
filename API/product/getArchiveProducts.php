@@ -2,15 +2,15 @@
 require("../../COMMON/connect.php");
 require("../../MODEL/product.php");
 
-if (isset($_GET["ingredient_id"]))
-    $ingredient_id = $_GET["ingredient_id"];
+if (isset($_GET["product_id"]))
+    $product_id = $_GET["product_id"];
 
 $database = new Database();
 $db_connection = $database->connect();
 
 $controller = new ProductController($db_connection);
 
-$controller->GetArchiveIngredients($ingredient_id);
+$controller->GetArchiveProducts($product_id);
 /*if (strlen($ingredient_id) > 2) {
     $controller->GetArchiveIngredients($ingredient_id);
 } else {

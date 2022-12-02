@@ -14,12 +14,16 @@ if (isset($_GET["description"]))
 if (isset($_GET["quantity"]))
     $quantity = $_GET["quantity"];
 
-if (isset($_GET["category_ID"]))
-    $category_ID = $_GET["category_ID"];
+if (isset($_GET["nutritional_value"]))
+    $nutritional_value = $_GET["nutritional_value"];
 
-if (isset($_GET["nutritional_value_ID"]))
-    $nutritional_value_ID = $_GET["nutritional_value_ID"];
+    
+if (isset($_GET["active"]))
+$active = $_GET["active"];
 
-$controller = new ProductController($conn);
-$controller->setProduct($name, $price, $description, $quantity, $category_ID, $nutritional_value_ID);
+$database = new Database();
+$db_connection = $database->connect();
+
+$controller = new ProductController($db_connection);
+$controller->setProduct($name, $price, $description, $quantity, $nutritional_value,$active);
 ?>
