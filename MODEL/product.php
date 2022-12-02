@@ -27,9 +27,10 @@ class ProductController extends BaseController
     public function CheckProduct() //Mostro prodotti disponibili e loro quantità
 
     {
-        $sql = "select distinct p.name, p.quantity, nv.kcal
+        $sql = "select distinct p.id,p.name, p.quantity, nv.kcal
                 from product p
-                left join nutritional_value nv on nv.id= p.nutritional_value;";
+                left join nutritional_value nv on nv.id= p.nutritional_value
+                where p.active=1;";
 
         /*$sql = "select distinct p.name, p.quantity
         from product p
@@ -88,21 +89,23 @@ class ProductController extends BaseController
     {
         $sql = "update product p
                 set p.active = 0
-                where p.ID = " . $product_ID . ";";
+                where p.id = " . $product_ID . ";";
 
         $result = $this->conn->query($sql);
         $nRows = mysqli_affected_rows($this->conn); //ottiene il numero di righe cambiato dopo una query
         $this->SendState($result, JSON_OK);
+        $this->CheckProduct();
     }
 
     public function ReActiveProduct($product_ID)
     {
         $sql = "update product p
                 set p.active = 1
-                where p.ID = " . $product_ID . ";";
+                where p.id = " . $product_ID . ";";
 
         $result = $this->conn->query($sql);
         $nRows = mysqli_affected_rows($this->conn);
         $this->SendState($result, JSON_OK);
+        $this->CheckProduct();
     }
 }
