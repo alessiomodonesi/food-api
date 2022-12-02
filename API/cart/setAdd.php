@@ -1,5 +1,5 @@
 <?php
-include_once dirname(__FILE__) . '/../../DB/connect.php';
+include_once dirname(__FILE__) . '/../../COMMON/connect.php';
 include_once dirname(__FILE__) . '/../../MODEL/cart.php';
 
 $dtbase = new db();
