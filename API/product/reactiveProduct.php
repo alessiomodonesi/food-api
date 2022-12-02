@@ -9,10 +9,5 @@ $database = new Database();
 $db_connection = $database->connect();
 
 $controller = new ProductController($db_connection);
-$controller->DeleteProduct($product_id);
-
-/*if (strlen($product) > 2)
-    $controller->DeleteProduct($product);
-else
-    $controller->SendError(JSON_OK);*/
+$controller->ReactiveProduct($product_id);
 ?>
