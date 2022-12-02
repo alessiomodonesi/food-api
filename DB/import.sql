@@ -37,7 +37,8 @@ VALUES
 ('panino al salame', 3, 'panino fatto col salame de me nonno', 17, 2),
 ('panino proteico', 3, 'panino che possono mangiare solo i veri jimbro', 15, 3),
 ('coca cola', 1, 'bevanda frizzante', 24, 4),
-('panino col formaggio', 1.20, 'panino con il formaggio del despar', 15, 2);
+('panino col formaggio', 1.20, 'panino con il formaggio del despar', 15, 2),
+('piadina al cotto', 3.50, 'piadina con il prosciutto cotto e il formaggio', 7, 3);
 
 INSERT INTO `status`(description)
 VALUES
@@ -58,8 +59,8 @@ VALUES
 ('Alessio', 'Modonesi', 'alessio.modonesi@iisviolamarchesini.edu.it', 'CACCIOTTI'),
 ('Cristian', 'Mondini', 'cristian.mondini@iisviolamarchesini.edu.it', 'FORZAROMA');
 
-INSERT INTO `cart`(`user`) 
-VALUES 
+INSERT INTO `cart`(`user`)
+VALUES
 ('1');
 
 INSERT INTO offer(price, expiry, description)
@@ -67,11 +68,29 @@ VALUES
 ('10', '2022/01/21', 'offerta n. 1'),
 ('20', '2021/03/01', 'offerta n. 2');
 
+INSERT INTO allergen(name)
+VALUES
+('Latte e derivati'),
+('Uova e derivati'),
+('Frutta con guscio'),
+('Glutine'),
+('Cereali'),
+('Soia'),
+('Arachidi e derivati'),
+('Sesamo e derivati');
+
+INSERT INTO `order`(`user`, pickup, break, `status`)
+VALUES
+(1, 1, 1, 2),
+(2, 2, 1, 3),
+(3, 1, 2, 1),
+(1, 2, 1, 3);
+
 INSERT INTO product_order(product, `order`)
 VALUES
 (1, 2),
-(1, 5),
-(2, 5),
+(1, 3),
+(2, 3),
 (2, 4),
 (3, 4),
 (3, 2);
@@ -86,7 +105,7 @@ VALUES
 (1,1, '2022'),
 (2,3, '2021'),
 (3,2, '2022'),
-(1,4, '2021');
+(1,3, '2021');
 
 INSERT INTO product_ingredient(product, ingredient)
 VALUES
@@ -99,54 +118,53 @@ VALUES
 (3, 4),
 (5, 5);
 
--- import mancanti
 
- CREATE  TABLE sandwiches.`order` ( 
-	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
-	`user`               INT UNSIGNED NOT NULL,
-	created              TIMESTAMP  NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-	pickup               INT UNSIGNED NOT NULL,
-	break                INT UNSIGNED NOT NULL,
-	`status`             INT UNSIGNED NOT NULL,
-	json                 LONGTEXT
- );
+INSERT INTO reset(`user`, password, expires, completed)
+VALUES
+(1, 'EHV0L3V1', Now(), TRUE),
+(2, '',  Now() , FALSE),
+(4, 'C4P0BRANC0D31P4GUR1', Now(), TRUE);
 
-CREATE  TABLE sandwiches.reset ( 
-	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
-	`user`               INT UNSIGNED NOT NULL,
-	password             VARCHAR(128)  NOT NULL,
-	requested            TIMESTAMP  NOT NULL DEFAULT (CURRENT_TIMESTAMP),
-	expires              TIMESTAMP  NOT NULL,
-	completed            BOOLEAN  NOT NULL DEFAULT (FALSE)    
- );
 
- CREATE  TABLE sandwiches.favourite ( 
-	`user`           INT UNSIGNED NOT NULL,
-	product          INT UNSIGNED NOT NULL,
-	created          TIMESTAMP   DEFAULT (CURRENT_TIMESTAMP)    
- );
+INSERT INTO favourite(`user`, product)
+VALUES
+(1, 6),
+(2, 3),
+(3, 2),
+(4, 4);
 
- CREATE  TABLE sandwiches.allergen ( 
-	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
-	name                 VARCHAR(64)  NOT NULL     
- );
 
- CREATE  TABLE sandwiches.ingredient_allergen ( 
-	ingredient       INT UNSIGNED NOT NULL,
-	allergen         INT UNSIGNED NOT NULL
- );
+INSERT INTO ingredient_allergen(ingredient, allergen)
+VALUES
+(2, 1),
+(3, 2),
+(3, 3),
+(3, 4),
+(3, 5),
+(5, 1);
 
- CREATE  TABLE sandwiches.pickup_break ( 
-	pickup           INT UNSIGNED NOT NULL,
-	break            INT UNSIGNED NOT NULL     
- );
 
- CREATE  TABLE sandwiches.product_tag ( 
-	product          INT UNSIGNED NOT NULL,
-	tag              INT UNSIGNED NOT NULL    
- );
+INSERT INTO pickup_break(pickup, break)
+VALUES
+(1, 1),
+(1, 2),
+(2, 1),
+(2, 2);
 
-  CREATE  TABLE sandwiches.product_offer ( 
-	product          INT UNSIGNED NOT NULL,
-	offer            INT UNSIGNED NOT NULL  
- );
+
+INSERT INTO product_tag(product, tag)
+VALUES
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 2),
+(5, 1),
+(6, 3);
+
+
+INSERT INTO product_offer(product, offer)
+VALUES
+(1, 1),
+(2, 1),
+(4, 1),
+(6, 2);
