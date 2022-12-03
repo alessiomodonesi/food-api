@@ -27,13 +27,12 @@ if ($stmt->num_rows > 0) // Se la funzione getArchiveOrderStatus ha ritornato de
     {
        extract($record);
        $order_record = array(
-        'ID' => $ID,
-        'user_ID' => $user_ID,
-        'total_price' => $total_price,
-        'date_hour_sale' => $date_hour_sale,
-        'break_ID' => $break_ID,
-        'status_ID' => $status_ID,
-        'pickup_ID' => $pickup_ID,
+        'id' => $id,
+        'user' => $user,
+        'created' => $created,
+        'pickup' => $pickup,
+        'break' => $break,
+        'status' => $status,
         'json' => json_decode($json)
        );
        array_push($order_arr, $order_record);
