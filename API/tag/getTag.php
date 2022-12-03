@@ -14,7 +14,7 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 include_once dirname(__FILE__) . '/../../COMMON/connect.php';
-include_once dirname(__FILE__) . '/../../MODEL/category.php';
+include_once dirname(__FILE__) . '/../../MODEL/tag.php';
 
 $database = new Database();
 $db_connection = $database->connect();
@@ -22,19 +22,19 @@ $db_connection = $database->connect();
 $data = json_decode(file_get_contents("php://input"));
 
 if (!empty($data)) {
-    $_category = new Category($db_connection);
+    $_tag = new Tag($db_connection);
 
     /*
-     * Verifico se nel file JSON in ingresso esiste una delle due proprietà "category_ID" o "category_name" e 
+     * Verifico se nel file JSON in ingresso esiste una delle due proprietà "tag_ID" o "tag_name" e 
      * eventualmente richiamo dal modello il metodo che esegue la query al database più adatta.
      */
 
-    if (property_exists($data, 'category_ID') == true) {
-        $stmt = $_category->getCategoryWithCategoryID($data->category_ID);
+    if (property_exists($data, 'tag_ID') == true) {
+        $stmt = $_tag -> getCategoryWithTagID($data->tag_ID);
         httpResponse(201);
         getResponse($stmt);
-    } else if (property_exists($data, 'category_name') == true) {
-        $stmt = $_category->getCategoryWithCategoryName($data->category_name);
+    } else if (property_exists($data, 'tag_name') == true) {
+        $stmt = $_tag->getCategoryWithCategoryName($data->tag_name);
         httpResponse(201);
         getResponse($stmt);
     } else {
@@ -51,12 +51,12 @@ if (!empty($data)) {
 function getResponse($stmt)
 {
     if ($stmt->num_rows > 0) {
-        $category_array = array();
+        $tag_array = array();
         while ($record = mysqli_fetch_assoc($stmt)) // Trasforma una riga in un array e lo fa per tutte le righe di un record.
         {
-            $category_array[] = $record;
+            $tag_array[] = $record;
         }
-        $json = json_encode($category_array);
+        $json = json_encode($tag_array);
         httpResponse(200);
         echo $json;
         return $json;
