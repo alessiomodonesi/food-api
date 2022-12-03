@@ -5,8 +5,8 @@
     header("Access-Control-Max-Age: 3600");
     header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-    include_once dirname(__FILE__) . '/../../../COMMON/connect.php';
-    include_once dirname(__FILE__) . '/../../../MODEL/offer.php';
+    include_once dirname(__FILE__) . '/../../COMMON/connect.php';
+    include_once dirname(__FILE__) . '/../../MODEL/offer.php';
 
     $database = new Database();
     $db = $database->connect();
@@ -20,9 +20,9 @@
 
     $offer = new Offer($db);
     
-    if(!empty($record = $offer->createOffer($data->title, $data->description, $data->offer_code, $data->validity_start_date, $data->validity_end_date)))
+    if(!empty($record = $offer->createOffer($data->price, $data->expiry, $data->description)))
     {
-        $data->validity_start_date->getTimestamp();
+        echo (date_timestamp_get($data->expiry));
         http_response_code(201);
         echo json_encode(array("Message"=> "Created"));
     }

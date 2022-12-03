@@ -33,7 +33,7 @@
 
         function createOffer($price, $expiry, $description)
         {
-            $query = "INSERT INTO special_offer (price, expiry, description) VALUES (?, ?, ?)";
+            $query = "INSERT INTO $this->table_name (price, expiry, description) VALUES (?, ?, ?)";
 
             $stmt = $this->conn->prepare($query);
             $stmt->bind_param('sss', $price, $expiry, $description);
