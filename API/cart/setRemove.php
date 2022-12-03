@@ -2,8 +2,8 @@
 include_once dirname(__FILE__) . '/../../COMMON/connect.php';
 include_once dirname(__FILE__) . '/../../MODEL/cart.php';
 
-$dtbase = new db();
-$conn = $dtbase->connection();
+$dtbase = new Database();
+$conn = $dtbase->connect();
 //print_r($conn);
 
 $prod_ID = 1;
