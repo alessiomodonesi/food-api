@@ -5,6 +5,9 @@ Class Database
     protected $db = "sandwiches";
     protected $username = "evomatic";
     protected $password = "evomatic2022";
+    protected $server_local = "localhost";
+    protected $username_local = "root";
+    protected $password_local = "";
     protected $port = "3306";
     public $conn;
 
