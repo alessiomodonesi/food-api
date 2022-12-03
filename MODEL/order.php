@@ -2,7 +2,7 @@
     Class Order
     {
         protected $conn;
-        protected $table_name = "user_order";
+        protected $table_name = "`order`";
 
         protected $user_ID;
         protected $total_price;
@@ -31,7 +31,7 @@
 
         function getOrder($id) // Ottiene l'ordine con l'id passato alla funzione
         {
-            $query = "SELECT * FROM $this->table_name WHERE ID = $id";
+            $query = "SELECT * FROM $this->table_name WHERE id = $id";
 
             $stmt = $this->conn->query($query);
 
@@ -40,7 +40,7 @@
 
         function getArchiveOrderStatus($id) // Ottiene gli ordini in base allo stato
         {
-            $query = "SELECT * FROM $this->table_name WHERE status_ID = $id";
+            $query = "SELECT * FROM $this->table_name WHERE status = $id";
 
             $stmt = $this->conn->query($query);
 
@@ -49,7 +49,7 @@
 
         function getArchiveOrderBreak($id) // Ottiene gli ordini in base alla ricreazione
         {
-            $query = "SELECT * FROM $this->table_name WHERE break_ID = $id";
+            $query = "SELECT * FROM $this->table_name WHERE break = $id";
 
             $stmt = $this->conn->query($query);
 
@@ -58,7 +58,7 @@
 
         function getArchiveOrderUser($id) // Ottiene gli ordini in base alla ricreazione
         {
-            $query = "SELECT * FROM $this->table_name WHERE user_ID = $id";
+            $query = "SELECT * FROM $this->table_name WHERE user = $id";
 
             $stmt = $this->conn->query($query);
 
@@ -67,7 +67,7 @@
 
         function delete($id){ // Annulla un ordine
 
-            $query = "UPDATE $this->table_name SET status_ID = 3 WHERE ID = $id";
+            $query = "UPDATE $this->table_name SET status = 3 WHERE id = $id";
 
             $stmt = $this->conn->query($query);
 
@@ -77,7 +77,7 @@
         
         function setStatus($id){ // setta lo stato di un ordine a 2, pronto
 
-            $query = "UPDATE $this->table_name SET status_ID = 2 WHERE ID = $id";
+            $query = "UPDATE $this->table_name SET status = 2 WHERE id = $id";
 
             $stmt = $this->conn->query($query);
 

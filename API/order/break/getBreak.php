@@ -27,7 +27,7 @@ if ($stmt->num_rows > 0) // Se la funzione getBreak ha ritornato dei record
     {
        extract($record); // importa variabili da un array
        $break_record = array(
-        'break_time' => $break_time,
+        'time' => $time,
        );
        array_push($break_arr, $break_record); // appende il record all'array che contiene tutti i record
     }
