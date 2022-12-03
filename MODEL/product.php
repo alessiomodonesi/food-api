@@ -14,6 +14,17 @@ class ProductController extends BaseController
         $result = $this->conn->query($sql);
         $this->SendOutput($result, JSON_OK);
     }
+    public function GetArchiveIngredients($ingredient_id)
+    {
+        $sql = "select i.id as 'ID',i.name as 'Nome ingrediente', i.quantity as 'Quantita', i.description as 'Descrizione',p.name as 'Prodotto in cui e contenuto'
+                from ingredient i
+                left join product_ingredient pi on pi.ingredient=i.id
+                left join product p on p.id=pi.product 
+                where i.id = " . $ingredient_id . ";";
+
+        $result = $this->conn->query($sql);
+        $this->SendOutput($result, JSON_OK);
+    }
     public function CheckIngredient() //Mostro ingredienti disponibili e loro quantità
 
     {
@@ -55,17 +66,6 @@ class ProductController extends BaseController
         $result = $this->conn->query($sql);
         $this->CheckIngredient();
     }*/
-    public function GetArchiveIngredients($ingredient_id)
-    {
-        $sql = "select i.id as 'ID',i.name as 'Nome ingrediente', i.quantity as 'Quantita', i.description as 'Descrizione',p.name as 'Prodotto in cui e contenuto'
-                from ingredient i
-                left join product_ingredient pi on pi.ingredient=i.id
-                left join product p on p.id=pi.product 
-                where i.id = " . $ingredient_id . ";";
-
-        $result = $this->conn->query($sql);
-        $this->SendOutput($result, JSON_OK);
-    }
     public function setIngredient($name, $description, $price,$quantity)
     {
         $sql = "insert into ingredient(name, description, price,quantity)
