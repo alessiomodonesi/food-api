@@ -29,7 +29,7 @@ class Tag
      * due metodi diversi per realizzare la query dell'API getTag.
      */
 
-    public function getTagWithTagid($tag_id) //getTag in base all'id del tag
+    public function getTagWithTagID($tag_id) //getTag in base all'id del tag
 
     {
         $query = "SELECT id, name FROM $this->table_name WHERE id = $tag_id";

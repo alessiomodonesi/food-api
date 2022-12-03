@@ -1,15 +1,15 @@
 <?php
 
 /**
- * API per ottenere una categoria in base al nome o all'ID
+ * API per ottenere un tag in base al nome o all'ID
+ * Versione dell'API che prende i parametri in ingresso da URL
  * Realizzato dal gruppo Rossi, Di Lena, Marchetto G., Lavezzi, Ferrari
  * Classe 5F
  * A.S. 2022-2023
  */
 
 header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
@@ -19,29 +19,23 @@ include_once dirname(__FILE__) . '/../../MODEL/tag.php';
 $database = new Database();
 $db_connection = $database->connect();
 
-$data = json_decode(file_get_contents("php://input"));
+$_tag = new Tag($db_connection);
 
-if (!empty($data)) {
-    $_tag = new Tag($db_connection);
+/*
+ * Verifico se nell'URL esiste una delle due proprietà "tag_ID" o "tag_name" ed eventualmente
+ * richiamo dal modello il metodo che esegue la query al database più adatta.
+ */
 
-    /*
-     * Verifico se nel file JSON in ingresso esiste una delle due proprietà "tag_ID" o "tag_name" e 
-     * eventualmente richiamo dal modello il metodo che esegue la query al database più adatta.
-     */
-
-    if (property_exists($data, 'tag_ID') == true) {
-        $stmt = $_tag -> getCategoryWithTagID($data->tag_ID);
-        httpResponse(201);
-        getResponse($stmt);
-    } else if (property_exists($data, 'tag_name') == true) {
-        $stmt = $_tag->getCategoryWithCategoryName($data->tag_name);
-        httpResponse(201);
-        getResponse($stmt);
-    } else {
-        httpResponse(400);
-    }
+if (isset($_GET['tag_ID']) == true) {
+    $stmt = $_tag->getTagWithTagID($_GET['tag_ID']);
+    httpResponse(201);
+    getResponse($stmt);
+} else if (isset($_GET['tag_name']) == true) {
+    $stmt = $_tag->getTagWithTagName($_GET['tag_name']);
+    httpResponse(201);
+    getResponse($stmt);
 } else {
-    httpResponse(503);
+    httpResponse(400);
 }
 
 /*
