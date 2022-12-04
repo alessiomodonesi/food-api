@@ -2,29 +2,51 @@
 require("base.php");
 class ProductController extends BaseController
 {
-    public function GetArchiveProducts($product_id) //mostra tutti i prodotti
-
+    public function GetProduct($product_id) //mostra un singolo prodotto
     {
-        $sql = "select distinct p.id as 'ID',p.name as 'Nome prodotto', p.price as 'Prezzo', t.name as 'Tag'
+        $sql = "SELECT distinct p.id as 'ID',p.name as 'Nome prodotto', p.price as 'Prezzo', t.name as 'Tag'
                 from product p
                 left join product_tag pt on pt.product=p.id
                 left join tag t on t.id=pt.tag
-                where p.id=".$product_id.";";
+                where p.id = ". $product_id . ";";
 
         $result = $this->conn->query($sql);
         $this->SendOutput($result, JSON_OK);
     }
-    public function GetArchiveIngredients($ingredient_id)
+    public function GetArchiveProducts() //mostra tutti i prodotti
+    {
+        $sql = "SELECT distinct p.id as 'ID',p.name as 'Nome prodotto', p.price as 'Prezzo', t.name as 'Tag'
+                from product p
+                left join product_tag pt on pt.product=p.id
+                left join tag t on t.id=pt.tag
+                ";
+
+        $result = $this->conn->query($sql);
+        $this->SendOutput($result, JSON_OK);
+    }
+    public function GetArchiveIngredients()
     {
         $sql = "select i.id as 'ID',i.name as 'Nome ingrediente', i.quantity as 'Quantita', i.description as 'Descrizione',p.name as 'Prodotto in cui e contenuto'
                 from ingredient i
                 left join product_ingredient pi on pi.ingredient=i.id
                 left join product p on p.id=pi.product 
-                where i.id = " . $ingredient_id . ";";
+                ";
 
         $result = $this->conn->query($sql);
         $this->SendOutput($result, JSON_OK);
     }
+
+    public function GetIngredient($ingredient_ID){
+        $sql = "select i.id as 'ID',i.name as 'Nome ingrediente', i.quantity as 'Quantita', i.description as 'Descrizione',p.name as 'Prodotto in cui e contenuto'
+                from ingredient i
+                left join product_ingredient pi on pi.ingredient=i.id
+                left join product p on p.id=pi.product 
+                where i.id =". $ingredient_ID . ";";
+
+        $result = $this->conn->query($sql);
+        $this->SendOutput($result, JSON_OK);
+    }
+
     public function CheckIngredient() //Mostro ingredienti disponibili e loro quantità
 
     {
