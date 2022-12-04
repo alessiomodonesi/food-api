@@ -3,12 +3,12 @@ header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
 include_once dirname(__FILE__) . '/../../COMMON/connect.php';
-include_once dirname(__FILE__) . '/../../MODEL/ingredientAllergen.php';
+include_once dirname(__FILE__) . '/../../MODEL/productAllergen.php';
 
 $database = new Database();
 $db = $database->connect();
 
-if (!strpos($_SERVER["REQUEST_URI"], "allergen=") || !strpos($_SERVER["REQUEST_URI"], "ingredient=") ) // Controlla se l'URI contiene ?ID
+if (!strpos($_SERVER["REQUEST_URI"], "allergen=") || !strpos($_SERVER["REQUEST_URI"], "product=") ) // Controlla se l'URI contiene ?ID
 {
     http_response_code(400);
     die(json_encode(array("Message" => "Bad request")));
@@ -16,10 +16,10 @@ if (!strpos($_SERVER["REQUEST_URI"], "allergen=") || !strpos($_SERVER["REQUEST_U
 
 $allergen = explode("&", explode("allergen=" ,$_SERVER['REQUEST_URI'])[1])[0]; 
 
-$ingredient = explode("&", explode("ingredient=", $_SERVER['REQUEST_URI'])[1])[0]; 
+$product = explode("&", explode("product=", $_SERVER['REQUEST_URI'])[1])[0]; 
 
-$ingredientAllergen = new IngredientAllergen($db);
-$stmt = $ingredientAllergen->deleteIngredientAllergen($ingredient, $allergen);
+$productAllergen = new ProductAllergen($db);
+$stmt = $productAllergen->deleteProductAllergen($product, $allergen);
 
 if ($stmt > 0)
 {

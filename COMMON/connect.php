@@ -1,7 +1,7 @@
 <?php 
 Class Database
 {
-    protected $server = "claudiodressadore.net";
+    protected $server = "claudiodressadore";
     protected $db = "sandwiches";
     protected $username = "evomatic";
     protected $password = "evomatic2022";
