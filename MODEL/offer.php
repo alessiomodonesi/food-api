@@ -48,11 +48,11 @@
 
         function setOfferExpiry($ID, $expiry)
         {
-            $query = "UPDATE $this->table_name SET expiry = $expiry WHERE ID = $ID";
+            $query = "UPDATE $this->table_name SET expiry = '$expiry' WHERE ID = $ID";
 
             $stmt = $this->conn->query($query);
 
-            return $stmt;
+            return $this->conn->affected_rows;
         }
     }
 ?>

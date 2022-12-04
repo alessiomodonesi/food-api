@@ -20,9 +20,8 @@
 
     $offer = new Offer($db);
     
-    if(!empty($record = $offer->createOffer($data->price, $data->expiry, $data->description)))
+    if(!empty($record = $offer->createOffer($data->price, date("Y-m-d h:i:sa", $data->expiry), $data->description)))
     {
-        echo (date_timestamp_get($data->expiry));
         http_response_code(201);
         echo json_encode(array("Message"=> "Created"));
     }
