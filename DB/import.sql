@@ -59,9 +59,11 @@ VALUES
 ('Alessio', 'Modonesi', 'alessio.modonesi@iisviolamarchesini.edu.it', 'CACCIOTTI'),
 ('Cristian', 'Mondini', 'cristian.mondini@iisviolamarchesini.edu.it', 'FORZAROMA');
 
-INSERT INTO `cart`(`user`)
+INSERT INTO `cart`(`user`, product, quantity)
 VALUES
-('1');
+('1', '2', '4'),
+('2', '1', '3'),
+('3', '3', '2');
 
 INSERT INTO offer(price, expiry, description)
 VALUES
@@ -94,11 +96,6 @@ VALUES
 (2, 4),
 (3, 4),
 (3, 2);
-
-INSERT INTO cart_product(cart, product, quantity)
-VALUES
-(1, 4, 1),
-(1, 1, 2);
 
 INSERT INTO user_class(`user`, class, `year`)
 VALUES
@@ -134,7 +131,7 @@ VALUES
 (4, 4);
 
 
-INSERT INTO ingredient_allergen(ingredient, allergen)
+INSERT INTO product_allergen(product, allergen)
 VALUES
 (2, 1),
 (3, 2),

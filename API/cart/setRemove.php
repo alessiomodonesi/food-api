@@ -1,18 +1,19 @@
 <?php
-include_once dirname(__FILE__) . '/../../COMMON/connect.php';
-include_once dirname(__FILE__) . '/../../MODEL/cart.php';
+    include_once dirname(__FILE__) . '/../../COMMON/connect.php';
+    include_once dirname(__FILE__) . '/../../MODEL/cart.php';
 
-$dtbase = new Database();
-$conn = $dtbase->connect();
-//print_r($conn);
+    if (isset($_GET["prod"]))
+        $prod = $_GET["prod"];
 
-$prod_ID = 1;
-$cart_ID = 1;
+    if (isset($_GET["user"]))
+        $user = $_GET["user"];
 
-$cart = new Cart();
-$queryRemoveItem = $cart->setCartItemsRemove($prod_ID, $cart_ID);
+    $dtbase = new Database();
+    $conn = $dtbase->connect();
 
-$result = $conn->query($queryRemoveItem);
-print_r($result);
+    $cart = new Cart();
+    $queryRemoveItem = $cart->setCartItemsRemove($prod, $user);
 
+    $result = $conn->query($queryRemoveItem);
+    print_r($result);
 ?>
