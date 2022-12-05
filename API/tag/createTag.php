@@ -23,16 +23,16 @@ $data = json_decode(file_get_contents("php://input"));
 
 if (!empty($data)) {
     $_tag = new Tag($db_connection);
-    if ($_tag->createTag($data->name) > 0) {
+    if ($_tag->createTag($data->tag_name) > 0) {
         http_response_code(201);
-        echo json_encode(array("Message" => "Created"));
+        echo json_encode(array("Creation" => "Done"));
     } else {
         http_response_code(503);
-        echo json_encode(array("Message" => 'Error'));
+        echo json_encode(array("Creation" => 'Error'));
     }
 } else {
     http_response_code(400);
-    die(json_encode(array("Message" => "Bad request")));
+    die(json_encode(array("Creation" => "Bad request")));
 }
 
 ?>
