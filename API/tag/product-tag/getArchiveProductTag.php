@@ -1,41 +1,36 @@
 <?php
 
 /**
- * API per ottenere un tag in base al nome o all'ID
- * Versione dell'API che prende i parametri in ingresso da URL
+ * API per ottenere le relazione prodotto-tag
  * Realizzato dal gruppo Rossi, Di Lena, Marchetto G., Lavezzi, Ferrari
  * Classe 5F
  * A.S. 2022-2023
- */
+ **/
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET");
-header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-include_once dirname(__FILE__) . '/../../COMMON/connect.php';
-include_once dirname(__FILE__) . '/../../MODEL/tag.php';
+include_once dirname(__FILE__) . '/../../../COMMON/connect.php';
+include_once dirname(__FILE__) . '/../../../MODEL/productTag.php';
 
 $database = new Database();
 $db_connection = $database->connect();
+$_product_tag = new ProductTag($db_connection);
 
-$_tag = new Tag($db_connection);
-
-/*
- * Verifico se nell'URL esiste una delle due proprietà "tag_ID" o "tag_name" ed eventualmente
- * richiamo dal modello il metodo che esegue la query al database più adatta.
- */
-
-if (isset($_GET['tag_ID']) == true) {
-    $stmt = $_tag->getTagWithTagID($_GET['tag_ID']);
+if (isset($_GET['product_id']) == true) {
+    $stmt = $_product_tag->getArchiveProductTagWithProductID($_GET['product_id']);
     httpResponse(201);
     getResponse($stmt);
-} else if (isset($_GET['tag_name']) == true) {
-    $stmt = $_tag->getTagWithTagName($_GET['tag_name']);
+
+} else if (isset($_GET['tag_id']) == true) {
+    $stmt = $_product_tag->getArchiveProductTagWithTagID($_GET['tag_id']);
     httpResponse(201);
     getResponse($stmt);
+
 } else {
-    httpResponse(400);
+    $stmt = $_product_tag->getArchiveProductTag();
+    httpResponse(201);
+    getResponse($stmt);
 }
 
 /*
@@ -55,7 +50,7 @@ function getResponse($stmt)
         echo $json;
         return $json;
     } else {
-        echo "No record";
+        httpResponse(204);
     }
 }
 
@@ -73,6 +68,9 @@ function httpResponse($code)
             http_response_code(201);
             echo json_encode(array("Message" => "Created"));
             break;
+        case 204:
+            http_response_code(204);
+            echo "No record";
         case 400:
             http_response_code(400);
             die(json_encode(array("Message" => "Bad request")));
@@ -83,5 +81,6 @@ function httpResponse($code)
 
     }
 }
+
 
 ?>
