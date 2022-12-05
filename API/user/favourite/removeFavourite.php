@@ -14,9 +14,9 @@ if (empty($data->product) || empty($data->user)) {
 $favourite = new Favourite();
 
 
-if ($favourite->setFavourite($data->product, $data->user) == 1) {
+if ($favourite->removeFavourite($data->product, $data->user) == 1) {
     http_response_code(201);
-    echo json_encode(["message" => "Product added to favourite successfully"]);
+    echo json_encode(["message" => "Product removed successfully"]);
 } else {
     http_response_code(400);
     echo json_encode(["message" => "Product doesn't exist"]);
