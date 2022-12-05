@@ -45,7 +45,7 @@ class ProductTag
 
     public function setProductTag($product_id, $tag_id)
     {
-        $query = "INSERT product, tag INTO $this->table_name VALUES($product_id, $tag_id)";
+        $query = "INSERT INTO $this->table_name (product, tag) VALUES($product_id, $tag_id)";
         $stmt = $this->conn->query($query);
         return $stmt;
     }

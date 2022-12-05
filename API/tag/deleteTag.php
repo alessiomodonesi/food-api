@@ -24,7 +24,7 @@ $data = json_decode(file_get_contents("php://input"));
 if (!empty($data)) {
     $_tag = new Tag($db_connection);
     if ($_tag->deleteTag($data->tag_id) > 0) {
-        http_response_code(201);
+        http_response_code(200);
         echo json_encode(array("Deletion" => "Done"));
     } else {
         http_response_code(503);

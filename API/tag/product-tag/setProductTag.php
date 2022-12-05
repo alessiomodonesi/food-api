@@ -14,7 +14,7 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 include_once dirname(__FILE__) . '/../../../COMMON/connect.php';
-include_once dirname(__FILE__) . '/../../../MODEL/product_tag.php';
+include_once dirname(__FILE__) . '/../../../MODEL/productTag.php';
 
 $database = new Database();
 $db_connection = $database->connect();
@@ -23,16 +23,16 @@ $data = json_decode(file_get_contents("php://input"));
 
 if (!empty($data)) {
     $_product_tag = new ProductTag($db_connection);
-    if ($product_tag->setNewProductTag($data->product_id, $data->tag_id) > 0) {
+    if ($_product_tag->setProductTag($data->product_id, $data->tag_id) > 0) {
         http_response_code(201);
-        echo json_encode(array("Message" => "Created"));
+        echo json_encode(array("Setting" => "Done"));
     } else {
         http_response_code(503);
-        echo json_encode(array("Message" => 'Error'));
+        echo json_encode(array("Setting" => 'Error'));
     }
 } else {
     http_response_code(400);
-    die(json_encode(array("Message" => "Bad request")));
+    die(json_encode(array("Setting" => "Bad request")));
 }
 
 ?>
