@@ -1,14 +1,12 @@
 <?php
     class Offer
     {
-        protected $table_name = "special_offer";
+        protected $table_name = "offer";
         protected $conn;
 
-        protected $title;
+        protected $price;
+        protected $expiry;
         protected $description;
-        protected $offer_code;
-        protected $validity_start_date;
-        protected $validity_end_date;
 
         public function __construct($db)
         {
@@ -33,12 +31,12 @@
             return $stmt;
         }
 
-        function createOffer($title, $description, $offer_code, $validity_start_date, $validity_end_date)
+        function createOffer($price, $expiry, $description)
         {
-            $query = "INSERT INTO special_offer (title, description, offer_code, validity_start_date, validity_end_date) VALUES (?, ?, ?, ?, ?)";
+            $query = "INSERT INTO $this->table_name (price, expiry, description) VALUES (?, ?, ?)";
 
             $stmt = $this->conn->prepare($query);
-            $stmt->bind_param('sssss', $title, $description, $offer_code, $validity_start_date, $validity_end_date);
+            $stmt->bind_param('sss', $price, $expiry, $description);
 
             if($stmt->execute()){
                 return $stmt;
@@ -48,13 +46,13 @@
             }
         }
 
-        function setOfferValidity($ID, $validity_start_date, $validity_end_date)
+        function setOfferExpiry($ID, $expiry)
         {
-            $query = "UPDATE $this->table_name SET validity_start_date = $validity_start_date, validity_end_date = $validity_end_date WHERE ID = $ID";
+            $query = "UPDATE $this->table_name SET expiry = '$expiry' WHERE ID = $ID";
 
             $stmt = $this->conn->query($query);
 
-            return $stmt;
+            return $this->conn->affected_rows;
         }
     }
 ?>

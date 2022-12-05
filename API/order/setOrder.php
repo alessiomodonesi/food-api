@@ -16,7 +16,7 @@ $data = json_decode(file_get_contents("php://input")); // Legge dati dalla reque
 if (!empty($data)) // Se qualcosa viene letto
 {
     $order = new Order($db);
-    if (!empty($record = $order->setOrder($data->user_ID, $data->total_price, $data->break_ID, $data->status_ID, $data->pickup_ID ,json_encode($data->json))))
+    if (!empty($record = $order->setOrder($data->user, $data->break, $data->status, $data->pickup ,json_encode($data->json))))
     {
         $orderProduct = new OrderProduct($db);
         $orderProduct->setOrderProduct($record->insert_id, json_encode($data->products));

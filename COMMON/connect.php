@@ -1,7 +1,7 @@
 <?php 
 Class Database
 {
-    protected $server = "claudiodressadore.net";
+    protected $server = "claudiodressadore";
     protected $db = "sandwiches";
     protected $username = "evomatic";
     protected $password = "evomatic2022";
@@ -15,7 +15,7 @@ Class Database
     {
         try
         {
-            $this->conn = new mysqli($this->server, $this->username, $this->password, $this->db, $this->port);
+            $this->conn = new mysqli($this->server_local, $this->username_local, $this->password_local, $this->db, $this->port);
         }
         catch (mysqli $ex)
         {

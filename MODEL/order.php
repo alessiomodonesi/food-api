@@ -113,7 +113,15 @@
                 }
             }
         */
-
+        /*
+        'id' => $id,
+        'user' => $user,
+        'created' => $created,
+        'pickup' => $pickup,
+        'break' => $break,
+        'status' => $status,
+        'json' => json_decode($json)
+        */
         function setOrder($user_ID, $total_price, $break_ID, $status_ID, $pickup_ID, $json){ // Crea un ordine di vetrina
 
             $query = "INSERT INTO $this->table_name (user_ID, total_price, break_ID, status_ID, pickup_ID, json)
