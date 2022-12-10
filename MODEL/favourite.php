@@ -1,9 +1,8 @@
 <?php
 
-spl_autoload_register(function ($class) {
-    require __DIR__ . "/../COMMON/$class.php";
-});
 
+require __DIR__ . "/../COMMON/connect2.php";
+require __DIR__ . " /../COMMON/errorHandler.php";
 set_exception_handler("errorHandler::handleException");
 set_error_handler("errorHandler::handleError");
 
