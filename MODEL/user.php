@@ -1,9 +1,9 @@
 <?php
 
-spl_autoload_register(function ($class) {
-    require __DIR__ . "/../COMMON/$class.php";
-});
 
+
+require __DIR__ . "/../COMMON/connect2.php";
+require __DIR__ . " /../COMMON/errorHandler.php";
 set_exception_handler("errorHandler::handleException");
 set_error_handler("errorHandler::handleError");
 
@@ -111,5 +111,21 @@ class User
 
             return $stmt->rowCount();
         }
+    }
+
+    public function registration($name, $surname, $email, $password){
+
+        $sql = "INSERT INTO user (name , surname, email, password, active)
+        VALUES (:name, :surname, :email, :password, 1) 
+        ";
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(':name', $name, PDO::PARAM_STR);
+        $stmt->bindValue(':surname', $surname, PDO::PARAM_STR);
+        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+        $stmt->bindValue(':password', $password, PDO::PARAM_STR);
+
+        $stmt->execute();
+        return $stmt->rowCount();
     }
 }
