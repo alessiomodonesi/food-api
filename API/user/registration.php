@@ -1,5 +1,5 @@
 <?php
-
+require __DIR__ . '/../../COMMON/connect.php';
 require __DIR__ . '/../../MODEL/user.php';
 header("Content-type: application/json; charset=UTF-8");
 
@@ -12,9 +12,11 @@ if(empty($data->name) || empty($data->surname) || empty($data->email) || empty($
     die();
 }
 
-$user = new User();
+$db = new Database();
+$db_conn = $db -> connect();
+$user = new User($db_conn);
 
-if($user -> registration($data->name, $data->surname,$data->email, $data->password ) == 1){
+if($user -> registration($data->name, $data->surname,$data->email, $data->password ) == true){
     echo json_encode(["message" => "Registration completed"]);
 }else{
     echo json_encode(["message" => "Registration failed successfully "]);
