@@ -10,7 +10,7 @@ class User extends BaseController
 {
     public function getUser($id)
     {
-        $sql = "SELECT name, surname, email
+        $sql = "SELECT name, surname, email, password
             FROM user
             WHERE id = " . $id . ";";
 
@@ -37,18 +37,21 @@ class User extends BaseController
         $password = bin2hex(openssl_random_pseudo_bytes(4));
 
         // Update password con password temporanea
-        $sql = "UPDATE user
-            SET password = :password
-            WHERE id = :id";
+        $sql = sprintf("UPDATE user
+        SET password = '%s'
+        where id = $id", $this->conn->real_escape_string($password));
 
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-        $stmt->bindValue(':password', $password, PDO::PARAM_STR);
+        $result = $this->conn->query($sql);
 
-        $stmt->execute();
+        if($result == false){
+            http_response_code(503);
+            echo json_encode(["message" => "Couldn't upload the password"]);
+            return $result;
+        }
+        unset($sql);
 
         // Aggiunta alla tabella reset l'utente
-        $sql = "INSERT INTO reset
+        /*$sql = "INSERT INTO reset
             (user, password, requested, expires, completed)
             VALUES (:user, :password, :requested, :expires, :completed)";
 
@@ -59,20 +62,29 @@ class User extends BaseController
         $stmt->bindValue(':completed', date("d:m:Y h:i:s", strtotime($date . '+ 5 Days')), PDO::PARAM_STR);
         $stmt->bindValue(':completed', 0, PDO::PARAM_INT);
 
-        $stmt->execute();
+        $stmt->execute();*/
 
+        $sql = sprintf("INSERT INTO reset
+        (user, password, requested, completed)
+        VALUES (%i, %s, %s, 0)",
+        $this->conn->real_escape_string($id),
+        $this->conn->real_escape_string($password),
+        $this->conn->real_escape_string($date));
+        //$this->conn->real_escape_string(date("d:m:Y h:i:s", strtotime($date . '+ 5 Days'))) sistemare
+
+        $result = $this->conn->query($sql);
         return $password;
     }
 
-    public function login($id, $email, $password)
+    public function login($email, $password)
     {
         $sql = sprintf("SELECT *
         FROM `user` 
-        WHERE id = $id and email = '%s' and password = '%s'", 
+        WHERE email = '%s' and password = '%s'", 
         $this->conn->real_escape_string($email), 
         $this->conn->real_escape_string($password));
-        echo json_encode(["message" => $sql]);
         $result = $this->conn->query($sql);
+        //echo json_encode(["message" => $result]); con il login corretto mi ritorna nulla
         $this->SendOutput($result, JSON_OK);
     }
 
@@ -94,17 +106,14 @@ class User extends BaseController
 
     public function registration($name, $surname, $email, $password){
 
-        $sql = "INSERT INTO user (name , surname, email, password, active)
-        VALUES (:name, :surname, :email, :password, 1) 
-        ";
-        $stmt = $this->conn->prepare($sql);
+        $sql = sprintf("INSERT INTO user (name , surname, email, password, active)
+        VALUES ('%s', '%s', '%s', '%s', 1)",
+        $this->conn->real_escape_string($name),
+        $this->conn->real_escape_string($surname),
+        $this->conn->real_escape_string($email),
+        $this->conn->real_escape_string($password));
 
-        $stmt->bindValue(':name', $name, PDO::PARAM_STR);
-        $stmt->bindValue(':surname', $surname, PDO::PARAM_STR);
-        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
-        $stmt->bindValue(':password', $password, PDO::PARAM_STR);
-
-        $stmt->execute();
-        return $stmt->num_rows;
+        $result = $this->conn->query($sql);
+        return $result;
     }
 }
