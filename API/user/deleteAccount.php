@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/../../COMMON/connect.php'
+require __DIR__ . '/../../COMMON/connect.php';
 require __DIR__ . '/../../MODEL/user.php';
 header("Content-type: application/json; charset=UTF-8");
 
@@ -21,10 +21,10 @@ $db = new Database();
 $db_conn = $db -> connect();
 $user = new User($db_conn);
 
-$user->deleteUser($id);
 
-if ($result = $user->deleteUser($id) != false) {
-    echo json_encode($result);
+
+if ($user->deleteUser($id) != false) {
+    echo json_encode(["message" => "User eliminated"]);
 } else {
     http_response_code(400);
     echo json_encode(["message" => "User not found"]);

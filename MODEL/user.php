@@ -26,7 +26,7 @@ class User extends BaseController
             WHERE id = ".$id."";
 
         $result = $this->conn->query($sql);
-        $this->SendOutput($result, JSON_OK);
+        return $result;
     }
 
     public function resetPassword($id)
