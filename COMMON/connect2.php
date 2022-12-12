@@ -5,7 +5,7 @@ class Connect
 
     public function __construct()
     {
-        //credentials evomatic
+        //credentials evomatic - richiede vpn + accesso
         $server_evomatic = "192.168.100.1";
         $user_evomatic = "itis";
         $passwd_evomatic = "itis23K..";

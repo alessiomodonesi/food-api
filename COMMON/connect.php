@@ -1,7 +1,7 @@
 <?php
 class Database
 {
-    //credentials evomatic
+    //credentials evomatic - richiede vpn + accesso
     protected $server_evomatic = "192.168.100.1";
     protected $user_evomatic = "itis";
     protected $passwd_evomatic = "itis23K..";
