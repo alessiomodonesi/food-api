@@ -24,20 +24,22 @@ class ProductController extends BaseController
         $result = $this->conn->query($sql);
         $this->SendOutput($result, JSON_OK);
     }
-    public function GetArchiveIngredients()
+    public function GetArchiveIngredients($product_ID)//mostra gli ingredienti di un singolo prodotto
     {
-        $sql = "select i.id as 'ID',i.name as 'Nome ingrediente', i.quantity as 'Quantita', i.description as 'Descrizione',p.name as 'Prodotto in cui e contenuto'
-                from ingredient i
-                left join product_ingredient pi on pi.ingredient=i.id
-                left join product p on p.id=pi.product 
-                ";
+        $sql = "select i.name, i.quantity, i.description
+        from product p
+        inner join product_ingredient pi2 on p.ID = pi2.product
+        inner join ingredient i on i.ID = pi2.ingredient
+        inner join product_tag pt on pt.product = p.id
+        inner join tag t on t.id = pt.tag
+        where p.ID = " . $product_ID . " and t.name = 'panino' or t.name = 'piadina' ;";
 
         $result = $this->conn->query($sql);
         $this->SendOutput($result, JSON_OK);
     }
 
     public function GetIngredient($ingredient_ID){
-        $sql = "select i.id as 'ID',i.name as 'Nome ingrediente', i.quantity as 'Quantita', i.description as 'Descrizione',p.name as 'Prodotto in cui e contenuto'
+        $sql = "SELECT i.id as 'ID',i.name as 'Nome ingrediente', i.quantity as 'Quantita', i.description as 'Descrizione',p.name as 'Prodotto in cui e contenuto'
                 from ingredient i
                 left join product_ingredient pi on pi.ingredient=i.id
                 left join product p on p.id=pi.product 

@@ -3,17 +3,23 @@
 require __DIR__ . '/../../../MODEL/favourite.php';
 header("Content-type: application/json; charset=UTF-8");
 
-$parts = explode("/", $_SERVER["REQUEST_URI"]);
 
-if (empty($parts[5])) {
+if(!isset($_GET['id'])){
     http_response_code(404);
     echo json_encode(["message" => "Insert a valid ID"]);
     exit();
 }
 
+$id = explode("?id=", $_SERVER["REQUEST_URI"])[1];
+
+if(empty($id)){ 
+    http_response_code(404);
+    echo json_encode(["message" => "Insert a valid ID"]);
+    exit();
+}
 $favourite = new Favourite();
 
-$result = $favourite->getArchiveFavourite($parts[6]);
+$result = $favourite->getArchiveFavourite($id);
 
 $archiveFavourites = array();
 for ($i = 0; $i < (count($result)); $i++) {
