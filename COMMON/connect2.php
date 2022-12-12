@@ -1,21 +1,34 @@
 <?php
 class Connect
 {
-    private $dbConnection = null;
+    private $conn = null;
 
     public function __construct()
     {
-        $host = "claudiodressadore.net";
+        //credentials evomatic
+        $server_evomatic = "192.168.100.1";
+        $user_evomatic = "itis";
+        $passwd_evomatic = "itis23K..";
+
+        //credentials claudiodressadore
+        $server_claudio = "claudiodressadore.net";
+        $user_claudio = "evomatic";
+        $passwd_claudio = "evomatic2022";
+
+        //credentials localhost
+        $server_local = "localhost";
+        $user_local = "root";
+        $passwd_local = "";
+
+        //common credentials
+        $db = "sandwiches";
         $port = "3306";
-        $db   = "sandwiches";
-        $user = "evomatic";
-        $pass = "evomatic2022";
 
         try {
-            $this->dbConnection = new PDO(
-                "mysql:host=$host;port=$port;charset=utf8mb4;dbname=$db",
-                $user,
-                $pass
+            $this->conn = new PDO(
+                "mysql:host=$server_evomatic;port=$port;charset=utf8mb4;dbname=$db",
+                $user_evomatic,
+                $passwd_evomatic
             );
         } catch (PDOException $e) {
             exit($e->getMessage());
@@ -24,6 +37,6 @@ class Connect
 
     public function getConnection()
     {
-        return $this->dbConnection;
+        return $this->conn;
     }
 }
