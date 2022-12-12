@@ -24,7 +24,7 @@ class Database
     public function connect()
     {
         try {
-            $this->conn = new mysqli($this->server_evomatic, $this->user_evomatic, $this->passwd_evomatic, $this->db, $this->port);
+            $this->conn = new mysqli($this->server_claudio, $this->user_claudio, $this->passwd_claudio, $this->db, $this->port);
         } catch (mysqli $ex) {
             die("Error connecting to database $ex\n\n");
         }

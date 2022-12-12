@@ -26,9 +26,9 @@ class Connect
 
         try {
             $this->conn = new PDO(
-                "mysql:host=$server_evomatic;port=$port;charset=utf8mb4;dbname=$db",
-                $user_evomatic,
-                $passwd_evomatic
+                "mysql:host=$server_claudio;port=$port;charset=utf8mb4;dbname=$db",
+                $user_claudio,
+                $passwd_claudio
             );
         } catch (PDOException $e) {
             exit($e->getMessage());
