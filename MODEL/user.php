@@ -1,47 +1,32 @@
 <?php
 
 
-
-require __DIR__ . "/../COMMON/connect2.php";
+require __DIR__ . "/base.php";
 require __DIR__ . " /../COMMON/errorHandler.php";
 set_exception_handler("errorHandler::handleException");
 set_error_handler("errorHandler::handleError");
 
-class User
+class User extends BaseController
 {
-    private Connect $db;
-    private PDO $conn;
-
-    public function __construct()
-    {
-        $this->db = new Connect;
-        $this->conn = $this->db->getConnection();
-    }
-
     public function getUser($id)
     {
         $sql = "SELECT name, surname, email
             FROM user
-            WHERE id = :id";
+            WHERE id = " . $id . ";";
 
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $result = $this->conn->query($sql);
 
-        $stmt->execute();
-
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $this->SendOutput($result, JSON_OK);
     }
 
     public function deleteUser($id)
     {
         $sql = "UPDATE user 
             SET active = 0 
-            WHERE id = :id";
+            WHERE id = ".$id."";
 
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-
-        return $stmt->execute();
+        $result = $this->conn->query($sql);
+        $this->SendOutput($result, JSON_OK);
     }
 
     public function resetPassword($id)
@@ -81,36 +66,30 @@ class User
 
     public function login($id, $email, $password)
     {
-        $sql = "SELECT id
-        FROM user 
-        WHERE id = :id AND email = :email AND password = :password AND active = 1";
-
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-        $stmt->bindValue(':email', $email, PDO::PARAM_STR);
-        $stmt->bindValue(':password', $password, PDO::PARAM_STR);
-
-        $stmt->execute();
-
-        return $stmt->rowCount();
+        $sql = sprintf("SELECT *
+        FROM `user` 
+        WHERE id = $id and email = '%s' and password = '%s'", 
+        $this->conn->real_escape_string($email), 
+        $this->conn->real_escape_string($password));
+        echo json_encode(["message" => $sql]);
+        $result = $this->conn->query($sql);
+        $this->SendOutput($result, JSON_OK);
     }
 
     public function changePassword($id, $email, $password, $newPassword)
     {
-        if ($this->login($id, $email, $password) == 1) {
+        
             $sql = "UPDATE user 
-            SET password = :newPassword
-            WHERE email = :email AND password = :password";
+            SET password = ?
+            WHERE email = ? AND password = ?";
 
             $stmt = $this->conn->prepare($sql);
-            $stmt->bindValue(':password', $password, PDO::PARAM_STR);
-            $stmt->bindValue(':newPassword', $newPassword, PDO::PARAM_STR);
-            $stmt->bindValue(':email', $email, PDO::PARAM_STR);
-
+            $stmt->bind_param('sss', $password, $email, $newPassword);
             $stmt->execute();
 
-            return $stmt->rowCount();
-        }
+            $result = $stmt->get_result();
+        echo json_encode(["message" => $result]);
+        return $stmt->num_rows;
     }
 
     public function registration($name, $surname, $email, $password){
@@ -126,6 +105,6 @@ class User
         $stmt->bindValue(':password', $password, PDO::PARAM_STR);
 
         $stmt->execute();
-        return $stmt->rowCount();
+        return $stmt->num_rows;
     }
 }

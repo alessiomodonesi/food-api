@@ -15,7 +15,7 @@ Class Database
     {
         try
         {
-            $this->conn = new mysqli($this->server, $this->username, $this->password, $this->db, $this->port);
+            $this->conn = new mysqli($this->server_local, $this->username_local, $this->password_local, $this->db, $this->port);
         }
         catch (mysqli $ex)
         {
