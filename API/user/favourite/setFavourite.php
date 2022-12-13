@@ -1,5 +1,6 @@
 <?php
 
+require __DIR__ . "/../../../COMMON/connect.php";
 require __DIR__ . '/../../../MODEL/favourite.php';
 header("Content-type: application/json; charset=UTF-8");
 
@@ -11,13 +12,20 @@ if (empty($data->product) || empty($data->user)) {
     die();
 }
 
-$favourite = new Favourite();
+$db = new Database();
+$db_conn = $db->connect();
+$favourite = new Favourite($db_conn);
 
-
-if ($favourite->setFavourite($data->product, $data->user) == 1) {
+$result = $favourite->setFavourite($data->product, $data->user);
+if ($result == 1) {
     http_response_code(201);
     echo json_encode(["message" => "Product added to favourite successfully"]);
-} else {
+} else if($result == 0) {
     http_response_code(400);
     echo json_encode(["message" => "Product doesn't exist"]);
+}else{
+    http_response_code(400);
+    echo json_encode(["message" => "Product already as favourite"]);
 }
+die();
+?>

@@ -1,5 +1,6 @@
 <?php
 
+require __DIR__ . "/../../../COMMON/connect.php";
 require __DIR__ . '/../../../MODEL/favourite.php';
 header("Content-type: application/json; charset=UTF-8");
 
@@ -17,22 +18,24 @@ if(empty($id)){
     echo json_encode(["message" => "Insert a valid ID"]);
     exit();
 }
-$favourite = new Favourite();
+
+$db = new Database();
+$db_conn = $db->connect();
+$favourite = new Favourite($db_conn);
 
 $result = $favourite->getArchiveFavourite($id);
 
-$archiveFavourites = array();
-for ($i = 0; $i < (count($result)); $i++) {
-    $archiveFavourite = array(
-        "product" => $result[$i]["pname"],
-        "user" => $result[$i]["em"]
-    );
-    array_push($archiveFavourites, $archiveFavourite);
+if ($result->num_rows > 0) {
+    $json_arr = array();
+    while ($row = $result->fetch_assoc()) {
+        array_push($json_arr, array('product' => $row['pname'], 'id_product' => $row['id'], 'email' => $row['em']));
+    }
+    http_response_code(200);
+    echo json_encode($json_arr, JSON_PRETTY_PRINT);
+}
+else{
+    http_response_code(404);
+    echo json_encode(["message" => "No record found"]);
 }
 
-if (empty($archiveFavourites)) {
-    http_response_code(404);
-} else {
-    http_response_code(200);
-    echo json_encode($archiveFavourites);
-}
+die();
