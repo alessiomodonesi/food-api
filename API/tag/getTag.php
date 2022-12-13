@@ -28,7 +28,7 @@ $_tag = new Tag($db_connection);
 
 if (isset($_GET['tag_ID']) == true) {
     $stmt = $_tag->getTagWithTagID($_GET['tag_ID']);
-    httpResponse(201);
+    //httpResponse(201);
     getResponse($stmt);
 } else if (isset($_GET['tag_name']) == true) {
     $stmt = $_tag->getTagWithTagName($_GET['tag_name']);
@@ -51,7 +51,7 @@ function getResponse($stmt)
             $tag_array[] = $record;
         }
         $json = json_encode($tag_array);
-        httpResponse(200);
+        //httpResponse(200);
         echo $json;
         return $json;
     } else {

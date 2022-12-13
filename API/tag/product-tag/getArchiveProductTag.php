@@ -19,12 +19,12 @@ $_product_tag = new ProductTag($db_connection);
 
 if (isset($_GET['product_id']) == true) {
     $stmt = $_product_tag->getArchiveProductTagWithProductID($_GET['product_id']);
-    httpResponse(201);
+    //httpResponse(201);
     getResponse($stmt);
 
 } else if (isset($_GET['tag_id']) == true) {
     $stmt = $_product_tag->getArchiveProductTagWithTagID($_GET['tag_id']);
-    httpResponse(201);
+    //httpResponse(201);
     getResponse($stmt);
 
 } else {
@@ -46,7 +46,7 @@ function getResponse($stmt)
             $tag_array[] = $record;
         }
         $json = json_encode($tag_array);
-        httpResponse(200);
+        //httpResponse(200);
         echo $json;
         return $json;
     } else {
