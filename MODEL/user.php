@@ -1,6 +1,5 @@
 <?php
 
-
 require __DIR__ . "/base.php";
 require __DIR__ . " /../COMMON/errorHandler.php";
 set_exception_handler("errorHandler::handleException");
@@ -10,9 +9,10 @@ class User extends BaseController
 {
     public function getUser($id)
     {
-        $sql = "SELECT name, surname, email, password
+        $sql = sprintf("SELECT name, surname, email, password
             FROM user
-            WHERE id = " . $id . ";";
+            WHERE id = %d;",
+            $this->conn->real_escape_string($id));
 
         $result = $this->conn->query($sql);
 
@@ -21,9 +21,10 @@ class User extends BaseController
 
     public function deleteUser($id)
     {
-        $sql = "UPDATE user 
+        $sql = sprintf("UPDATE user 
             SET active = 0 
-            WHERE id = ".$id."";
+            WHERE id = %d",
+            $this->conn->real_escape_string($id));
 
         $result = $this->conn->query($sql);
         return $result;
@@ -37,83 +38,101 @@ class User extends BaseController
         $password = bin2hex(openssl_random_pseudo_bytes(4));
 
         // Update password con password temporanea
-        $sql = sprintf("UPDATE user
+        $sql = sprintf("UPDATE `user`
         SET password = '%s'
-        where id = $id", $this->conn->real_escape_string($password));
+        where id = %d", 
+        $this->conn->real_escape_string($password),
+        $this->conn->real_escape_string($id));
 
         $result = $this->conn->query($sql);
 
-        if($result == false){
+        echo json_encode(["message" => $result]);
+
+        if ($result == false) {
             http_response_code(503);
             echo json_encode(["message" => "Couldn't upload the password"]);
             return $result;
         }
+
+        $sql = null;
+        
+        $sql = sprintf('SELECT email
+        from `user`
+        where id = %d',
+        $this->conn->real_escape_string($id));
+
+        $result  = $this->conn->query($sql);
+        
+        /*while($row = $result->fetch_assoc()){
+
+            $this->sendEmail($row["email"], $password);
+        }*/
+
+
         unset($sql);
 
-        // Aggiunta alla tabella reset l'utente
-        /*$sql = "INSERT INTO reset
-            (user, password, requested, expires, completed)
-            VALUES (:user, :password, :requested, :expires, :completed)";
-
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindValue(':user', $id, PDO::PARAM_INT);
-        $stmt->bindValue(':password', $password, PDO::PARAM_STR);
-        $stmt->bindValue(':requested', $date, PDO::PARAM_STR);
-        $stmt->bindValue(':completed', date("d:m:Y h:i:s", strtotime($date . '+ 5 Days')), PDO::PARAM_STR);
-        $stmt->bindValue(':completed', 0, PDO::PARAM_INT);
-
-        $stmt->execute();*/
-
+        //Aggiunge alla tabella reset 
         $sql = sprintf("INSERT INTO reset
-        (user, password, requested, completed)
-        VALUES (%i, %s, %s, 0)",
-        $this->conn->real_escape_string($id),
-        $this->conn->real_escape_string($password),
-        $this->conn->real_escape_string($date));
+        (user, password, completed)
+        VALUES (%d, '%s', 0)",
+            $this->conn->real_escape_string($id),
+            $this->conn->real_escape_string($password)        
+        );
         //$this->conn->real_escape_string(date("d:m:Y h:i:s", strtotime($date . '+ 5 Days'))) sistemare
 
         $result = $this->conn->query($sql);
+        echo json_encode(["message" => $result]);
         return $password;
     }
 
     public function login($email, $password)
     {
-        $sql = sprintf("SELECT *
-        FROM `user` 
-        WHERE email = '%s' and password = '%s'", 
-        $this->conn->real_escape_string($email), 
-        $this->conn->real_escape_string($password));
+        $sql = sprintf("SELECT email, name , surname, password
+        FROM `user`
+        where 1=1 ");
         $result = $this->conn->query($sql);
-        //echo json_encode(["message" => $result]); con il login corretto mi ritorna nulla
-        $this->SendOutput($result, JSON_OK);
+        while ($row = $result->fetch_assoc()) {
+            if ($this->conn->real_escape_string($email) == $this->conn->real_escape_string($row["email"]) && $this->conn->real_escape_string($password) == $this->conn->real_escape_string($row["password"])) {
+
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    public function changePassword($id, $email, $password, $newPassword)
+    public function changePassword($email, $password, $newPassword)
     {
+        if($this->login($email, $password) == false){
+            return false;
+        }
         
-            $sql = "UPDATE user 
-            SET password = ?
-            WHERE email = ? AND password = ?";
+        $sql = sprintf("UPDATE user 
+            SET password = '%s'
+            WHERE email = '%s' AND password = '%s'",
+            $this->conn->real_escape_string($newPassword),
+            $this->conn->real_escape_string($email),
+            $this->conn->real_escape_string($password)
+        );
 
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bind_param('sss', $password, $email, $newPassword);
-            $stmt->execute();
+        $result = $this->conn->query($sql);
 
-            $result = $stmt->get_result();
-        echo json_encode(["message" => $result]);
-        return $stmt->num_rows;
+        return $result;
     }
 
-    public function registration($name, $surname, $email, $password){
+    public function registration($name, $surname, $email, $password)
+    {
 
         $sql = sprintf("INSERT INTO user (name , surname, email, password, active)
         VALUES ('%s', '%s', '%s', '%s', 1)",
-        $this->conn->real_escape_string($name),
-        $this->conn->real_escape_string($surname),
-        $this->conn->real_escape_string($email),
-        $this->conn->real_escape_string($password));
+            $this->conn->real_escape_string($name),
+            $this->conn->real_escape_string($surname),
+            $this->conn->real_escape_string($email),
+            $this->conn->real_escape_string($password)
+        );
 
         $result = $this->conn->query($sql);
         return $result;
     }
+
 }

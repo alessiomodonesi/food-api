@@ -52,4 +52,27 @@ class BaseController
             }
         }
     }
+    public function sendEmail($email, $password){
+        $to = $email;
+        $subject = 'Test reset passw';
+        $message = '
+        <html>
+            <head>
+             <title>Office supplies for March</title>
+            </head>
+            <body>
+                <h1> La tua password temporanea e`:'.$password.'</h1>
+            </body>
+        </html>
+        ';
+
+        $headers[] = 'MIME-Version: 1.0';
+        $headers[] = 'Content-type: text/html; charset=iso-8859-1';
+        $headers[] = 'From: WELA LA PASSWORD mattia.gallinaro@iisviolamarchiesini.edu.it';
+
+        //$headers[] = 'From: Supply Reminders <reminders@example.com>';
+
+        mail($to, $subject, $message, implode("\r\n", $headers));
+
+    }
 }

@@ -16,6 +16,13 @@ $db = new Database();
 $db_conn = $db->connect();
 $user = new User($db_conn);
 
-$user->login($data->email, $data->password);
-
+if($user->login($data->email, $data->password)){
+    http_response_code(200);
+    echo json_encode(["response"=> true ]);
+}
+else{
+    http_response_code(401);
+    echo json_encode(["response" => false]);
+}
+die();
 ?>
