@@ -2,7 +2,7 @@
     Class OrderProduct
     {
         protected $conn;
-        protected $table_name = "order_product";
+        protected $table_name = "product_order";
 
         protected $user_ID;
         protected $product_ID;
@@ -14,7 +14,7 @@
 
         function setOrderProduct($order_ID, $products) // setta i prodotti di un determinato ordine
         {
-            $query = "INSERT INTO $this->table_name (order_ID, product_ID, quantity) VALUES (?, ?, ?)";
+            $query = "INSERT INTO $this->table_name (`order`, `product`) VALUES (?, ?)";
             $stmt = $this->conn->prepare($query);
 
             foreach(json_decode($products, true) as $product)

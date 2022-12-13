@@ -122,13 +122,13 @@
         'status' => $status,
         'json' => json_decode($json)
         */
-        function setOrder($user_ID, $total_price, $break_ID, $status_ID, $pickup_ID, $json){ // Crea un ordine di vetrina
+        function setOrder($user_ID, $break_ID, $status_ID, $pickup_ID, $json){ // Crea un ordine di vetrina
 
-            $query = "INSERT INTO $this->table_name (user_ID, total_price, break_ID, status_ID, pickup_ID, json)
-                      VALUES (?, ?, ?, ?, ?, ?)";
+            $query = "INSERT INTO $this->table_name (`user`,break, status, pickup, json)
+                      VALUES (?, ?, ?, ?, ?)";
             
             $stmt = $this->conn->prepare($query);
-            $stmt->bind_param('idiiis', $user_ID, $total_price, $break_ID, $status_ID, $pickup_ID, $json);
+            $stmt->bind_param('iiiis', $user_ID,  $break_ID, $status_ID, $pickup_ID, $json);
             if ($stmt->execute())
             {
                 return $stmt;
