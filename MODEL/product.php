@@ -3,17 +3,19 @@ require("base.php");
 class ProductController extends BaseController
 {
     public function GetProduct($product_id) //mostra un singolo prodotto
+
     {
-        $sql = "SELECT distinct p.id as 'ID',p.name as 'Nome prodotto', p.price as 'Prezzo', t.name as 'Tag'
+        $sql = "SELECT distinct p.id as 'ID',p.name as 'Nome prodotto', p.price as 'Prezzo', t.name as 'Tag', p.description as 'Descrizione'
                 from product p
                 left join product_tag pt on pt.product=p.id
                 left join tag t on t.id=pt.tag
-                where p.id = ". $product_id . ";";
+                where p.id = " . $product_id . ";";
 
         $result = $this->conn->query($sql);
         $this->SendOutput($result, JSON_OK);
     }
     public function GetArchiveProducts() //mostra tutti i prodotti
+
     {
         $sql = "SELECT distinct p.id as 'ID',p.name as 'Nome prodotto', p.price as 'Prezzo', t.name as 'Tag'
                 from product p
@@ -24,7 +26,8 @@ class ProductController extends BaseController
         $result = $this->conn->query($sql);
         $this->SendOutput($result, JSON_OK);
     }
-    public function GetArchiveIngredients($product_ID)//mostra gli ingredienti di un singolo prodotto
+    public function GetArchiveIngredients($product_ID) //mostra gli ingredienti di un singolo prodotto
+
     {
         $sql = "select i.name, i.quantity, i.description
         from product p
@@ -38,12 +41,13 @@ class ProductController extends BaseController
         $this->SendOutput($result, JSON_OK);
     }
 
-    public function GetIngredient($ingredient_ID){
+    public function GetIngredient($ingredient_ID)
+    {
         $sql = "SELECT i.id as 'ID',i.name as 'Nome ingrediente', i.quantity as 'Quantita', i.description as 'Descrizione',p.name as 'Prodotto in cui e contenuto'
                 from ingredient i
                 left join product_ingredient pi on pi.ingredient=i.id
                 left join product p on p.id=pi.product 
-                where i.id =". $ingredient_ID . ";";
+                where i.id =" . $ingredient_ID . ";";
 
         $result = $this->conn->query($sql);
         $this->SendOutput($result, JSON_OK);
@@ -76,21 +80,19 @@ class ProductController extends BaseController
     }
     //DA RIVEDERE POTREBBE ESSERE INUTILE
     /*public function DeleteIngredient($ingredient_ID) //Non mostra l'ingrediente finito di cui gli si passa l'id--in fase di progettazione
-
     {
-        //delete from ingredient WHERE  ID= '$ingredient_ID';---query per eliminare record ma non si può usare causa FOREIGN KEY
-        $sql = "select distinct i.name, i.available_quantity
-        from ingredient i
-        where i.ID<" . $ingredient_ID . " or i.ID>" . $ingredient_ID . ";";
-        
-
-        $sql = "update ingredient i
-                set i.active = 0
-                where i.ID=" . $ingredient_ID . ";";
-        $result = $this->conn->query($sql);
-        $this->CheckIngredient();
+    //delete from ingredient WHERE  ID= '$ingredient_ID';---query per eliminare record ma non si può usare causa FOREIGN KEY
+    $sql = "select distinct i.name, i.available_quantity
+    from ingredient i
+    where i.ID<" . $ingredient_ID . " or i.ID>" . $ingredient_ID . ";";
+    
+    $sql = "update ingredient i
+    set i.active = 0
+    where i.ID=" . $ingredient_ID . ";";
+    $result = $this->conn->query($sql);
+    $this->CheckIngredient();
     }*/
-    public function setIngredient($name, $description, $price,$quantity)
+    public function setIngredient($name, $description, $price, $quantity)
     {
         $sql = "insert into ingredient(name, description, price,quantity)
         values
@@ -99,11 +101,11 @@ class ProductController extends BaseController
         $this->conn->query($sql);
         $this->CheckIngredient();
     }
-    public function setProduct($name, $price, $description, $quantity, $nutritional_value,$active)
+    public function setProduct($name, $price, $description, $quantity, $nutritional_value, $active)
     {
         $sql = "insert into product(name, price, description, quantity, nutritional_value,active)
                 values
-                (" . $name . ", " . $price . ", " . $description . ", " . $quantity . ", " .$nutritional_value . ", " .$active . ");";
+                (" . $name . ", " . $price . ", " . $description . ", " . $quantity . ", " . $nutritional_value . ", " . $active . ");";
 
         $this->conn->query($sql);
         $this->CheckProduct();
