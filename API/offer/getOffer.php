@@ -16,6 +16,12 @@ if (!strpos($_SERVER["REQUEST_URI"], "?ID=")) // Controlla se l'URI contiene ?ID
 
 $ID = explode("?ID=", $_SERVER['REQUEST_URI'])[1]; 
 
+if(empty($ID)){
+    http_response_code(400);
+    echo json_encode(["message" => "Id is empty"]);
+    die();
+}
+
 $offer = new Offer($db);
 
 $stmt = $offer->getOffer($ID);
@@ -35,7 +41,8 @@ if ($stmt->num_rows > 0)
     return $json;
 }
 else {
-    echo "\n\nNo record";
+    http_response_code(400);
+    echo json_encode(["message" => "No record found"]);
 }
-
+die();
 ?>

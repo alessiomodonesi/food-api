@@ -13,7 +13,7 @@
             $this->conn = $db;
         }
 
-        function getArchiveOffer()
+        function getArchiveOffer()//ritorna tutte le offerte attive e non
         {
             $query = "SELECT * FROM $this->table_name";
 
@@ -22,7 +22,7 @@
             return $stmt;
         }
 
-        function getOffer($ID)
+        function getOffer($ID)//ritorna una specifica offerta
         {
             $query = "SELECT * FROM $this->table_name WHERE ID = $ID";
 
@@ -31,12 +31,12 @@
             return $stmt;
         }
 
-        function createOffer($price, $expiry, $description)
+        function createOffer($price,$start ,$expiry, $description)//crea una nuova offerta con validitá di 1 settimana
         {
-            $query = "INSERT INTO $this->table_name (price, expiry, description) VALUES (?, ?, ?)";
+            $query = "INSERT INTO $this->table_name (price, start, expiry, description) VALUES (?,?, ?, ?)";
 
             $stmt = $this->conn->prepare($query);
-            $stmt->bind_param('sss', $price, $expiry, $description);
+            $stmt->bind_param('siis', $price, $start, $expiry, $description);
 
             if($stmt->execute()){
                 return $stmt;

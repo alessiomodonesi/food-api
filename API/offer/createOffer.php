@@ -13,14 +13,14 @@
 
     $data = json_decode(file_get_contents("php://input"));
 
-    if(empty($data)){
+    if(empty($data) || empty($data->price) || empty($data->start) || empty($data->expiry) || empty($data->description || strtotime($data->start) >= strtotime($data->expiry))){
         http_response_code(400);
         die(json_encode(array("Message" => "Bad request")));
     }
 
     $offer = new Offer($db);
-    
-    if(!empty($record = $offer->createOffer($data->price, date("Y-m-d h:i:sa", $data->expiry), $data->description)))
+    //echo json_encode(["message" => strtotime($data->start)]);
+    if(!empty($record = $offer->createOffer($data->price, strtotime($data->start),strtotime($data->expiry), $data->description)))
     {
         http_response_code(201);
         echo json_encode(array("Message"=> "Created"));

@@ -48,7 +48,7 @@ class Cart{
         $sql = "update cart
             set quantity = quantity - 1
             where product = " . $prod ." and user = " . $user . ";";
-
+        
         //echo $sql . "</br>";
         return $sql;
     }

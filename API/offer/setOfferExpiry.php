@@ -18,6 +18,11 @@ $ID = explode("&", explode("ID=" ,$_SERVER['REQUEST_URI'])[1])[0];
 
 $expiry = explode("&", explode("expiry=", $_SERVER['REQUEST_URI'])[1])[0]; 
 
+if(empty($ID) || empty($expiry)){
+    http_response_code(400);
+    echo json_encode(["message" => "Parameters are incorrect"]);
+    die();
+}
 $Offer = new Offer($db);
 
 $expiry = date("Y-m-d H:i:s", $expiry);

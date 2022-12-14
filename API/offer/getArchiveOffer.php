@@ -24,10 +24,11 @@ if ($stmt->num_rows > 0)
     $json = json_encode($offer_arr);
     echo $json;
 
-    return $json;
+    //return $json;
 }
 else {
-    echo "\n\nNo record";
+    http_response_code(200);
+    echo json_encode(["message" => "No record found"]);
 }
 
 ?>
