@@ -10,7 +10,7 @@ $db = $database->connect();
 
 if (!strpos($_SERVER["REQUEST_URI"], "?ID=")) // Controlla se l'URI contiene ?ID
 {
-    http_response_code(400);
+    //http_response_code(400);
     die(json_encode(array("Message" => "Bad request")));
 }
 
@@ -23,12 +23,12 @@ $stmt = $order->setStatus($id);
 if ($stmt === TRUE)
 {
     echo "status set on 1";
-    http_response_code(200);
+    //http_response_code(200);
     return json_encode(array("Message" => "status set on 1"));
 }
 else {
     echo "\n\nError";
-    http_response_code(404);
+    //http_response_code(404);
     return json_encode(array("Message" => "No record"));
 }
 ?>

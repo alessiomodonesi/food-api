@@ -12,7 +12,7 @@
             $this->conn = $db; 
         }
         
-        function getArchiveAllergen()
+        function getArchiveAllergen()//crea un nuovo allergene all'interno della tabella allergeni
         {
             $query = "SELECT * FROM $this->table_name";
 

@@ -10,11 +10,17 @@ $db = $database->connect();
 
 if (!strpos($_SERVER["REQUEST_URI"], "?ID=")) // Controlla se l'URI contiene ?ID
 {
-    http_response_code(400);
-    die(json_encode(array("Message" => "Bad request")));
+    //http_response_code(400);
+    echo json_encode(["messsage" => "Bad request"]);
+    die();
 }
 
 $ID = explode("?ID=", $_SERVER['REQUEST_URI'])[1]; 
+
+if(empty($ID)){
+    echo json_encode(["messsage" => "No id written"]);
+    die(); 
+}
 
 $allergen = new Allergen($db);
 
@@ -30,11 +36,11 @@ if ($stmt->num_rows > 0) // Se la funzione getArchiveTag ha ritornato dei record
     }
     $json = json_encode($allergen_arr);
     echo $json;
-    http_response_code(200);
-    return $json;
+    //http_response_code(200);
+    //return $json;
 }
 else {
-    echo "\n\nNo record";
+    echo json_encode(["message" => "No record"]);
 }
 
 ?>

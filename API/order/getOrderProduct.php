@@ -10,8 +10,9 @@ $db = $database->connect();
 
 if (!strpos($_SERVER["REQUEST_URI"], "?ORDER_ID=")) // Controlla se l'URI contiene ?ORDER_ID
 {
-    http_response_code(400);
+    //http_response_code(400);
     echo json_encode(array("Message" => "Bad request"));
+    die();
 }
 
 $id = explode("?ORDER_ID=" ,$_SERVER['REQUEST_URI'])[1]; // Viene ricavato quello che c'è dopo ?ORDER_ID
@@ -27,19 +28,19 @@ if ($stmt->num_rows > 0) // Se la funzione getOrderProduct ha ritornato dei reco
     {
        extract($record);
        $order_record = array(
-        'order_ID' => $order_ID,
-        'product_ID' => $product_ID,
-        'quantity' => $quantity
+        'order' => $order,
+        'product' => $product
+        //'quantity' => $quantity
        );
        array_push($order_arr, $order_record);
     }
     echo json_encode($order_arr);
-    http_response_code(200);
+    //http_response_code(200);
     return json_encode($order_arr);
 }
 else {
     echo "\n\nNo record";
-    http_response_code(404);
+    //http_response_code(404);
     return json_encode(array("Message" => "No record"));
 }
 ?>

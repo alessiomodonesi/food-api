@@ -10,7 +10,7 @@ $db = $database->connect();
 
 if (!strpos($_SERVER["REQUEST_URI"], "allergen=") || !strpos($_SERVER["REQUEST_URI"], "product=") ) // Controlla se l'URI contiene ?ID
 {
-    http_response_code(400);
+    //http_response_code(400);
     die(json_encode(array("Message" => "Bad request")));
 }
 
@@ -23,11 +23,11 @@ $stmt = $productAllergen->deleteProductAllergen($product, $allergen);
 
 if ($stmt > 0)
 {
-    http_response_code(200);
-    echo "Association deleted";
+    //http_response_code(200);
+    echo json_encode(["message" => "Association deleted"]);
 }
 else {
-    http_response_code(503);
-    echo "Association not deleted";
+    //http_response_code(503);
+    echo json_encode(["message" => "Association not deleted"]);
 }
 ?>

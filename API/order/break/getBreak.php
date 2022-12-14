@@ -10,7 +10,7 @@ $db = $database->connect();
 
 if (!strpos($_SERVER["REQUEST_URI"], "?BREAK_ID=")) // Controlla se l'URI contiene ?BREAK_ID
 {
-    http_response_code(400);
+    //http_response_code(400);
     die(json_encode(array("Message" => "Bad request")));
 }
 
@@ -32,12 +32,13 @@ if ($stmt->num_rows > 0) // Se la funzione getBreak ha ritornato dei record
        array_push($break_arr, $break_record); // appende il record all'array che contiene tutti i record
     }
     echo json_encode($break_arr);
-    http_response_code(200);
+    //http_response_code(200);
     return json_encode($break_arr, JSON_PRETTY_PRINT);
 }
 else {
-    echo "\n\nNo record";
-    http_response_code(404);
-    return json_encode(array("Message" => "No record"));
+    echo json_encode(["message" => "No record"]);
+    //http_response_code(404);
+    //return json_encode(array("Message" => "No record"));
 }
+die();
 ?>

@@ -13,8 +13,8 @@
 
     $data = json_decode(file_get_contents("php://input"));
 
-    if(empty($data)){
-        http_response_code(400);
+    if(empty($data) || empty($data->name)){
+        //http_response_code(400);
         die(json_encode(array("Message" => "Bad request")));
     }
 
@@ -22,12 +22,12 @@
     
     if($allergen->createAllergen($data->name) > 0)
     {
-        http_response_code(201);
+        //http_response_code(201);
         echo json_encode(array("Message"=> "Created"));
     }
     else
     {
-        http_response_code(503);
+        //http_response_code(503);
         echo json_encode(array("Message"=>'Error'));
     }
 

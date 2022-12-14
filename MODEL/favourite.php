@@ -1,7 +1,5 @@
 <?php
 
-
-
 require __DIR__ . "/../COMMON/errorHandler.php";
 set_exception_handler("errorHandler::handleException");
 set_error_handler("errorHandler::handleError");
