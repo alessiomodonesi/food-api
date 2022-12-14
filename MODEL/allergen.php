@@ -12,7 +12,7 @@
             $this->conn = $db; 
         }
         
-        function getArchiveAllergen()//crea un nuovo allergene all'interno della tabella allergeni
+        function getArchiveAllergen()//ritorna tutti gli allergeni presenti nella tabella allergeni
         {
             $query = "SELECT * FROM $this->table_name";
 
@@ -21,7 +21,7 @@
             return $stmt;
         }
 
-        function createAllergen($name)
+        function createAllergen($name)///crea un nuovo allergene all'interno della tabella allergen
         {
             $query = "INSERT INTO $this->table_name (name) VALUES (?)";
 
@@ -33,7 +33,7 @@
             return $this->conn->affected_rows;
         }
 
-        function getAllergen($id)
+        function getAllergen($id)//ritorna il singolo allergene
         {
             $query = "SELECT * FROM $this->table_name WHERE ID = $id";
 

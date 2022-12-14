@@ -8,26 +8,23 @@ include_once dirname(__FILE__) . '/../../MODEL/productAllergen.php';
 $database = new Database();
 $db = $database->connect();
 
-if (!strpos($_SERVER["REQUEST_URI"], "allergen=") || !strpos($_SERVER["REQUEST_URI"], "product=") ) // Controlla se l'URI contiene ?ID
-{
-    //http_response_code(400);
+$data = json_decode(file_get_contents("php://input"));
+
+if(empty($data) || empty($data->product) || empty($data->allergen)){
+    http_response_code(400);
     die(json_encode(array("Message" => "Bad request")));
-}
-
-$allergen = explode("&", explode("allergen=" ,$_SERVER['REQUEST_URI'])[1])[0]; 
-
-$product = explode("&", explode("product=", $_SERVER['REQUEST_URI'])[1])[0]; 
+} 
 
 $productAllergen = new ProductAllergen($db);
-$stmt = $productAllergen->deleteProductAllergen($product, $allergen);
+$stmt = $productAllergen->deleteProductAllergen($data->product, $data->allergen);
 
 if ($stmt > 0)
 {
-    //http_response_code(200);
+    http_response_code(200);
     echo json_encode(["message" => "Association deleted"]);
 }
 else {
-    //http_response_code(503);
+    http_response_code(503);
     echo json_encode(["message" => "Association not deleted"]);
 }
 ?>

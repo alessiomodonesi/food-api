@@ -20,14 +20,15 @@ if ($stmt->num_rows > 0)
     {
        $allergen_arr[] = $record;
     }
-
+    http_response_code(200);
     $json = json_encode($allergen_arr);
     echo $json;
 
-    return $json;
+    //return $json;
 }
 else {
-    echo "\n\nNo record";
+    http_response_code(400);
+    echo json_encode(["message" => "No record"]);
 }
-
+die();
 ?>

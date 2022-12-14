@@ -12,7 +12,7 @@
             $this->conn = $db;
         }
 
-        function deleteProductAllergen($product, $allergen)
+        function deleteProductAllergen($product, $allergen)//elimina la corrispondeza tra product e allergen nella tabella product_allergen
         {
             $query = "DELETE FROM $this->table_name WHERE product = $product AND allergen = $allergen";
 
@@ -21,7 +21,7 @@
             return $this->conn->affected_rows;
         }
 
-        function setProductAllergen($product, $allergen)
+        function setProductAllergen($product, $allergen)//aggiunge una corrispondenza product allergen nella tabella product_allergen
         {
             $query = "INSERT INTO $this->table_name (product, allergen) VALUES (?, ?)";
 

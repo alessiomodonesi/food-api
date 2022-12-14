@@ -1,19 +1,28 @@
 <?php
-    include_once dirname(__FILE__) . '/../../COMMON/connect.php';
-    include_once dirname(__FILE__) . '/../../MODEL/cart.php';
+include_once dirname(__FILE__) . '/../../COMMON/connect.php';
+include_once dirname(__FILE__) . '/../../MODEL/cart.php';
 
-    if (isset($_GET["prod"]))
-        $prod = $_GET["prod"];
+$data = json_decode(file_get_contents("php://input"));
 
-    if (isset($_GET["user"]))
-        $user = $_GET["user"];
+if(empty($data) || empty($data->user) || empty($data->product)){
+    http_response_code(400);
+    echo json_encode(["message" => "empty or missing id"]);
+    die();
+}
 
-    $dtbase = new Database();
-    $conn = $dtbase->connect();
+$dtbase = new Database();
+$conn = $dtbase->connect();
 
-    $cart = new Cart();
-    $queryAddItem = $cart->setCartItemsAdd($prod, $user);
+$cart = new Cart();
+$queryAddItem = $cart->setCartItemsAdd($data->product, $data->user);
 
-    $result = $conn->query($queryAddItem);
-    print_r($result);
+$result = $conn->query($queryAddItem);
+if ($result) {
+    http_response_code(200);
+    echo json_encode(["message" => "Item added"]);
+} else {
+    http_response_code(503);
+    echo json_encode(["message" => "Couldn't add the item"]);
+}
+die();
 ?>
