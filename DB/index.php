@@ -16,20 +16,20 @@ $passwd_local = "";
 
 $port = "3306";
 
-echo "test iniziale";
+echo "test iniziale\n";
 
 try {
-    $conn = new mysqli($server, $user, $passwd, $db, $port);
+    $conn = new mysqli($server_local, $user, $passwd, $db, $port);
 } catch (mysqli $ex) {
     echo "Error connecting to database $ex\n\n";
 }
 
-echo "test post connect";
+echo "test post connect\n";
 
 $query = "SELECT * FROM `order`";
 $stmt = $conn->query($query);
 
-echo "test post query";
+echo "test post query\n";
 
 $order_arr = array();
 while ($record = $stmt->fetch_assoc()) {
@@ -47,4 +47,4 @@ while ($record = $stmt->fetch_assoc()) {
 }
 echo json_encode($order_arr, JSON_PRETTY_PRINT);
 
-echo "test finale";
+echo "\ntest finale";
