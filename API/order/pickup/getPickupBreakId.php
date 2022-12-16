@@ -16,6 +16,11 @@ if (!strpos($_SERVER["REQUEST_URI"], "?BREAK_ID=")) // Controlla se l'URI contie
 
 $id = explode("?BREAK_ID=" ,$_SERVER['REQUEST_URI'])[1]; // Viene ricavato quello che c'è dopo ?BREAK_ID
 
+if(empty($id)){
+    http_response_code(400);
+    echo json_encode(["Message" => "No id found"]);
+    die();
+}
 
 $order = new PickupBreak($db);
 
@@ -33,11 +38,14 @@ if ($stmt->num_rows > 0) // Se la funzione getArchiveOrder ha ritornato dei reco
        );
        array_push($pickupBreak_arr, $pickupBreak_record);
     }
+    http_response_code(200);
     echo json_encode($pickupBreak_arr, JSON_PRETTY_PRINT);
-    return json_encode($pickupBreak_arr);
+    //return json_encode($pickupBreak_arr);
 }
 else {
-    echo "\n\nNo record";
     http_response_code(404);
-    return json_encode(array("Message" => "No record"));
+    echo json_encode(["message" => "No record"]);
+    //return json_encode(array("Message" => "No record"));
 }
+die();
+?>
