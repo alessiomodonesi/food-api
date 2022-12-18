@@ -21,7 +21,9 @@ class Database
     {
         try {
             $this->conn = new mysqli($this->server_local, $this->user_local, $this->passwd_local, $this->db_local, $this->port);
-        } catch (mysqli $ex) {
+        }
+        //la classe mysqli non estende l'interfaccia Throwable e non può essere usata come un'eccezione. 
+        catch (Exception $ex) {
             die("Error connecting to database $ex\n\n");
         }
         return $this->conn;
