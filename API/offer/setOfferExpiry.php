@@ -23,7 +23,17 @@ if(empty($ID) || empty($expiry)){
     echo json_encode(["message" => "Parameters are incorrect"]);
     die();
 }
+
 $Offer = new Offer($db);
+$result = $Offer->getArchiveOffer();
+
+while($row = $result->fetch_assoc()){
+    if($row["id"]){
+        if($row["product"] == $ID){
+            
+        }
+    }
+}
 
 $expiry = date("Y-m-d H:i:s", $expiry);
 $stmt = $Offer->setOfferExpiry($ID, $expiry);

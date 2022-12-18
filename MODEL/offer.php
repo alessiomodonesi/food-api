@@ -34,9 +34,11 @@
         function createOffer($price,$start ,$expiry, $description)//crea una nuova offerta con validitá di 1 settimana
         {
             $query = "INSERT INTO $this->table_name (price, start, expiry, description) VALUES (?,?, ?, ?)";
+            $start_date = date("Y-m-d H:i:s", $start);
+            $expiry_date = date("Y-m-d H:i:s", $expiry);
 
             $stmt = $this->conn->prepare($query);
-            $stmt->bind_param('siis', $price, $start, $expiry, $description);
+            $stmt->bind_param('ssss', $price, $start_date, $expiry_date, $description);
 
             if($stmt->execute()){
                 return $stmt;

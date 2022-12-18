@@ -18,10 +18,10 @@ class Cart{
     //     return $sql;
     // }
 
-    function addItem($prod, $user){//aggiunge un prodotto al carrello dell'utente
+    function addItem($prod, $user, $quantity){//aggiunge un prodotto al carrello dell'utente
         $sql = "
             insert into cart(user, product, quantity)
-            values(" . $user . ", " . $prod .", 1);";
+            values(" . $user . ", " . $prod .", ". $quantity .");";
 
         //echo $sql . "</br>";
         return $sql;

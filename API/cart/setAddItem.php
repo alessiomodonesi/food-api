@@ -5,9 +5,9 @@ include_once dirname(__FILE__) . '/../../MODEL/cart.php';
 
 $data = json_decode(file_get_contents("php://input"));
 
-if(empty($data) || empty($data->user) || empty($data->product)){
+if(empty($data) || empty($data->user) || empty($data->product) || empty($data->quantity)){
     http_response_code(400);
-    echo json_encode(["message" => "empty or missing id"]);
+    echo json_encode(["message" => "empty or missing value"]);
     die();
 }
 
@@ -15,7 +15,7 @@ $dtbase = new Database();
 $conn = $dtbase->connect();
 
 $cart = new Cart();
-$queryAddItem = $cart->addItem($data->product, $data->user);
+$queryAddItem = $cart->addItem($data->product, $data->user, $data->quantity);
 
 $result = $conn->query($queryAddItem);
 

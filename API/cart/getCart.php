@@ -17,7 +17,9 @@ $cart = new Cart();
 $queryProductsCart = $cart->getCartItems($user);
 $result = $conn->query($queryProductsCart);
 
-if ($result->num_rows > 0) {
+
+
+if (mysqli_num_rows($result) > 0) {
     $productsCart = array();
     while ($row = $result->fetch_assoc()) {
         $productCart = array(
@@ -29,16 +31,14 @@ if ($result->num_rows > 0) {
         );
         array_push($productsCart, $productCart);
     }
-}
-
-if ($productsCart) {
     http_response_code(200);
     echo (json_encode($productsCart, JSON_PRETTY_PRINT));
-
-}else{
+}
+else{
     http_response_code(400);
     echo json_encode(["message" => "No record found"]);
 }
+
 
 $conn->close();
 die();
