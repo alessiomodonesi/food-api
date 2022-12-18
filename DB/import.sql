@@ -1,74 +1,120 @@
 USE sandwiches;
 
-INSERT INTO break(`time`)
+-- user
+INSERT INTO `user`(name, surname, email, password)
 VALUES
-('09:25'),
-('11:25');
+('Alessio', 'Modonesi', 'alessio.modonesi@iisviolamarchesini.edu.it', '1234'),
+('Mattia', 'Gallinaro', 'mattia.gallinaro@iisviolamarchesini.edu.it', '5678'),
+('Mattia', 'Zanini', 'mattia.zanini@iisviolamarchesini.edu.it', '4321'),
+('Christian', 'Mondini', 'christian.mondini@iisviolamarchesini.edu.it', '8765');
+
+INSERT INTO reset(`user`, password, expires, completed)
+VALUES
+(1, 'PaSSworD', Now(), TRUE),
+(2, 'CHanGE',  Now() , FALSE);
 
 INSERT INTO class(year, section)
 VALUES
 (5, 'F'),
-(5,'E'),
-(4, 'E');
+(5, 'E');
 
-INSERT INTO ingredient(name, quantity, description)
+INSERT INTO user_class(`user`, class, `year`)
 VALUES
-('salame', 60, 'salame de me nonno'),
-('prosciutto', 35, 'miglior prosciutto in cirolazione'),
-('pane', 80, 'pane da panino'),
-('bresaola', 40, 'we jim'),
-('formaggio', 60, 'formaggio del despar');
+(1, 1, '2022'),
+(3, 1, '2022'),
+(2, 2, '2022'),
+(4, 2, '2022');
 
-INSERT INTO pickup(name)
-VALUES
-('Settore A itis'),
-('Settore B itis');
-
+-- product
 INSERT INTO nutritional_value(kcal, fats, carbohydrates, proteins)
 VALUES
-(235, 25, 80, 7),
-(348, 30, 63, 6),
-(249, 17, 65, 25),
-(80, 0, 10, 1);
+(200, 10, 50, 15),
+(300, 15, 60, 15),
+(250, 10, 40, 5),
+(150, 5, 30, 5),
+(50, 0, 15, 0);
 
 INSERT INTO product(name, price, description, quantity, nutritional_value)
 VALUES
-('panino al prosciutto', 3, 'panino fatto col miglior prosciutto in cirolazione', 26, 1),
-('panino al salame', 3, 'panino fatto col salame de me nonno', 17, 2),
-('panino proteico', 3, 'panino che possono mangiare solo i veri jimbro', 15, 3),
-('coca cola', 1, 'bevanda frizzante', 24, 4),
-('panino col formaggio', 1.20, 'panino con il formaggio del despar', 15, 2),
-('piadina al cotto', 3.50, 'piadina con il prosciutto cotto e il formaggio', 7, 3);
+('panino con prosciutto', 2, 'panino con prosciutto cotto coop', 20, 1),
+('panino con salame', 2, 'panino con salame ungherese', 20, 1),
+('panino con bresaola', 2, 'panino con bresaola despar', 20, 1),
+('panino con formaggio', 2, 'panino con formaggio conad', 20, 1),
+('piadina con cotto', 3, 'piadina con prosciutto cotto coop', 20, 2),
+('piadina con bresaola', 3, 'piadina con bresaola despar', 20, 2),
+('piadina con salame', 3, 'piadina con salame ungherese', 20, 2),
+('brioche con crema', 2, 'brioche con crema pasticcera', 20, 3),
+('briosche con cioccolato', 2, 'brioche con crema al cioccolato', 20, 3),
+('croccantelle', 2, 'piadina con salame ungherese', 20, 4),
+('patatine', 2, 'piadina con salame ungherese', 20, 4),
+('coca cola', 2, 'bibita gassata', 20, 5),
+('the al limone', 2, 'bibita dolce', 20, 5),
+('red bull', 2, 'bibita energetica', 20, 5);
 
-INSERT INTO `status`(description)
+INSERT INTO favourite(`user`, product)
 VALUES
-('ordinato'),
-('pronto'),
-('annullato');
+(1, 1),
+(2, 5),
+(3, 8),
+(4, 11);
+
+INSERT INTO ingredient(name, quantity, description)
+VALUES
+('pane', 50, 'pane toscano'),
+('piadina', 50, 'piadina romagnola'),
+('brioche', 50, 'brioche artigianale'),
+('salame', 80, 'salame ungherese'),
+('prosciutto', 80, 'cotto coop'),
+('bresaola', 80, 'bresaola despar'),
+('formaggio', 80, 'formaggio conad'),
+('crema', 60, 'crema pasticcera'),
+('cioccolato', 60, 'crema al cioccolato');
+
+INSERT INTO product_ingredient(product, ingredient)
+VALUES
+(1, 1),
+(1, 4),
+(2, 1),
+(2, 3),
+(3, 1),
+(3, 5),
+(4, 1),
+(4, 5),
+(5, 2),
+(5, 4),
+(6, 2),
+(6, 5),
+(7, 2),
+(7, 3),
+(10, 3),
+(10, 8),
+(11, 3),
+(11, 9);
 
 INSERT INTO tag(name)
 VALUES
 ('panino'),
-('bevanda'),
-('piadina');
+('piadina'),
+('brioche'),
+('snack'),
+('bibita');
 
-INSERT INTO `user`(name, surname, email, password)
+INSERT INTO product_tag(product, tag)
 VALUES
-('Mattia', 'Gallo', 'mattia.gallinaro@iisviolamarchesini.edu.it', 'CA71@F'),
-('Mattia', 'Zanini', 'mattia.zanini@iisviolamarchesini.edu.it', 'SIUUUUU'),
-('Alessio', 'Modonesi', 'alessio.modonesi@iisviolamarchesini.edu.it', 'CACCIOTTI'),
-('Cristian', 'Mondini', 'cristian.mondini@iisviolamarchesini.edu.it', 'FORZAROMA');
-
-INSERT INTO `cart`(`user`, product, quantity)
-VALUES
-('1', '2', '4'),
-('2', '1', '3'),
-('3', '3', '2');
-
-INSERT INTO offer(price, expiry, description)
-VALUES
-('10', '2022/01/21', 'offerta n. 1'),
-('20', '2021/03/01', 'offerta n. 2');
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 1),
+(5, 2),
+(6, 2),
+(7, 2),
+(8, 3),
+(9, 3),
+(10, 4),
+(11, 4),
+(12, 5),
+(13, 5),
+(14, 5);
 
 INSERT INTO allergen(name)
 VALUES
@@ -81,87 +127,73 @@ VALUES
 ('Arachidi e derivati'),
 ('Sesamo e derivati');
 
-INSERT INTO `order`(`user`, pickup, break, `status`)
-VALUES
-(1, 1, 1, 2),
-(2, 2, 1, 3),
-(3, 1, 2, 1),
-(1, 2, 1, 3);
-
-INSERT INTO product_order(product, `order`)
-VALUES
-(1, 2),
-(1, 3),
-(2, 3),
-(2, 4),
-(3, 4),
-(3, 2);
-
-INSERT INTO user_class(`user`, class, `year`)
-VALUES
-(1,1, '2022'),
-(2,3, '2021'),
-(3,2, '2022'),
-(1,3, '2021');
-
-INSERT INTO product_ingredient(product, ingredient)
-VALUES
-(1, 3),
-(2, 3),
-(3, 3),
-(5, 3),
-(1, 2),
-(2, 1),
-(3, 4),
-(5, 5);
-
-
-INSERT INTO reset(`user`, password, expires, completed)
-VALUES
-(1, 'EHV0L3V1', Now(), TRUE),
-(2, '',  Now() , FALSE),
-(4, 'C4P0BRANC0D31P4GUR1', Now(), TRUE);
-
-
-INSERT INTO favourite(`user`, product)
-VALUES
-(1, 6),
-(2, 3),
-(3, 2),
-(4, 4);
-
-
 INSERT INTO product_allergen(product, allergen)
 VALUES
-(2, 1),
-(3, 2),
+(1, 1),
+(2, 2),
 (3, 3),
-(3, 4),
-(3, 5),
-(5, 1);
+(4, 4);
 
-
-INSERT INTO pickup_break(pickup, break)
+INSERT INTO offer(price, expiry, description)
 VALUES
-(1, 1),
-(1, 2),
-(2, 1),
-(2, 2);
-
-
-INSERT INTO product_tag(product, tag)
-VALUES
-(1, 1),
-(2, 1),
-(3, 1),
-(4, 2),
-(5, 1),
-(6, 3);
-
+('1', '2022/01/21', 'offerta panini'),
+('2', '2021/03/01', 'offerta piadine');
 
 INSERT INTO product_offer(product, offer)
 VALUES
 (1, 1),
 (2, 1),
+(3, 1),
 (4, 1),
-(6, 2);
+(5, 2),
+(6, 2),
+(7, 2);
+
+-- order
+INSERT INTO `status`(description)
+VALUES
+('ordinato'),
+('pronto'),
+('annullato');
+
+INSERT INTO break(`time`)
+VALUES
+('09:25'),
+('10:25'),
+('11:25');
+
+INSERT INTO pickup(name)
+VALUES
+('Settore A Itis'),
+('Settore B Itis'),
+('Ipsia'),
+('Agrario');
+
+INSERT INTO pickup_break(pickup, break)
+VALUES
+(1, 1),
+(1, 2),
+(2, 3),
+(3, 3);
+
+INSERT INTO `order`(`user`, pickup, break, `status`)
+VALUES
+(1, 1, 1, 1),
+(2, 1, 2, 1),
+(3, 2, 3, 2),
+(4, 2, 3, 3);
+
+INSERT INTO product_order(product, `order`)
+VALUES
+(1, 1),
+(1, 1),
+(2, 2),
+(2, 2),
+(3, 3),
+(3, 4);
+
+INSERT INTO `cart`(`user`, product, quantity)
+VALUES
+('1', '2', '4'),
+('2', '1', '3'),
+('3', '3', '2');

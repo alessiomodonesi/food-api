@@ -1,4 +1,5 @@
 <?php
+// prova per i nuovi domini del server
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
