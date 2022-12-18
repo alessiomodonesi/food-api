@@ -20,7 +20,7 @@ echo "test iniziale\n";
 
 try {
     $conn = new mysqli($server_local, $user, $passwd, $db, $port);
-} catch (mysqli $ex) {
+} catch (Exception $ex) {
     echo "Error connecting to database $ex\n\n";
 }
 
