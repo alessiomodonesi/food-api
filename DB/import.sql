@@ -93,11 +93,11 @@ VALUES
 
 INSERT INTO tag(name)
 VALUES
-('panino'),
-('piadina'),
-('brioche'),
-('snack'),
-('bibita');
+('panini'),
+('bibite'),
+('piadine'),
+('brioches'),
+('snack');
 
 INSERT INTO product_tag(product, tag)
 VALUES
@@ -105,16 +105,16 @@ VALUES
 (2, 1),
 (3, 1),
 (4, 1),
-(5, 2),
-(6, 2),
-(7, 2),
-(8, 3),
-(9, 3),
-(10, 4),
-(11, 4),
-(12, 5),
-(13, 5),
-(14, 5);
+(5, 3),
+(6, 3),
+(7, 3),
+(8, 4),
+(9, 4),
+(10, 5),
+(11, 5),
+(12, 2),
+(13, 2),
+(14, 2);
 
 INSERT INTO allergen(name)
 VALUES
