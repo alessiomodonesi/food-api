@@ -2,18 +2,28 @@
     include_once dirname(__FILE__) . '/../../COMMON/connect.php';
     include_once dirname(__FILE__) . '/../../MODEL/cart.php';
 
-    if (isset($_GET["prod"]))
-        $prod = $_GET["prod"];
+    $data = json_decode(file_get_contents("php://input"));
 
-    if (isset($_GET["user"]))
-        $user = $_GET["user"];
+    if(empty($data) || empty($data->prod) || empty($data->user)){
+        http_response_code(400);
+        echo json_encode(["message" => "Bad request"]);
+        die();
+    }
 
     $dtbase = new Database();
     $conn = $dtbase->connect();
 
     $cart = new Cart();
-    $queryRemoveItem = $cart->setCartItemsRemove($prod, $user);
+    $queryRemoveItem = $cart->setCartItemsRemove($data->prod, $data->user);
 
     $result = $conn->query($queryRemoveItem);
-    print_r($result);
+    if($result){
+    http_response_code(200);
+    echo json_encode(["Message" => "item deleted"]);
+    }
+    else{
+    http_response_code(400);
+    echo json_encode(["message" => "item non removed"]);
+    }
+    die();
 ?>
