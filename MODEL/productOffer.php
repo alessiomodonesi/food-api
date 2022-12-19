@@ -11,7 +11,16 @@
         {
             $this->conn = $db;
         }
-        
+        function getOfferProduct($id){
+        $stmt = sprintf("SELECT p.id 
+            from product_offer po
+            inner join product p on p.id = po.product
+            where p.id ",
+            $this->conn->real_escape_string($id));
+
+        $result = $this->conn->query($stmt);
+        return $result;
+        }
         function setProductOffer($product, $offer)
         {
             $query = "INSERT INTO $this->table_name (product, offer) VALUES (?, ?)";

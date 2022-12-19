@@ -5,23 +5,33 @@ header("Content-Type: application/json; charset=UTF-8");
 include_once dirname(__FILE__) . '/../../COMMON/connect.php';
 include_once dirname(__FILE__) . '/../../MODEL/productOffer.php';
 
+$data = json_decode(file_get_contents("php://input"));
+
 $database = new Database();
 $db = $database->connect();
 
-if (!strpos($_SERVER["REQUEST_URI"], "product=") || !strpos($_SERVER["REQUEST_URI"], "offer=") ) // Controlla se l'URI contiene ?ID
-{
+
+if(empty($data) || empty($data->product) || empty($data->offer)){
     http_response_code(400);
     die(json_encode(array("Message" => "Bad request")));
 }
 
-$product = explode("&", explode("product=" ,$_SERVER['REQUEST_URI'])[1])[0]; 
-
-$offer = explode("&", explode("offer=", $_SERVER['REQUEST_URI'])[1])[0]; 
-
 $ProductOffer = new ProductOffer($db);
-$stmt = $ProductOffer->setProductOffer($product, $offer);
 
-if ($stmt > 0)
+$stmt = $ProductOffer->getOfferProduct($data->offer);
+
+if($stmt->num_rows> 0){
+    while($row = $stmt->fetch_assoc()){
+        if($row["id"] == $data->product){
+            http_response_code(400);
+            echo json_encode(["message" => "Already exists"]);
+            die();
+        }
+    }
+}
+
+$result = $ProductOffer->setProductOffer($data->product, $data->offer);
+if ($stmt)
 {
     echo "Association inserted";
 }

@@ -1,5 +1,5 @@
 <?php
-    class OfferCategory
+    class OfferProduct
     {
         protected $conn;
         protected $table_name = "offer_category";
@@ -12,6 +12,7 @@
             $this->conn = $db;
         }
         
+
         function setOfferCategory($offer_ID, $category_ID)
         {
             $query = "INSERT INTO $this->table_name (offer_ID, category_ID) VALUES (?, ?)";
