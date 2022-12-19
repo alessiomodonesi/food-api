@@ -35,7 +35,7 @@ class ProductController extends BaseController
         inner join ingredient i on i.ID = pi2.ingredient
         inner join product_tag pt on pt.product = p.id
         inner join tag t on t.id = pt.tag
-        where p.ID = " . $product_ID . " and t.name = 'panino' or t.name = 'piadina' ;";
+        where p.ID = " . $product_ID . ";";
 
         $result = $this->conn->query($sql);
         $this->SendOutput($result, JSON_OK);
