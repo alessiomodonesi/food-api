@@ -33,9 +33,9 @@ if (mysqli_num_rows($result) > 0) {
         array_push($productsCart, $productCart);
     }
     http_response_code(200);
-    echo $productsCart; /*
-      $base = new BaseController($dtbase->connect());
-      $base->SendOutput($productsCart, JSON_OK);*/
+    print_r($productsCart); /*
+     $base = new BaseController($dtbase->connect());
+     $base->SendOutput($productsCart, JSON_OK);*/
     //echo (json_encode($productsCart, JSON_PRETTY_PRINT));
 } else {
     http_response_code(400);
