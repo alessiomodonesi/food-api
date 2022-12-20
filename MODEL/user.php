@@ -46,7 +46,7 @@ class User extends BaseController
 
         $result = $this->conn->query($sql);
 
-        echo json_encode(["message" => $result]);
+        //echo json_encode(["message" => $result]);
 
         if ($result == false) {
             http_response_code(503);
