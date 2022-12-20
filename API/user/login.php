@@ -20,7 +20,7 @@ $result = $user->login($data->email, $data->password);
 
 if ($result != false) {
     http_response_code(200);
-    echo json_encode(["response" => true, "user" => $result]);
+    echo json_encode(["response" => true, "userID" => $result]);
 } else {
     http_response_code(401);
     echo json_encode(["response" => false]);
