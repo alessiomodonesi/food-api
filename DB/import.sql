@@ -3,6 +3,7 @@ USE sandwiches;
 -- user
 INSERT INTO `user`(name, surname, email, password)
 VALUES
+('Alessio', 'Modonesi', 'admin@gmail.com', 'admin')
 ('Alessio', 'Modonesi', 'alessio.modonesi@iisviolamarchesini.edu.it', '1234'),
 ('Mattia', 'Gallinaro', 'mattia.gallinaro@iisviolamarchesini.edu.it', '5678'),
 ('Mattia', 'Zanini', 'mattia.zanini@iisviolamarchesini.edu.it', '4321'),
