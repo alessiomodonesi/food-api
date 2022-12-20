@@ -12,10 +12,11 @@
             $this->conn = $db;
         }
         function getOfferProduct($id){
-        $stmt = sprintf("SELECT p.id 
+        $stmt = sprintf("SELECT p.id as id
             from product_offer po
             inner join product p on p.id = po.product
-            where p.id ",
+            inner join `offer` o on o.id = po.`offer`
+            where o.id = %d;",
             $this->conn->real_escape_string($id));
 
         $result = $this->conn->query($stmt);
@@ -23,13 +24,17 @@
         }
         function setProductOffer($product, $offer)
         {
-            $query = "INSERT INTO $this->table_name (product, offer) VALUES (?, ?)";
+            $query = sprintf("INSERT INTO `product_offer` (product, `offer`)
+             VALUES (%d, %d)", 
+             $this->conn->real_escape_string($product),
+             $this->conn->real_escape_string($offer)
+        );
 
-            $stmt = $this->conn->prepare($query);
-            $stmt->bind_param("ii", $product, $offer);
-            $stmt->execute();
+            $stmt = $this->conn->query($query);
+            //$stmt->bind_param("ii", $product, $offer);
+            //$stmt->execute();
             
-            return $stmt->affected_rows;
+            return $stmt;
         }
     }
 ?>

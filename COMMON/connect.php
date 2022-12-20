@@ -17,7 +17,7 @@ class Database
     protected $port = "3306";
     public $conn;
 
-    public function connect()
+    public function connect()//effettua la connessione al server
     {
         try {
             $this->conn = new mysqli($this->server_local, $this->user_local, $this->passwd_local, $this->db_local, $this->port);

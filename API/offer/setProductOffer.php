@@ -20,7 +20,7 @@ $ProductOffer = new ProductOffer($db);
 
 $stmt = $ProductOffer->getOfferProduct($data->offer);
 
-if($stmt->num_rows> 0){
+if($stmt->num_rows > 0){
     while($row = $stmt->fetch_assoc()){
         if($row["id"] == $data->product){
             http_response_code(400);

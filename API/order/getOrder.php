@@ -37,13 +37,14 @@ if ($stmt->num_rows > 0) // Se la funzione getOrder ha ritornato dei record
        );
        array_push($order_arr, $order_record);
     }
-    echo json_encode($order_arr, JSON_PRETTY_PRINT);
     http_response_code(200);
-    return json_encode($order_arr);
+    echo json_encode($order_arr, JSON_PRETTY_PRINT);
+    //return json_encode($order_arr);
 }
 else {
-    echo "\n\nNo record";
     http_response_code(404);
-    return json_encode(array("Message" => "No record"));
+    echo json_encode(array("Message" => "No record"));
+    //return json_encode(array("Message" => "No record"));
 }
+die();
 ?>

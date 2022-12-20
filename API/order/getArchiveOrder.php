@@ -29,12 +29,14 @@ if ($stmt->num_rows > 0) // Se la funzione getArchiveOrder ha ritornato dei reco
        );
        array_push($order_arr, $order_record);
     }
+    http_response_code(200);
     echo json_encode($order_arr, JSON_PRETTY_PRINT);
-    return json_encode($order_arr);
+    //return json_encode($order_arr);
 }
 else {
-    echo "\n\nNo record";
     http_response_code(404);
-    return json_encode(array("Message" => "No record"));
+    echo json_encode(array("Message" => "No record"));
+   // return json_encode(array("Message" => "No record"));
 }
+die();
 ?>

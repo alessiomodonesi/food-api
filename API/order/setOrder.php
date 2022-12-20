@@ -20,18 +20,19 @@ if (!empty($data)) // Se qualcosa viene letto
     {
         $orderProduct = new OrderProduct($db);
         $orderProduct->setOrderProduct($record->insert_id, json_encode($data->products));
-        //http_response_code(201);
+        http_response_code(201);
         echo json_encode(array("Message"=> "Created"));
     }
     else
     {
-        //http_response_code(503);
+        http_response_code(503);
         echo json_encode(array("Message"=>'Error'));
     }
 }
 else
 {
-    //http_response_code(400);
-    die(json_encode(array("Message" => "Bad request")));
+    http_response_code(400);
+    echo json_encode(array("Message" => "Bad request"));
 }
+die();
 ?>
