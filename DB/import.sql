@@ -36,20 +36,20 @@ VALUES
 
 INSERT INTO product(name, price, description, quantity, nutritional_value)
 VALUES
-('panino con prosciutto', 2, 'panino con prosciutto cotto coop', 20, 1),
-('panino con salame', 2, 'panino con salame ungherese', 20, 1),
-('panino con bresaola', 2, 'panino con bresaola despar', 20, 1),
-('panino con formaggio', 2, 'panino con formaggio conad', 20, 1),
-('piadina con cotto', 3, 'piadina con prosciutto cotto coop', 20, 2),
-('piadina con bresaola', 3, 'piadina con bresaola despar', 20, 2),
-('piadina con salame', 3, 'piadina con salame ungherese', 20, 2),
-('brioche con crema', 2, 'brioche con crema pasticcera', 20, 3),
-('briosche con cioccolato', 2, 'brioche con crema al cioccolato', 20, 3),
-('croccantelle', 2, 'piadina con salame ungherese', 20, 4),
-('patatine', 2, 'piadina con salame ungherese', 20, 4),
-('coca cola', 2, 'bibita gassata', 20, 5),
-('the al limone', 2, 'bibita dolce', 20, 5),
-('red bull', 2, 'bibita energetica', 20, 5);
+('Panino con prosciutto', 2, 'Panino con prosciutto cotto Coop', 20, 1),
+('Panino con salame', 2, 'Panino con salame ungherese', 20, 1),
+('Panino con bresaola', 2, 'Panino con bresaola Despar', 20, 1),
+('Panino con formaggio', 2, 'Panino con formaggio Conad', 20, 1),
+('Piadina con cotto', 3, 'Piadina con prosciutto cotto Coop', 20, 2),
+('Piadina con bresaola', 3, 'Piadina con bresaola Despar', 20, 2),
+('Piadina con salame', 3, 'Piadina con salame ungherese', 20, 2),
+('Brioche con crema', 2, 'Brioche con crema pasticcera', 20, 3),
+('Briosche con cioccolato', 2, 'Brioche con crema al cioccolato', 20, 3),
+('Croccantelle', 2, 'Piadina con salame ungherese', 20, 4),
+('Patatine', 2, 'Piadina con salame ungherese', 20, 4),
+('Coca Cola', 2, 'Bibita gassata', 20, 5),
+('The al limone', 2, 'Bibita dolce', 20, 5),
+('Red Bull', 2, 'Bibita energetica', 20, 5);
 
 INSERT INTO favourite(`user`, product)
 VALUES
@@ -60,15 +60,15 @@ VALUES
 
 INSERT INTO ingredient(name, quantity, description)
 VALUES
-('pane', 50, 'pane toscano'),
-('piadina', 50, 'piadina romagnola'),
-('brioche', 50, 'brioche artigianale'),
-('salame', 80, 'salame ungherese'),
-('prosciutto', 80, 'cotto coop'),
-('bresaola', 80, 'bresaola despar'),
-('formaggio', 80, 'formaggio conad'),
-('crema', 60, 'crema pasticcera'),
-('cioccolato', 60, 'crema al cioccolato');
+('Pane', 50, 'Pane toscano'),
+('Piadina', 50, 'Piadina romagnola'),
+('Brioche', 50, 'Brioche artigianale'),
+('Salame', 80, 'Salame ungherese'),
+('Prosciutto', 80, 'Prosciutto cotto Coop'),
+('Bresaola', 80, 'Bresaola Despar'),
+('Formaggio', 80, 'Formaggio Conad'),
+('Crema', 60, 'Crema pasticcera'),
+('Cioccolato', 60, 'Crema al cioccolato');
 
 INSERT INTO product_ingredient(product, ingredient)
 VALUES
