@@ -9,10 +9,11 @@ class User extends BaseController
 {
     public function getUser($id)
     {
-        $sql = sprintf("SELECT name, surname, email, password
+        $sql = sprintf("SELECT name, surname
             FROM user
             WHERE id = %d;",
-            $this->conn->real_escape_string($id));
+            $this->conn->real_escape_string($id)
+        );
 
         $result = $this->conn->query($sql);
 
@@ -24,7 +25,8 @@ class User extends BaseController
         $sql = sprintf("UPDATE user 
             SET active = 0 
             WHERE id = %d",
-            $this->conn->real_escape_string($id));
+            $this->conn->real_escape_string($id)
+        );
 
         $result = $this->conn->query($sql);
         return $result;
@@ -40,9 +42,10 @@ class User extends BaseController
         // Update password con password temporanea
         $sql = sprintf("UPDATE `user`
         SET password = '%s'
-        where id = %d", 
-        $this->conn->real_escape_string($password),
-        $this->conn->real_escape_string($id));
+        where id = %d",
+            $this->conn->real_escape_string($password),
+            $this->conn->real_escape_string($id)
+        );
 
         $result = $this->conn->query($sql);
 
@@ -55,17 +58,17 @@ class User extends BaseController
         }
 
         $sql = null;
-        
+
         $sql = sprintf('SELECT email
         from `user`
         where id = %d',
-        $this->conn->real_escape_string($id));
+            $this->conn->real_escape_string($id)
+        );
 
-        $result  = $this->conn->query($sql);
-        
+        $result = $this->conn->query($sql);
+
         /*while($row = $result->fetch_assoc()){
-
-            $this->sendEmail($row["email"], $password);
+        $this->sendEmail($row["email"], $password);
         }*/
 
 
@@ -76,7 +79,7 @@ class User extends BaseController
         (user, password, completed)
         VALUES (%d, '%s', 0)",
             $this->conn->real_escape_string($id),
-            $this->conn->real_escape_string($password)        
+            $this->conn->real_escape_string($password)
         );
         //$this->conn->real_escape_string(date("d:m:Y h:i:s", strtotime($date . '+ 5 Days'))) sistemare
 
@@ -103,10 +106,10 @@ class User extends BaseController
 
     public function changePassword($email, $password, $newPassword)
     {
-        if($this->login($email, $password) == false){
+        if ($this->login($email, $password) == false) {
             return false;
         }
-        
+
         $sql = sprintf("UPDATE user 
             SET password = '%s'
             WHERE email = '%s' AND password = '%s'",
