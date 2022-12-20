@@ -16,11 +16,12 @@ $db = new Database();
 $db_conn = $db->connect();
 $user = new User($db_conn);
 
-if($user->login($data->email, $data->password)){
+$result = $user->login($data->email, $data->password);
+
+if ($result != false) {
     http_response_code(200);
-    echo json_encode(["response"=> true ]);
-}
-else{
+    echo json_encode(["response" => true, "user" => $result]);
+} else {
     http_response_code(401);
     echo json_encode(["response" => false]);
 }
