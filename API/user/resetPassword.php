@@ -16,4 +16,13 @@ $db_conn = $db->connect();
 $user = new User($db_conn);
 
 $user->resetPassword($data->id);
+
+if($user){
+    http_response_code(200);
+    echo json_encode(["message" => "Passowrd resetted"]);
+}else{
+    http_response_code(400);
+    echo json_encode(["message" => "Error"]);
+}
+die();
 ?>

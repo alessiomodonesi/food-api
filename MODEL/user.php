@@ -81,7 +81,7 @@ class User extends BaseController
         //$this->conn->real_escape_string(date("d:m:Y h:i:s", strtotime($date . '+ 5 Days'))) sistemare
 
         $result = $this->conn->query($sql);
-        echo json_encode(["message" => $result]);
+        //echo json_encode(["message" => $result]);
         return $password;
     }
 
