@@ -1,6 +1,7 @@
 <?php
 include_once dirname(__FILE__) . '/../../COMMON/connect.php';
 include_once dirname(__FILE__) . '/../../MODEL/cart.php';
+include_once dirname(__FILE__) . '/../../MODEL/base.php';
 
 if (!isset($_GET['user']) || ($user = explode("?user=", $_SERVER['REQUEST_URI'])[1]) == null) {
     http_response_code(400);
@@ -32,9 +33,10 @@ if (mysqli_num_rows($result) > 0) {
         array_push($productsCart, $productCart);
     }
     http_response_code(200);
-    echo (json_encode($productsCart, JSON_PRETTY_PRINT));
-}
-else{
+    $base = new BaseController($conn);
+    $base->SendOutput(json_encode($productsCart, JSON_PRETTY_PRINT), JSON_OK);
+    //echo (json_encode($productsCart, JSON_PRETTY_PRINT));
+} else {
     http_response_code(400);
     echo json_encode(["message" => "No record found"]);
 }
