@@ -35,7 +35,13 @@ if (mysqli_num_rows($result) > 0) {
     http_response_code(200);
     //print_r(json_encode($productsCart, JSON_PRETTY_PRINT));
     $base = new BaseController($dtbase->connect());
-    $base->SendOutput($result, JSON_OK);
+    $base->SendOutput(
+        $result,
+        array(
+            'Content-Type: application/json',
+            'HTTP/1.1 200 OK'
+        )
+    );
     //echo (json_encode($productsCart, JSON_PRETTY_PRINT));
 } else {
     http_response_code(400);
