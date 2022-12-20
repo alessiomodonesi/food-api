@@ -34,7 +34,7 @@ if (mysqli_num_rows($result) > 0) {
     }
     http_response_code(200);
     $base = new BaseController($conn);
-    $base->SendOutput(json_encode($productsCart, JSON_PRETTY_PRINT), JSON_OK);
+    $base->SendOutput($productsCart, JSON_OK);
     //echo (json_encode($productsCart, JSON_PRETTY_PRINT));
 } else {
     http_response_code(400);
