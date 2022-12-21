@@ -4,7 +4,7 @@ class Cart
 
     function getCartItems($user)
     { //ritorna il carrello dell'utente con i relativi prodotti
-        $sql = "select p.id, c.quantity, p.name, p.price, p.description, t.name as 'tag_name' ";
+        $sql = "select p.id, c.quantity, p.name, p.price, p.description, t.id as 'tag_id' ";
         $sql .= "from cart c ";
         $sql .= "inner join `user` u on u.id = c.`user` ";
         $sql .= "inner join product p on p.id = c.product ";

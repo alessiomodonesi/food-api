@@ -32,7 +32,7 @@ if (mysqli_num_rows($result) > 0) {
             'name' => $name,
             'price' => $price,
             'description' => $description,
-            'tag_name' => $tag_name
+            'tag_id' => $tag_id
         );
         array_push($productsCart, $productCart);
     }
