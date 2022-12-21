@@ -1,4 +1,8 @@
 <?php
+
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=UTF-8");
+
 include_once dirname(__FILE__) . '/../../COMMON/connect.php';
 include_once dirname(__FILE__) . '/../../MODEL/cart.php';
 include_once dirname(__FILE__) . '/../../MODEL/base.php';
@@ -22,13 +26,15 @@ $result = $conn->query($queryProductsCart);
 
 if (mysqli_num_rows($result) > 0) {
     $productsCart = array();
-    while ($row = $result->fetch_assoc()) {
+    while ($row = $result->fetch_assoc())  
+    {
+        extract($row);
         $productCart = array(
-            "product" => $row["id"],
-            "quantity" => $row["quantity"],
-            "name" => $row["name"],
-            "price" => $row["price"],
-            "description" => $row["description"]
+            'product' => $id,
+            'quantity' => $quantity,
+            'name' => $name,
+            'price' => $price,
+            'description' => $description
         );
         array_push($productsCart, $productCart);
     }
