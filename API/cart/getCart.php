@@ -22,19 +22,17 @@ $cart = new Cart();
 $queryProductsCart = $cart->getCartItems($user);
 $result = $conn->query($queryProductsCart);
 
-
-
 if (mysqli_num_rows($result) > 0) {
     $productsCart = array();
-    while ($row = $result->fetch_assoc())  
-    {
+    while ($row = $result->fetch_assoc()) {
         extract($row);
         $productCart = array(
             'product' => $id,
             'quantity' => $quantity,
             'name' => $name,
             'price' => $price,
-            'description' => $description
+            'description' => $description,
+            'tag_name' => $tag_name
         );
         array_push($productsCart, $productCart);
     }
