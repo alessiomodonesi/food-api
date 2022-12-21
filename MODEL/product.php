@@ -134,4 +134,18 @@ class ProductController extends BaseController
         $this->SendState($result, JSON_OK);
         $this->CheckProduct();
     }
+
+    public function getArchiveProductsLike($name) // mostra i panini che hanno un nome simile a quello passato
+    {
+        $formattedName = str_replace("+", " ", $name);
+        $sql = "SELECT distinct p.id as 'ID',p.name as 'Nome prodotto', p.price as 'Prezzo', t.name as 'Tag'
+        from product p
+        left join product_tag pt on pt.product=p.id
+        left join tag t on t.id=pt.tag
+        where p.name LIKE  '%$formattedName%';
+        ";
+
+        $result = $this->conn->query($sql);
+        $this->SendOutput($result, JSON_OK);
+    }
 }
