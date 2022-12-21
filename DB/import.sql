@@ -3,7 +3,7 @@ USE sandwiches;
 -- user
 INSERT INTO `user`(name, surname, email, password)
 VALUES
-('Alessio', 'Modonesi', 'alessio@gmail.com', 'admin'),
+('Alessio', 'Modonesi', 'admin@gmail.com', 'admin'),
 ('Alessio', 'Modonesi', 'alessio.modonesi@iisviolamarchesini.edu.it', '1234'),
 ('Mattia', 'Gallinaro', 'mattia.gallinaro@iisviolamarchesini.edu.it', '5678'),
 ('Mattia', 'Zanini', 'mattia.zanini@iisviolamarchesini.edu.it', '4321'),
@@ -41,17 +41,16 @@ VALUES
 ('Panino con salame', 2, 'Panino con salame ungherese', 20, 1),
 ('Panino con bresaola', 2, 'Panino con bresaola Despar', 20, 1),
 ('Panino con formaggio', 2, 'Panino con formaggio Conad', 20, 1),
-('Piadina con cotto', 2.50, 'Piadina con prosciutto cotto Coop', 20, 2),
-('Piadina con bresaola', 2.50, 'Piadina con bresaola Despar', 20, 2),
-('Piadina con salame', 2.50, 'Piadina con salame ungherese', 20, 2),
+('Piadina con cotto', 3, 'Piadina con prosciutto cotto Coop', 20, 2),
+('Piadina con bresaola', 3, 'Piadina con bresaola Despar', 20, 2),
+('Piadina con salame', 3, 'Piadina con salame ungherese', 20, 2),
 ('Brioche con crema', 2, 'Brioche con crema pasticcera', 20, 3),
 ('Briosche con cioccolato', 2, 'Brioche con crema al cioccolato', 20, 3),
-('Croccantelle', 1.50, 'Piadina con salame ungherese', 20, 4),
-('Patatine', 1.50, 'Piadina con salame ungherese', 20, 4),
-('Acqua', 1.50, 'Naturale o frizzante', 20, 5),
-('Coca Cola', 1.50, 'Bibita gassata', 20, 5),
-('Red Bull', 1.50, 'Bibita energetica', 20, 5),
-('The al limone', 1.50, 'Bibita dolce', 20, 5);
+('Croccantelle', 2, 'Piadina con salame ungherese', 20, 4),
+('Patatine', 2, 'Piadina con salame ungherese', 20, 4),
+('Coca Cola', 2, 'Bibita gassata', 20, 5),
+('The al limone', 2, 'Bibita dolce', 20, 5),
+('Red Bull', 2, 'Bibita energetica', 20, 5);
 
 INSERT INTO favourite(`user`, product)
 VALUES
@@ -96,7 +95,7 @@ VALUES
 INSERT INTO tag(name)
 VALUES
 ('panini'),
-('bevande'),
+('bibite'),
 ('piadine'),
 ('brioches'),
 ('snack');
@@ -116,8 +115,7 @@ VALUES
 (11, 5),
 (12, 2),
 (13, 2),
-(14, 2),
-(15, 2);
+(14, 2);
 
 INSERT INTO allergen(name)
 VALUES
@@ -197,13 +195,6 @@ VALUES
 
 INSERT INTO `cart`(`user`, product, quantity)
 VALUES
-('1', '1', '1'),
-('1', '7', '1'),
-('1', '8', '1'),
-('1', '11', '1'),
-('1', '12', '2'),
-('2', '1', '1'),
-('2', '7', '1'),
-('2', '8', '1'),
-('2', '11', '1'),
-('2', '12', '2');
+('1', '2', '4'),
+('2', '1', '3'),
+('3', '3', '2');
