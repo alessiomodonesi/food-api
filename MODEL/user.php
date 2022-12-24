@@ -1,7 +1,13 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 require __DIR__ . "/base.php";
 require __DIR__ . " /../COMMON/errorHandler.php";
+require "vendor\phpmailer\phpmailer\src\PHPMailer.php";
+require "vendor\phpmailer\phpmailer\src\Exception.php";
+require "vendor\phpmailer\phpmailer\src\SMTP.php";
+
 set_exception_handler("errorHandler::handleException");
 set_error_handler("errorHandler::handleError");
 
@@ -137,4 +143,28 @@ class User extends BaseController
         return $result;
     }
 
+    public function SendEmail($email, $password)
+    {
+        $to = $email;
+        $subject = 'Test reset passw';
+        $message = '
+        <html>
+            <head>
+             <title>Office supplies for March</title>
+            </head>
+            <body>
+                <h1> La tua password temporanea e`:' . $password . '</h1>
+            </body>
+        </html>
+        ';
+
+        $headers[] = 'MIME-Version: 1.0';
+        $headers[] = 'Content-type: text/html; charset=iso-8859-1';
+        $headers[] = 'From: WELA LA PASSWORD mattia.gallinaro@iisviolamarchiesini.edu.it';
+
+        //$headers[] = 'From: Supply Reminders <reminders@example.com>';
+
+        mail($to, $subject, $message, implode("\r\n", $headers));
+
+    }
 }
