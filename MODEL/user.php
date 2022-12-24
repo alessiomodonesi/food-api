@@ -4,9 +4,9 @@ use PHPMailer\PHPMailer\Exception;
 
 require __DIR__ . "/base.php";
 require __DIR__ . " /../COMMON/errorHandler.php";
-require "vendor\phpmailer\phpmailer\src\PHPMailer.php";
-require "vendor\phpmailer\phpmailer\src\Exception.php";
-require "vendor\phpmailer\phpmailer\src\SMTP.php";
+require __DIR__ . "/../vendor/phpmailer/phpmailer/src/PHPMailer.php";
+require __DIR__ . "/../vendor/phpmailer/phpmailer/src/Exception.php";
+require __DIR__ . "/../vendor/phpmailer/phpmailer/src/SMTP.php";
 
 set_exception_handler("errorHandler::handleException");
 set_error_handler("errorHandler::handleError");
@@ -143,28 +143,28 @@ class User extends BaseController
         return $result;
     }
 
-    public function SendEmail($email, $password)
+    public function SendEmail($email)
     {
-        $to = $email;
-        $subject = 'Test reset passw';
-        $message = '
-        <html>
-            <head>
-             <title>Office supplies for March</title>
-            </head>
-            <body>
-                <h1> La tua password temporanea e`:' . $password . '</h1>
-            </body>
-        </html>
-        ';
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
+        $mail->Host = "smtp.gmail.com";
+        $mail->SMTPAuth = true;
+        $mail->Username = "test.sandweches@gmail.com";
+        $mail->Password = "bxohttxlxlrmriax";
+        $mail->SMTPSecure = "tls";
+        $mail->Port = 587;
 
-        $headers[] = 'MIME-Version: 1.0';
-        $headers[] = 'Content-type: text/html; charset=iso-8859-1';
-        $headers[] = 'From: WELA LA PASSWORD mattia.gallinaro@iisviolamarchiesini.edu.it';
+        $mail->setFrom("test.sandweches@gmail.com");
+        $mail->addAddress($email);
+        $mail->isHTML(true);
+        $mail->Subject = "Prova PHPMailSender";
+        $mail->Body = "prova body";
 
-        //$headers[] = 'From: Supply Reminders <reminders@example.com>';
-
-        mail($to, $subject, $message, implode("\r\n", $headers));
-
+        if (!$mail->send()) {
+            echo 'Message could not be sent.';
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
+        } else {
+            echo 'Message has been sent';
+        }
     }
 }

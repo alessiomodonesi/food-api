@@ -4,25 +4,22 @@ require __DIR__ . "/../../MODEL/user.php";
 
 header("Content-type: application/json; charset=UTF-8");
 
-//$data = json_decode(file_get_contents("php://input"));
-
-$db = new Database();
-$db_conn = $db->connect();
-$user = new User($db_conn);
-
-echo json_encode($user);
-echo json_encode($db_conn);
-
 /*
-if (empty($data->id)) {
+$data = json_decode(file_get_contents("php://input"));
+if (empty($data->email) && empty($data->name) && empty($data->surname)) {
 http_response_code(400);
-echo json_encode(["message" => "Insert the id param"]);
+echo json_encode(["message" => "Insert the email, name and surname param"]);
 die();
 }
+*/
+
 $db = new Database();
 $db_conn = $db->connect();
 $user = new User($db_conn);
-$user->resetPassword($data->id);
+$user->SendEmail("mattzanini2@gmail.com");
+//$user->resetPassword($data->id);
+
+/*
 if ($user) {
 http_response_code(200);
 echo json_encode(["message" => "Passowrd resetted"]);
@@ -30,6 +27,6 @@ echo json_encode(["message" => "Passowrd resetted"]);
 http_response_code(400);
 echo json_encode(["message" => "Error"]);
 }
-die();
 */
+die();
 ?>

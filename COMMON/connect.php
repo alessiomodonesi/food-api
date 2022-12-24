@@ -2,22 +2,23 @@
 class Database
 {
     //credentials evomatic
-    protected $server = "192.168.100.1";
-    protected $user = "itis";
-    protected $passwd = "itis23K..";
-    protected $db = "smart_sandwich_5f";
+    private $server = "192.168.100.1";
+    private $user = "itis";
+    private $passwd = "itis23K..";
+    private $db = "smart_sandwich_5f";
 
     //credentials localhost
-    protected $server_local = "localhost";
-    protected $user_local = "root";
-    protected $passwd_local = "";
-    protected $db_local = "sandwiches";
+    private $server_local = "localhost";
+    private $user_local = "root";
+    private $passwd_local = "";
+    private $db_local = "sandwiches";
 
     //common credentials
-    protected $port = "3306";
+    private $port = "3306";
     public $conn;
 
-    public function connect()//effettua la connessione al server
+    public function connect() //effettua la connessione al server
+
     {
         try {
             $this->conn = new mysqli($this->server_local, $this->user_local, $this->passwd_local, $this->db_local, $this->port);
