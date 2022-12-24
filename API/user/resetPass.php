@@ -10,6 +10,9 @@ $db = new Database();
 $db_conn = $db->connect();
 $user = new User($db_conn);
 
+echo json_encode($user);
+echo json_encode($db_conn);
+
 /*
 if (empty($data->id)) {
 http_response_code(400);
