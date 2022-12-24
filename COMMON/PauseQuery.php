@@ -1,7 +1,7 @@
 <?php
 
 require __DIR__ . "../../COMMON/connect.php";
-require  '../../COMMON/errorHandler.php';
+require '../../COMMON/errorHandler.php';
 
 class Pause
 {
