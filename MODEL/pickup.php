@@ -9,14 +9,22 @@ set_error_handler("errorHandler::handleError");
 
 class PickUp
 {
-    private Connect $db;
+    protected $conn;
+
+    
+    public function __construct($db)
+    {
+        $this->conn=$db;
+    }
+
+    /*private Connect $db;
     private PDO $conn;
 
     public function __construct()
     {
         $this->db = new Connect;
         $this->conn = $this->db->getConnection();
-    }
+    }*/
 
 
     public function getArchivePickup()
@@ -26,9 +34,10 @@ class PickUp
             FROM pickup
             WHERE 1=1";
 
-        $stmt = $this->conn->prepare($sql);
+        return $this->conn->query($sql);
 
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        /*$stmt = $this->conn->prepare($sql);
+
+        return $stmt->execute();*/
     }
 }
