@@ -12,7 +12,7 @@ class Break_{
 
     public function getBreak($id) // Ottiene la ricreazione che ha l'id passato alla funzione   
     {
-        $query = "SELECT time FROM $this->table_name WHERE id = $id";
+        $query = "SELECT id, time FROM $this->table_name WHERE id = $id";
 
         $stmt = $this->conn->query($query);
 
