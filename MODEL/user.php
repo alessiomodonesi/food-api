@@ -1,5 +1,6 @@
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPOffice\PHPOffice\PHPSpreadsheet;
 use PHPMailer\PHPMailer\Exception;
 
 require __DIR__ . "/base.php";
@@ -26,6 +27,19 @@ class User extends BaseController
         $this->SendOutput($result, JSON_OK);
     }
 
+    protected function getUserFromEmail($email){
+
+        $sql = sprintf("SELECT id
+        FROM `user` 
+        WHERE email = '%s' ",
+            $this->conn->real_escape_string($email)
+        );
+
+        $result = $this->conn->query($sql);
+
+        return $result;
+    }
+
     public function deleteUser($id)
     {
         $sql = sprintf("UPDATE user 
@@ -38,7 +52,7 @@ class User extends BaseController
         return $result;
     }
 
-    public function resetPassword($id)
+    public function resetPassword($email)
     {
         $date = date("d:m:Y h:i:s");
 
@@ -48,9 +62,9 @@ class User extends BaseController
         // Update password con password temporanea
         $sql = sprintf("UPDATE `user`
         SET password = '%s'
-        where id = %d",
+        where email = '%s'",
             $this->conn->real_escape_string($password),
-            $this->conn->real_escape_string($id)
+            $this->conn->real_escape_string($email)
         );
 
         $result = $this->conn->query($sql);
@@ -63,34 +77,29 @@ class User extends BaseController
             return $result;
         }
 
-        $sql = null;
 
-        $sql = sprintf('SELECT email
-        from `user`
-        where id = %d',
-            $this->conn->real_escape_string($id)
-        );
+        $this->SendEmail($email, $password);
 
-        $result = $this->conn->query($sql);
+        $result = null;
 
-        /*while($row = $result->fetch_assoc()){
-        $this->sendEmail($row["email"], $password);
-        }*/
-
+        $result = $this->getUserFromEmail($this->conn->real_escape_string($email));
 
         unset($sql);
+
+        while($row = $result->fetch_assoc()){
+            
 
         //Aggiunge alla tabella reset 
         $sql = sprintf("INSERT INTO reset
         (user, password, completed)
-        VALUES (%d, '%s', 0)",
-            $this->conn->real_escape_string($id),
+        VALUES ('%s', '%s', 0)",
+            $this->conn->real_escape_string($row['id']),
             $this->conn->real_escape_string($password)
         );
         //$this->conn->real_escape_string(date("d:m:Y h:i:s", strtotime($date . '+ 5 Days'))) sistemare
 
-        $result = $this->conn->query($sql);
-        //echo json_encode(["message" => $result]);
+        };
+        
         return $password;
     }
 
@@ -143,22 +152,22 @@ class User extends BaseController
         return $result;
     }
 
-    public function SendEmail($email)
+    public function SendEmail($email, $password)
     {
         $mail = new PHPMailer(true);
         $mail->isSMTP();
         $mail->Host = "smtp.gmail.com";
         $mail->SMTPAuth = true;
-        $mail->Username = "test.sandweches@gmail.com";
-        $mail->Password = "bxohttxlxlrmriax";
+        $mail->Username = "sandwech.amministrazione.test@gmail.com";
+        $mail->Password = "jnupkpmzolyfmcpf";
         $mail->SMTPSecure = "tls";
         $mail->Port = 587;
 
-        $mail->setFrom("test.sandweches@gmail.com");
+        $mail->setFrom("sandwech.amministrazione.test@gmail.com");
         $mail->addAddress($email);
         $mail->isHTML(true);
         $mail->Subject = "Prova PHPMailSender";
-        $mail->Body = "prova body";
+        $mail->Body = "ecco la password : ".$password."";
 
         if (!$mail->send()) {
             echo 'Message could not be sent.';

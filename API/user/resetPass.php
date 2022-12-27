@@ -4,19 +4,22 @@ require __DIR__ . "/../../MODEL/user.php";
 
 header("Content-type: application/json; charset=UTF-8");
 
-/*
+
 $data = json_decode(file_get_contents("php://input"));
-if (empty($data->email) && empty($data->name) && empty($data->surname)) {
-http_response_code(400);
-echo json_encode(["message" => "Insert the email, name and surname param"]);
-die();
+
+
+if (empty($data->email) ||  $data->email == "" ) {
+    http_response_code(400);
+    echo json_encode(["message" => "Insert the email, name and surname param"]);
+    die();
 }
-*/
+
 
 $db = new Database();
 $db_conn = $db->connect();
 $user = new User($db_conn);
-$user->SendEmail("mattzanini2@gmail.com");
+$user->resetPassword($data->email);
+
 //$user->resetPassword($data->id);
 
 /*
