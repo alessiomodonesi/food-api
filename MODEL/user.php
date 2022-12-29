@@ -176,4 +176,45 @@ class User extends BaseController
             echo 'Message has been sent';
         }
     }
+
+    public function createTablePersons(){
+        $sql = sprintf("CREATE TABLE IF NOT EXISTS sandwiches.person (
+            name VARCHAR(64),
+            surname VARCHAR(64),
+            class VARCHAR(5),
+            section VARCHAR(5)
+            );");
+
+        $result = $this->conn->query($sql);
+
+        if($result){
+            echo "Table created";
+        }
+        else{
+            echo "Already there";
+        }
+
+    }
+
+    public function insert_Table($person){
+        $sql = sprintf("INSERT INTO person (name, surname, class, section)
+        VALUES('%s', '%s', '%s', '%s')",
+        $this->conn->real_escape_string($person[0]),
+        $this->conn->real_escape_string($person[1]),
+        $this->conn->real_escape_string($person[2]),
+        $this->conn->real_escape_string($person[3])
+        );
+
+        $this->conn->query($sql);
+    }
+
+    public function getUserFromTable(){
+        $sql = sprintf("SELECT *
+        FROM `user`
+        WHERE 1=1");
+
+        $result = $this->conn->query($sql);
+
+        return $result;
+    }
 }
