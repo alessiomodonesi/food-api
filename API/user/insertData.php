@@ -12,25 +12,25 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 ob_clean();
 
 
-$file_name = basename($_SERVER['REQUEST_URI']);
 
-$file_test = explode('.', $_FILES[$file_name]["name"]);
+$filename = $_FILES['fileTestApi']['name'];
 
-echo json_encode($file_name);
+// destination of the file on the server
+$destination = './' . $filename;
 
-/*$writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx();
-            $writer->save($file_name);
-            header('Content-Type: application/vnd.ms-excel');
-            header('Content-Disposition: attachment; filename='.$file_name.'');
-            $writer->save("php://output");
-            exit();*/
+// get the file extension
+$extension = pathinfo($filename, PATHINFO_EXTENSION);
 
-$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+// the physical file on a temporary uploads directory on the server
+$file = $_FILES['fileTestApi']['tmp_name'];
+$size = $_FILES['fileTestApi']['size'];
 
-$loaded = $reader->load($data);
+move_uploaded_file($file, $destination);
 
-$d = $reader->getSheet(0)->toArray();
 
-echo $data;
+$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReaderForFile($filename);
+$reader->setReadDataOnly(true);
+$reader->load($filename);
+
 die();
 ?>
