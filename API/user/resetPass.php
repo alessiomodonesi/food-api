@@ -18,7 +18,7 @@ if (empty($data->email) || $data->email == "") {
 $db = new Database();
 $db_conn = $db->connect();
 $user = new User($db_conn);
-$state = $user->resetPassword($data->email);
+$state = $user->ResetPassword($data->email);
 
 if ($state != false) {
     http_response_code(200);
@@ -30,6 +30,5 @@ if ($state != false) {
     */
     //c'è già una risposta se qualcosa non va nella funzione resetPassword()
 }
-
 die();
 ?>

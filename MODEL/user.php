@@ -41,7 +41,8 @@ class User extends BaseController
         return $result;
     }
 
-    public function getLastUserIdFromNameAndSur($name, $surname){
+    public function getLastUserIdFromNameAndSur($name, $surname)
+    {
         $sql = sprintf("SELECT id
         FROM `user`
         ORDER BY id DESC
@@ -67,7 +68,7 @@ class User extends BaseController
         return $result;
     }
 
-    public function resetPassword($email)
+    public function ResetPassword($email)
     {
         $date = date("d:m:Y h:i:s");
 
@@ -102,20 +103,16 @@ class User extends BaseController
         unset($sql);
 
         while ($row = $result->fetch_assoc()) {
-
-
             //Aggiunge alla tabella reset 
-            $sql = sprintf("INSERT INTO reset
-        (user, password, completed)
-        VALUES ('%s', '%s', 0)",
+            $sql = sprintf(
+                "INSERT INTO reset
+                (user, password, completed)
+                VALUES ('%s', '%s', 0)",
                 $this->conn->real_escape_string($row['id']),
                 $this->conn->real_escape_string($password)
             );
             //$this->conn->real_escape_string(date("d:m:Y h:i:s", strtotime($date . '+ 5 Days'))) sistemare
-
         }
-        ;
-
         return $password;
     }
 
@@ -186,13 +183,18 @@ class User extends BaseController
         $mail->Body = "ecco la password : " . $password . "";
 
         if (!$mail->send()) {
+            /*
             echo 'Message could not be sent.';
             echo 'Mailer Error: ' . $mail->ErrorInfo;
+            */
+            return $mail->ErrorInfo;
         } else {
-            echo 'Message has been sent';
+            //echo 'Message has been sent';
+            return true;
         }
     }
-    public function createTablePersons(){
+    public function createTablePersons()
+    {
 
         $sql = sprintf("CREATE TABLE IF NOT EXISTS sandwiches.person (
             name VARCHAR(64),
@@ -238,14 +240,14 @@ class User extends BaseController
 
         return $result;
     }
-    public function insert_User($name, $surname){
+    public function insert_User($name, $surname)
+    {
         $sql = sprintf("INSERT INTO `user` (name, surname, active)
         VALUES('%s', '%s' , false)",
             $this->conn->real_escape_string($name),
             $this->conn->real_escape_string($surname)
         );
-        
+
         $result = $this->conn->query($sql);
     }
 }
-
