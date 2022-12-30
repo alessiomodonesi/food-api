@@ -193,10 +193,7 @@ class User extends BaseController
         }
     }
     public function createTablePersons(){
-        $sql = sprintf("TRUNCATE `person`");
-        $this->conn->query($sql);
 
-        unset($sql);
         $sql = sprintf("CREATE TABLE IF NOT EXISTS sandwiches.person (
             name VARCHAR(64),
             surname VARCHAR(64),
@@ -212,6 +209,10 @@ class User extends BaseController
             echo "Already there";
         }
 
+        unset($sql);
+
+        $sql = sprintf("TRUNCATE `person`");
+        $this->conn->query($sql);
     }
 
     public function insert_Table($person)

@@ -56,32 +56,27 @@ $result = $user->getUserFromTable();
 
 $check = false;
 
+$users = array();
+
+while($row = $result->fetch_assoc()){
+    array_push($users, array($row["name"], $row["surname"]));
+}
 
 
 for ($index = 0; $index < sizeof($people); $index++) {
     $check = false;
-    while ($row = $result->fetch_assoc()){
-        if ($row["name"] == $people[$index][0] && $row["surname"] == $people[$index][1]) {
+    for ($index2 = 0; $index2 < sizeof($users); $index2++){
+        if (strcmp($users[$index2][0],$people[$index][0]) == 0 && strcmp($users[$index2][1],$people[$index][1]) == 0) {
             $check = true;
-            break;
+            break 1;
         }
     }
-    if ($check)
-        echo json_encode(["message" => "hello"]);
-    else
+    if (!$check){
         echo json_encode(["message" => "nope"]);
+        $user->insert_User($people[$index][0], $people[$index][1]);
+    }
 }
 
 
-
-
-/*function recursiveCheck($item, $array)
-{
-foreach ($array as $single) {
-if (is_array($single) && recursiveCheck($item, $single)) {
-echo json_encode(["message" => "FOUND IT"]);
-}
-}
-}*/
 die();
 ?>
