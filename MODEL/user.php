@@ -27,7 +27,8 @@ class User extends BaseController
         $this->SendOutput($result, JSON_OK);
     }
 
-    protected function getUserFromEmail($email){
+    protected function getUserFromEmail($email)
+    {
 
         $sql = sprintf("SELECT id
         FROM `user` 
@@ -86,20 +87,21 @@ class User extends BaseController
 
         unset($sql);
 
-        while($row = $result->fetch_assoc()){
-            
+        while ($row = $result->fetch_assoc()) {
 
-        //Aggiunge alla tabella reset 
-        $sql = sprintf("INSERT INTO reset
+
+            //Aggiunge alla tabella reset 
+            $sql = sprintf("INSERT INTO reset
         (user, password, completed)
         VALUES ('%s', '%s', 0)",
-            $this->conn->real_escape_string($row['id']),
-            $this->conn->real_escape_string($password)
-        );
-        //$this->conn->real_escape_string(date("d:m:Y h:i:s", strtotime($date . '+ 5 Days'))) sistemare
+                $this->conn->real_escape_string($row['id']),
+                $this->conn->real_escape_string($password)
+            );
+            //$this->conn->real_escape_string(date("d:m:Y h:i:s", strtotime($date . '+ 5 Days'))) sistemare
 
-        };
-        
+        }
+        ;
+
         return $password;
     }
 
@@ -167,7 +169,7 @@ class User extends BaseController
         $mail->addAddress($email);
         $mail->isHTML(true);
         $mail->Subject = "Prova PHPMailSender";
-        $mail->Body = "ecco la password : ".$password."";
+        $mail->Body = "ecco la password : " . $password . "";
 
         if (!$mail->send()) {
             echo 'Message could not be sent.';
@@ -177,7 +179,8 @@ class User extends BaseController
         }
     }
 
-    public function createTablePersons(){
+    public function createTablePersons()
+    {
         $sql = sprintf("CREATE TABLE IF NOT EXISTS sandwiches.person (
             name VARCHAR(64),
             surname VARCHAR(64),
@@ -187,28 +190,29 @@ class User extends BaseController
 
         $result = $this->conn->query($sql);
 
-        if($result){
+        if ($result) {
             echo "Table created";
-        }
-        else{
+        } else {
             echo "Already there";
         }
 
     }
 
-    public function insert_Table($person){
+    public function insert_Table($person)
+    {
         $sql = sprintf("INSERT INTO person (name, surname, class, section)
         VALUES('%s', '%s', '%s', '%s')",
-        $this->conn->real_escape_string($person[0]),
-        $this->conn->real_escape_string($person[1]),
-        $this->conn->real_escape_string($person[2]),
-        $this->conn->real_escape_string($person[3])
+            $this->conn->real_escape_string($person[0]),
+            $this->conn->real_escape_string($person[1]),
+            $this->conn->real_escape_string($person[2]),
+            $this->conn->real_escape_string($person[3])
         );
 
         $this->conn->query($sql);
     }
 
-    public function getUserFromTable(){
+    public function getUserFromTable()
+    {
         $sql = sprintf("SELECT *
         FROM `user`
         WHERE 1=1");
