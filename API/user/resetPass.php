@@ -8,9 +8,9 @@ header("Content-type: application/json; charset=UTF-8");
 $data = json_decode(file_get_contents("php://input"));
 
 
-if (empty($data->email) ||  $data->email == "" ) {
+if (empty($data->email) || $data->email == "") {
     http_response_code(400);
-    echo json_encode(["message" => "Insert the email, name and surname param"]);
+    echo json_encode(["message" => "Insert the email param"]);
     die();
 }
 
@@ -18,18 +18,18 @@ if (empty($data->email) ||  $data->email == "" ) {
 $db = new Database();
 $db_conn = $db->connect();
 $user = new User($db_conn);
-$user->resetPassword($data->email);
+$state = $user->resetPassword($data->email);
 
-//$user->resetPassword($data->id);
-
-/*
-if ($user) {
-http_response_code(200);
-echo json_encode(["message" => "Passowrd resetted"]);
+if ($state != false) {
+    http_response_code(200);
+    echo json_encode(["message" => "Passowrd resetted"]);
 } else {
-http_response_code(400);
-echo json_encode(["message" => "Error"]);
+    /*
+    http_response_code(400);
+    echo json_encode(["message" => "Error"]);
+    */
+    //c'è già una risposta se qualcosa non va nella funzione resetPassword()
 }
-*/
+
 die();
 ?>
