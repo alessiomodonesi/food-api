@@ -41,6 +41,20 @@ class User extends BaseController
         return $result;
     }
 
+    public function getLastUserIdFromNameAndSur($name, $surname){
+        $sql = sprintf("SELECT id
+        FROM `user`
+        ORDER BY id DESC
+        WHERE name = '%s' and surname = '%s'
+        LIMIT 1",
+            $this->conn->real_escape_string($name),
+            $this->conn->real_escape_string($surname)
+        );
+
+        $result = $this->conn->query($sql);
+    }
+
+
     public function deleteUser($id)
     {
         $sql = sprintf("UPDATE user 
@@ -178,9 +192,11 @@ class User extends BaseController
             echo 'Message has been sent';
         }
     }
+    public function createTablePersons(){
+        $sql = sprintf("TRUNCATE `person`");
+        $this->conn->query($sql);
 
-    public function createTablePersons()
-    {
+        unset($sql);
         $sql = sprintf("CREATE TABLE IF NOT EXISTS sandwiches.person (
             name VARCHAR(64),
             surname VARCHAR(64),
@@ -221,4 +237,14 @@ class User extends BaseController
 
         return $result;
     }
+    public function insert_User($name, $surname){
+        $sql = sprintf("INSERT INTO `user` (name, surname, active)
+        VALUES('%s', '%s' , false)",
+            $this->conn->real_escape_string($name),
+            $this->conn->real_escape_string($surname)
+        );
+        
+        $result = $this->conn->query($sql);
+    }
 }
+

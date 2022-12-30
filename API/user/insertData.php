@@ -13,21 +13,21 @@ ob_clean();
 $filename = $_FILES['fileTestApi']['name'];
 
 //punto in cui verrá salvato il file
-$destination = __DIR__. "/../../COMMON/". $filename;
+$destination = __DIR__ . "/../../COMMON/" . $filename;
 
 // ottiene l'estensione del file
 $extension = pathinfo($filename, PATHINFO_EXTENSION);
 
-$file = $_FILES['fileTestApi']['tmp_name'];//posizione temporanea in cui il file si trova
-$size = $_FILES['fileTestApi']['size'];//grandezza del file in byte
+$file = $_FILES['fileTestApi']['tmp_name']; //posizione temporanea in cui il file si trova
+$size = $_FILES['fileTestApi']['size']; //grandezza del file in byte
 
-move_uploaded_file($file, $destination);//sposta il file nella cartella specificata
+move_uploaded_file($file, $destination); //sposta il file nella cartella specificata
 
 $people = array();
 
-$reader = \PhpOffice\PhpSpreadsheet\IOFactory::load($destination);//carica il file excel data la posizione di esso
+$reader = \PhpOffice\PhpSpreadsheet\IOFactory::load($destination); //carica il file excel data la posizione di esso
 
-$spreadsheet = $reader->getActiveSheet();//ritorna la tabella corrente del file excel
+$spreadsheet = $reader->getActiveSheet(); //ritorna la tabella corrente del file excel
 
 $db = new Database();
 $db_conn = $db->connect();
@@ -38,15 +38,50 @@ $user->createTablePersons();
 //prende il valore di ogni cella, la inserisce nell'array person che 
 //contiene i dati della singola persona, li inserisce sulla tabella person
 //e li mette nell'array people
-for ($row = 2; $row < $spreadsheet->getHighestRow(); $row++){
+for ($row = 2; $row < $spreadsheet->getHighestRow(); $row++) {
     $person = array();
-    for($col = 'A'; $col != $spreadsheet->getHighestColumn(); $col++){
-        array_push($person, $spreadsheet->getCell($col . $row)->getValue());
+    for ($col = 'A'; $col != $spreadsheet->getHighestColumn(); $col++) {
+        $value = $spreadsheet->getCell($col . $row)->getValue();
+        if ($col == 'A' || $col == 'B') {
+            $value = strtolower($value);
+            $value = ucfirst($value);
+        }
+        array_push($person, $value);
     }
     array_push($people, $person);
     $user->insert_Table($person);
 }
 
-$user->getUserFromTable();
+$result = $user->getUserFromTable();
+
+$check = false;
+
+
+
+for ($index = 0; $index < sizeof($people); $index++) {
+    $check = false;
+    while ($row = $result->fetch_assoc()){
+        if ($row["name"] == $people[$index][0] && $row["surname"] == $people[$index][1]) {
+            $check = true;
+            break;
+        }
+    }
+    if ($check)
+        echo json_encode(["message" => "hello"]);
+    else
+        echo json_encode(["message" => "nope"]);
+}
+
+
+
+
+/*function recursiveCheck($item, $array)
+{
+foreach ($array as $single) {
+if (is_array($single) && recursiveCheck($item, $single)) {
+echo json_encode(["message" => "FOUND IT"]);
+}
+}
+}*/
 die();
 ?>

@@ -81,8 +81,8 @@ CREATE  TABLE sandwiches.`user` (
 	id                   INT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	name                 VARCHAR(64)  NOT NULL,
 	surname              VARCHAR(64)  NOT NULL,
-	email                VARCHAR(128)  NOT NULL,
-	password             VARCHAR(128)  NOT NULL,
+	email                VARCHAR(128),
+	password             VARCHAR(128),
 	active               BOOLEAN  NOT NULL DEFAULT (TRUE)    
  );
 
