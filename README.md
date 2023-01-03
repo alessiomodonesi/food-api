@@ -1,3 +1,3 @@
-# Sandewech
-## Back-end del progetto: sviluppo di un'app di gestione panini
+# Sandwech
+## Back-end del progetto Sandwech
 ### Vai a <a href="https://github.com/alessiomodonesi/food-app">food-app</a>
