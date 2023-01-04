@@ -1,4 +1,5 @@
 <?php
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPOffice\PHPOffice\PHPSpreadsheet;
 use PHPMailer\PHPMailer\Exception;
@@ -16,7 +17,8 @@ class User extends BaseController
 {
     public function getUser($id)
     {
-        $sql = sprintf("SELECT name, surname
+        $sql = sprintf(
+            "SELECT name, surname, email
             FROM user
             WHERE id = %d;",
             $this->conn->real_escape_string($id)
@@ -30,7 +32,8 @@ class User extends BaseController
     protected function getUserFromEmail($email)
     {
 
-        $sql = sprintf("SELECT id
+        $sql = sprintf(
+            "SELECT id
         FROM `user` 
         WHERE email = '%s' ",
             $this->conn->real_escape_string($email)
@@ -43,7 +46,8 @@ class User extends BaseController
 
     public function getLastUserIdFromNameAndSur($name, $surname)
     {
-        $sql = sprintf("SELECT id
+        $sql = sprintf(
+            "SELECT id
         FROM `user`
         ORDER BY id DESC
         WHERE name = '%s' and surname = '%s'
@@ -58,7 +62,8 @@ class User extends BaseController
 
     public function deleteUser($id)
     {
-        $sql = sprintf("UPDATE user 
+        $sql = sprintf(
+            "UPDATE user 
             SET active = 0 
             WHERE id = %d",
             $this->conn->real_escape_string($id)
@@ -76,7 +81,8 @@ class User extends BaseController
         $password = bin2hex(openssl_random_pseudo_bytes(4));
 
         // Update password con password temporanea
-        $sql = sprintf("UPDATE `user`
+        $sql = sprintf(
+            "UPDATE `user`
         SET password = '%s'
         where email = '%s'",
             $this->conn->real_escape_string($password),
@@ -137,7 +143,8 @@ class User extends BaseController
             return false;
         }
 
-        $sql = sprintf("UPDATE user 
+        $sql = sprintf(
+            "UPDATE user 
             SET password = '%s'
             WHERE email = '%s' AND password = '%s'",
             $this->conn->real_escape_string($newPassword),
@@ -153,7 +160,8 @@ class User extends BaseController
     public function registration($name, $surname, $email, $password)
     {
 
-        $sql = sprintf("INSERT INTO user (name , surname, email, password, active)
+        $sql = sprintf(
+            "INSERT INTO user (name , surname, email, password, active)
         VALUES ('%s', '%s', '%s', '%s', 1)",
             $this->conn->real_escape_string($name),
             $this->conn->real_escape_string($surname),
@@ -219,7 +227,8 @@ class User extends BaseController
 
     public function insert_Table($person)
     {
-        $sql = sprintf("INSERT INTO person (name, surname, class, section)
+        $sql = sprintf(
+            "INSERT INTO person (name, surname, class, section)
         VALUES('%s', '%s', '%s', '%s')",
             $this->conn->real_escape_string($person[0]),
             $this->conn->real_escape_string($person[1]),
@@ -242,7 +251,8 @@ class User extends BaseController
     }
     public function insert_User($name, $surname)
     {
-        $sql = sprintf("INSERT INTO `user` (name, surname, active)
+        $sql = sprintf(
+            "INSERT INTO `user` (name, surname, active)
         VALUES('%s', '%s' , false)",
             $this->conn->real_escape_string($name),
             $this->conn->real_escape_string($surname)
