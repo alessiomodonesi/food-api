@@ -143,7 +143,7 @@
         from product_order po
         inner join `order` o on o.id = po.`order`
         inner join product p on p.id = po.product 
-        where o.status = 1 and o.created > Now() - interval 2 hour and o.created < Now() + interval 2 hour 
+        where o.status = 1 and o.created > Now() - interval 6 hour and o.created < Now() + interval 6 hour 
         group by po.product ;";
 
         $result = $this->conn->query($sql);

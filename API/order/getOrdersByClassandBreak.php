@@ -9,7 +9,7 @@ $db = new Database();
 $db_conn = $db->connect();
 
 $order = new Order($db_conn);
-$result = $order->getProductsOrder();
+$result = $order->getOrderByClassAndBreak();
 
 if($result->num_rows > 0){
     $output = array();
