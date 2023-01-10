@@ -138,7 +138,31 @@
                 return "";
             }
         }
+        function getProductsOrder(){
+        $sql = "SELECT po.product, p.name ,count(po.product) as 'quantity'
+        from product_order po
+        inner join `order` o on o.id = po.`order`
+        inner join product p on p.id = po.product 
+        where o.status = 1 and o.created > Now() - interval 2 hour and o.created < Now() + interval 2 hour 
+        group by po.product ;";
 
+        $result = $this->conn->query($sql);
+
+        return $result;
+        }
+
+        function getOrderByClassAndBreak(){
+        $sql = "SELECT c.id, c.`year` , c.`section` , o.break , count(po.product) as quantity, po.product  
+            from product_order po 
+            inner join `order` o on o.id = po.`order`
+            inner join user_class uc on uc.`user` = o.`user` 
+            inner join class c on c.id = uc.class 
+            group by c.id , o.break ;";
+
+        $result = $this->conn->query($sql);
+
+        return $result;
+        }
         
     }
 ?>
