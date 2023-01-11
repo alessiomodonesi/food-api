@@ -16,7 +16,16 @@ $db = new Database();
 $db_conn = $db->connect();
 $product = new ProductController($db_conn);
 
-
+/*esempio json
+{
+    "products":
+        [
+            {"ID": 1, "quantity" : 3, "action" : "set"},
+            {"ID": 2, "quantity" : 5, "action" : "add"},
+            {"ID": 3, "quantity" : 6, "action" : "remove"}
+        ]
+}
+*/
 foreach(json_decode(json_encode($data->products), true) as $single_mod){
     echo json_encode($single_mod, true);
     switch($single_mod['action']){
