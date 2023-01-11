@@ -16,7 +16,7 @@ $db_conn = $db->connect();
 $id_break = explode("?BREAK_ID=", $_SERVER['REQUEST_URI'])[1];*/
 
 $order = new Order($db_conn);
-$result = $order->getOrderByClassAndBreak();
+$result = $order->getProductsOrder();
 
 if($result->num_rows > 0){
     $output = array();
