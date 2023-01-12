@@ -46,8 +46,8 @@ VALUES
 ('Piadina con salame', 3, 'Piadina con salame ungherese', 20, 2),
 ('Brioche con crema', 2, 'Brioche con crema pasticcera', 20, 3),
 ('Briosche con cioccolato', 2, 'Brioche con crema al cioccolato', 20, 3),
-('Croccantelle', 2, 'Piadina con salame ungherese', 20, 4),
-('Patatine', 2, 'Piadina con salame ungherese', 20, 4),
+('Croccantelle', 2, 'Croccantelle al gusto bacon', 20, 4),
+('Patatine', 2, 'Patatine San Carlo', 20, 4),
 ('Coca Cola', 2, 'Bibita gassata', 20, 5),
 ('The al limone', 2, 'Bibita dolce', 20, 5),
 ('Red Bull', 2, 'Bibita energetica', 20, 5);
