@@ -1,0 +1,366 @@
+{
+    "allergen": [
+        {
+            "Field": "id",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "name",
+            "Type": "varchar(64)"
+        }
+    ],
+    "break": [
+        {
+            "Field": "id",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "time",
+            "Type": "time"
+        }
+    ],
+    "cart": [
+        {
+            "Field": "user",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "product",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "quantity",
+            "Type": "int(10) unsigned"
+        }
+    ],
+    "class": [
+        {
+            "Field": "id",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "year",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "section",
+            "Type": "varchar(1)"
+        }
+    ],
+    "favourite": [
+        {
+            "Field": "user",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "product",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "created",
+            "Type": "timestamp"
+        }
+    ],
+    "ingredient": [
+        {
+            "Field": "id",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "name",
+            "Type": "varchar(64)"
+        },
+        {
+            "Field": "description",
+            "Type": "varchar(128)"
+        },
+        {
+            "Field": "price",
+            "Type": "decimal(4,2) unsigned"
+        },
+        {
+            "Field": "extra",
+            "Type": "tinyint(1)"
+        },
+        {
+            "Field": "quantity",
+            "Type": "int(10) unsigned"
+        }
+    ],
+    "nutritional_value": [
+        {
+            "Field": "id",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "kcal",
+            "Type": "int(11)"
+        },
+        {
+            "Field": "fats",
+            "Type": "decimal(4,2)"
+        },
+        {
+            "Field": "saturated_fats",
+            "Type": "decimal(4,2)"
+        },
+        {
+            "Field": "carbohydrates",
+            "Type": "decimal(4,2)"
+        },
+        {
+            "Field": "sugars",
+            "Type": "decimal(4,2)"
+        },
+        {
+            "Field": "proteins",
+            "Type": "decimal(4,2)"
+        },
+        {
+            "Field": "fiber",
+            "Type": "decimal(4,2)"
+        },
+        {
+            "Field": "salt",
+            "Type": "decimal(4,2)"
+        }
+    ],
+    "offer": [
+        {
+            "Field": "id",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "price",
+            "Type": "decimal(4,2) unsigned"
+        },
+        {
+            "Field": "start",
+            "Type": "timestamp"
+        },
+        {
+            "Field": "expiry",
+            "Type": "timestamp"
+        },
+        {
+            "Field": "description",
+            "Type": "varchar(128)"
+        }
+    ],
+    "order": [
+        {
+            "Field": "id",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "user",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "created",
+            "Type": "timestamp"
+        },
+        {
+            "Field": "pickup",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "break",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "status",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "json",
+            "Type": "longtext"
+        }
+    ],
+    "pickup": [
+        {
+            "Field": "id",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "name",
+            "Type": "varchar(128)"
+        }
+    ],
+    "pickup_break": [
+        {
+            "Field": "pickup",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "break",
+            "Type": "int(10) unsigned"
+        }
+    ],
+    "product": [
+        {
+            "Field": "id",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "name",
+            "Type": "varchar(64)"
+        },
+        {
+            "Field": "price",
+            "Type": "decimal(4,2) unsigned"
+        },
+        {
+            "Field": "description",
+            "Type": "varchar(128)"
+        },
+        {
+            "Field": "quantity",
+            "Type": "int(11)"
+        },
+        {
+            "Field": "nutritional_value",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "active",
+            "Type": "tinyint(1)"
+        }
+    ],
+    "product_allergen": [
+        {
+            "Field": "product",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "allergen",
+            "Type": "int(10) unsigned"
+        }
+    ],
+    "product_ingredient": [
+        {
+            "Field": "product",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "ingredient",
+            "Type": "int(10) unsigned"
+        }
+    ],
+    "product_offer": [
+        {
+            "Field": "product",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "offer",
+            "Type": "int(10) unsigned"
+        }
+    ],
+    "product_order": [
+        {
+            "Field": "product",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "order",
+            "Type": "int(10) unsigned"
+        }
+    ],
+    "product_tag": [
+        {
+            "Field": "product",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "tag",
+            "Type": "int(10) unsigned"
+        }
+    ],
+    "reset": [
+        {
+            "Field": "id",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "user",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "password",
+            "Type": "varchar(128)"
+        },
+        {
+            "Field": "requested",
+            "Type": "timestamp"
+        },
+        {
+            "Field": "expires",
+            "Type": "timestamp"
+        },
+        {
+            "Field": "completed",
+            "Type": "tinyint(1)"
+        }
+    ],
+    "status": [
+        {
+            "Field": "id",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "description",
+            "Type": "varchar(64)"
+        }
+    ],
+    "tag": [
+        {
+            "Field": "id",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "name",
+            "Type": "varchar(32)"
+        }
+    ],
+    "user": [
+        {
+            "Field": "id",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "name",
+            "Type": "varchar(64)"
+        },
+        {
+            "Field": "surname",
+            "Type": "varchar(64)"
+        },
+        {
+            "Field": "email",
+            "Type": "varchar(128)"
+        },
+        {
+            "Field": "password",
+            "Type": "varchar(128)"
+        },
+        {
+            "Field": "active",
+            "Type": "tinyint(1)"
+        }
+    ],
+    "user_class": [
+        {
+            "Field": "user",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "class",
+            "Type": "int(10) unsigned"
+        },
+        {
+            "Field": "year",
+            "Type": "year(4)"
+        }
+    ]
+}
