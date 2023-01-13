@@ -211,7 +211,7 @@
         unset($sql);
         $orders =  array();
         while($row = $pickup_points->fetch_assoc()){
-            $sql = sprintf("SELECT p.name as Punto_di_consegna, o.id as Id_Ordine , concat(u.name , u.surname) as Utente
+            $sql = sprintf("SELECT p.name as Punto_di_consegna, o.id as Id_Ordine , concat(u.name ,' ', u.surname) as Utente
             FROM `order` o
             INNER JOIN pickup p on p.id = o.pickup
             INNER JOIN `user` u on u.id = o.`user`
