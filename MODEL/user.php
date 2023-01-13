@@ -260,4 +260,16 @@ class User extends BaseController
 
         $result = $this->conn->query($sql);
     }
+
+    public function addClass($year, $section){
+        $sql = sprintf(
+            "INSERT INTO class (year, section)
+        VALUES(%d , '%s')",
+            $this->conn->real_escape_string($year),
+            $this->conn->real_escape_string($section)
+        );
+
+        $result = $this->conn->query($sql);
+        return $result;
+    }
 }
