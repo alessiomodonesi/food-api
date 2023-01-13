@@ -163,6 +163,38 @@
 
         return $result;
         }
-        
+
+    public function getActiveOrdersByClass()
+    {
+        $sql = "SELECT c.id, c.`year`, c.`section`
+        FROM class c 
+        WHERE 1=1";
+
+        $classes = $this->conn->query($sql);
+
+        unset($sql);
+        $orders = array();
+        while($row =  $classes->fetch_assoc()){
+
+            $sql = sprintf("SELECT c.id as id_classe, c.`year` as anno_classe , c.`section` as sezione, o.id as id_ordine
+            FROM `order` o
+            INNER JOIN `user` u on u.id = o.`user`
+            INNER JOIN user_class uc on uc.`user` = u.id
+            INNER JOIN class c on c.id = uc.class
+            WHERE c.`year` =  %d and c.`section` = '%s' and o.status = 1; ",
+            $this->conn->real_escape_string($row['year']),
+            $this->conn->real_escape_string($row['section'])
+        );
+
+            $result = $this->conn->query($sql);
+            while($row_col = $result->fetch_assoc()){
+                array_push($orders, $row_col);
+            }
+            unset($sql);
+            unset($result);
+        }
+
+        return $orders;
     }
+}
 ?>

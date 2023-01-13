@@ -2,28 +2,18 @@
 require("../../COMMON/connect.php");
 require("../../MODEL/product.php");
 
-if (isset($_GET["name"]))
-    $name = $_GET["name"];
 
-if (isset($_GET["price"]))
-    $price = $_GET["price"];
 
-if (isset($_GET["description"]))
-    $description = $_GET["description"];
+$data = json_decode(file_get_contents('php://input'));
 
-if (isset($_GET["quantity"]))
-    $quantity = $_GET["quantity"];
-
-if (isset($_GET["nutritional_value"]))
-    $nutritional_value = $_GET["nutritional_value"];
-
-    
-if (isset($_GET["active"]))
-$active = $_GET["active"];
+if(empty($data) || empty($data->name) ||empty($data->price) ||empty($data->description) ||empty($data->quantity) || empty($data->nutritional_value) ||empty($data->active)){
+    echo json_encode('Bad request');
+    die();
+}
 
 $database = new Database();
 $db_connection = $database->connect();
 
 $controller = new ProductController($db_connection);
-$controller->setProduct($name, $price, $description, $quantity, $nutritional_value,$active);
+$controller->setProduct($data->name, $data->price, $data->description, $data->quantity, $data->nutritional_value,$data->active);
 ?>

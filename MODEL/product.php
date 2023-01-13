@@ -103,9 +103,19 @@ class ProductController extends BaseController
     }
     public function setProduct($name, $price, $description, $quantity, $nutritional_value, $active)
     {
-        $sql = "insert into product(name, price, description, quantity, nutritional_value,active)
+        /*$sql = "insert into product(name, price, description, quantity, nutritional_value,active)
                 values
-                (" . $name . ", " . $price . ", " . $description . ", " . $quantity . ", " . $nutritional_value . ", " . $active . ");";
+                (" . $name . ", " . $price . ", " . $description . ", " . $quantity . ", " . $nutritional_value . ", " . $active . ");";*/
+
+        $sql = sprintf("INSERT INTO product(name, price, description, quantity, nutritional_value, active)
+        VALUES('%s',%d,'%s',%d, %d , %d)",
+        $this->conn->real_escape_string($name),
+        $this->conn->real_escape_string($price),
+        $this->conn->real_escape_string($description),
+        $this->conn->real_escape_string($quantity),
+        $this->conn->real_escape_string($nutritional_value),
+        $this->conn->real_escape_string($active)
+        );
 
         $this->conn->query($sql);
         $this->CheckProduct();
