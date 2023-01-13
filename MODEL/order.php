@@ -200,5 +200,60 @@
 
         return $orders;
     }
+
+    public function getActiveOrdersByPickup(){
+        $sql = "SELECT p.id, p.name
+        FROM pickup p
+        WHERE 1=1";
+
+        $pickup_points = $this->conn->query($sql);
+
+        unset($sql);
+        $orders =  array();
+        while($row = $pickup_points->fetch_assoc()){
+            $sql = sprintf("SELECT p.name as 'Punto di consegna', o.id as 'Id Ordine' , concat(u.name , u.surname) as 'Utente'
+            FROM `order` o
+            INNER JOIN pickup p on p.id = o.pickup
+            INNER JOIN `user` u on u.id = o.`user`
+            WHERE o.status = 1 and p.id = %d",
+            $this->conn->real_escape_string($row['id']));
+
+            $result = $this->conn->query($sql);
+
+            unset($sql);
+            while($single_ord = $result->fetch_assoc()){
+                array_push($orders, $single_ord);
+            }
+            unset($result);
+        }
+        return $orders;
+    }
+    public function getActiveOrdersByBreak(){
+        $sql = "SELECT b.id , b.time
+        FROM break b
+        WHERE 1=1";
+
+        $break_times = $this->conn->query($sql);
+
+        unset($sql);
+        $orders = array();
+        while($time =  $break_times->fetch_assoc()){
+            $sql = sprintf("SELECT b.time as Orario_della_ricreazione,  o.id as Id_Ordine, concat(u.name , u.surname) as Utente
+            FROM `order` o 
+            INNER JOIN break b on b.id = o.break
+            INNER JOIN `user` u on u.id = o.`user`
+            WHERE o.status = 1 and b.id = %d", 
+            $this->conn->real_escape_string($time['id']));
+
+            $result = $this->conn->query($sql);
+            unset($sql);
+            while($single_ord = $result->fetch_assoc()){
+                array_push($orders, $single_ord);
+            }
+            unset($result);
+
+        }
+        return $orders;
+    }
 }
 ?>
