@@ -272,4 +272,22 @@ class User extends BaseController
         $result = $this->conn->query($sql);
         return $result;
     }
+    public function getUserClass(){
+        $year = date('Y');
+        $sql = sprintf("SELECT *
+        FROM user_class uc
+        INNER JOIN `user` u on u.id = uc.`user`
+        INNER JOIN class c on c.id =  uc.class 
+        WHERE %d < uc.`year` < %d",
+        $this->conn->real_escape_string($year),
+    $this->conn->real_escape_string($year+1));   
+    }
+
+    public function getActiveUsers(){
+        $sql = sprintf("SELECT id, email, name , surname 
+        FROM `user` 
+        WHERE active = 1");
+        $result = $this->conn->query($sql);
+        return $result;
+    }
 }

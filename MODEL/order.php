@@ -246,7 +246,9 @@
             $this->conn->real_escape_string($time['id']));
 
             $result = $this->conn->query($sql);
+
             unset($sql);
+            
             while($single_ord = $result->fetch_assoc()){
                 array_push($orders, $single_ord);
             }
