@@ -278,15 +278,53 @@ class User extends BaseController
         FROM user_class uc
         INNER JOIN `user` u on u.id = uc.`user`
         INNER JOIN class c on c.id =  uc.class 
-        WHERE %d < uc.`year` < %d",
+        WHERE  uc.`year` BETWEEN %d AND %d
+        ORDER BY uc.`year` DESC",
         $this->conn->real_escape_string($year),
-    $this->conn->real_escape_string($year+1));   
+        $this->conn->real_escape_string($year+1)); 
+        
+        $result = $this->conn->query($sql);
+        return $result;  
     }
 
     public function getActiveUsers(){
         $sql = sprintf("SELECT id, email, name , surname 
         FROM `user` 
         WHERE active = 1");
+        $result = $this->conn->query($sql);
+        return $result;
+    }
+
+    public function getSingleClass($class, $section){
+        $sql = sprintf("SELECT id
+        FROM class
+        WHERE year = %d AND section = '%s'",
+            $this->conn->real_escape_string($class),
+            $this->conn->real_escape_string($section)
+        );
+        $result = $this->conn->query($sql);
+        return $result->fetch_assoc();
+    }
+    public function addClassUser($id, $class){
+        $year = date('Y');
+        $sql = sprintf(
+            "INSERT INTO user_class (`user`, class, year)
+        VALUES(%d, %d, %d)",
+            $this->conn->real_escape_string($id),
+            $this->conn->real_escape_string($class),
+            $this->conn->real_escape_string($year)
+        );
+
+        $result = $this->conn->query($sql);
+        return $result;
+    }
+
+    public function removeClassUser($user, $class){
+        $sql = sprintf(
+            "DELETE FROM user_class WHERE `user` = %d AND class = %d",
+            $this->conn->real_escape_string($user),
+            $this->conn->real_escape_string($class)
+        );
         $result = $this->conn->query($sql);
         return $result;
     }
