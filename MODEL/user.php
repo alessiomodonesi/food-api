@@ -380,6 +380,37 @@ class User extends BaseController
         WHERE 1=1;";
 
         $result = $this->conn->query($sql);
-        return $
+        return $result;
     }
+
+
+  public function importOrderUser($userID, $section, $year)
+  {
+      $idclass=$this->getSingleClass($year, $section)->fetch_assoc();
+
+      $sql = sprintf(
+          "INSERT INTO user_class(`user`,class)
+           value  (%d,%d);",
+          $this->conn->real_escape_string($userID),
+          $this->conn->real_escape_string($idclass["id"])
+      );
+
+      $result = $this->conn->query($sql);
+  }
+
+
+  public function updateOrderUser($userID, $section, $year)
+  {
+      $idclass=$this->getSingleClass($year, $section)->fetch_assoc();
+
+      $sql = sprintf(
+          "UPDATE user_class 
+           set class=%d
+           where id=%d;",
+          $this->conn->real_escape_string($idclass["id"]),
+          $this->conn->real_escape_string($userID)
+      );
+
+      $result = $this->conn->query($sql);
+  }
 }

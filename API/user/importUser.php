@@ -45,8 +45,9 @@ $update = $user->importUser($data[4]->name, $data[4]->surname, $data[4]->email);
 for ($i = 0; $i < $importDataLength; $i++) {
     $nontrovato = 0;
     for ($j = 0; $j < $tableLength; $j++) {
-        if ($data[$i]->name == $records[$j]["name"] && $data[$i]->surname == $records[$j]["surname"] && $data[$i]->email == $records[$j]["email"]) {
+        if ($data[$i]->name == $records[$j]["name"] && $data[$i]->surname == $records[$j]["surname"]) {
             $update = $user->updateUser($data[$i]->id,$data[$i]->name, $data[$i]->surname, $data[$i]->email, $data[$i]->password, $data[$i]->active);
+            $user->updateOrderUser($data[$i]->id,$data[$i]->section,$data[$i]->year);
             if ($update) {
                 http_response_code(201);
                 echo json_encode(["message" => "GGGGGG AGGIORNATO"]);
@@ -61,6 +62,7 @@ for ($i = 0; $i < $importDataLength; $i++) {
 
         if ($nontrovato == $tableLength) {
             $import = $user->importUser($data[$i]->name, $data[$i]->surname, $data[$i]->email);
+            $user->importOrderUser($data[$i]->id,$data[$i]->section,$data[$i]->year);
             if ($import) {
                 http_response_code(201);
                 echo json_encode(["message" => "GGGGGG IMPORTATO"]);
