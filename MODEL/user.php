@@ -330,8 +330,8 @@ class User extends BaseController
     }
 
     public function importUser($name,$surname,$email){
-        $sql="INSERT INTO `user` (name,surname,email,active)
-              value(".$name.",".$surname.",".$email.");";
+        $sql="INSERT into `user` (NULL,name,surname,email,password,active)
+              value(NULL,".$name.",".$surname.",".$email.",'','1');";
 
         $result=$this->conn->query($sql);
         return $result;
@@ -339,8 +339,8 @@ class User extends BaseController
 
     public function updateUser($id,$name,$surname,$email,$passwd,$active){
         $sql="UPDATE `user`
-              SET name=".$name.",surname=".$surname.",email=".$email.",password=".$passwd.", active=".$active."
-              WHERE id=".$id." ;";
+              set name=".$name.",surname=".$surname.",email=".$email.",password=".$passwd.", active=".$active."
+              where id=".$id.";";
 
         $result=$this->conn->query($sql);
         
