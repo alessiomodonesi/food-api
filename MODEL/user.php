@@ -328,4 +328,43 @@ class User extends BaseController
         $result = $this->conn->query($sql);
         return $result;
     }
+
+    public function importUser($name,$surname,$email,$active){
+        $sql="INSERT INTO `user` (name,surname,email,active)
+              value(".$name.",".$surname.",".$email.",".$active.");";
+
+        $result=$this->conn->query($sql);
+        return $result;
+    }
+
+    public function updateUser($name,$surname,$email,$passwd,$active){
+        $sql="UPDATE `user` (name,surname,email,password,active)
+              SET 
+              name=".$name."
+              surname=".$surname."
+              email=".$email."
+              password=".$passwd."
+              active=".$active.";";
+
+        $result=$this->conn->query($sql);
+        return $result;
+    }
+
+    public function getUsers(){
+        $sql="SELECT * 
+                FROM `user`
+                WHERE active=1";
+
+        $result=$this->conn->query($sql);
+        return $result;
+    }
+
+    public function disactiveUser($id){
+        $sql="UPDATE `user`
+                SET active=0
+                WHERE id=".$id.";";
+
+        $result=$this->conn->query($sql);
+        return $result;
+    }
 }
