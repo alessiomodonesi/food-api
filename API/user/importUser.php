@@ -36,7 +36,7 @@ while ($row = $result->fetch_assoc()) {
 $importDataLength = count($data);
 $tableLength = count($records);
 
-$update = $user->updateUser($data[3]->id,$data[3]->name, $data[3]->surname, $data[3]->email, $data[3]->password, $data[3]->active);
+$update = $user->updateUser($data[3]->id, $data[3]->name, $data[3]->surname, $data[3]->email, $data[3]->password, $data[3]->active);
 $update = $user->importUser($data[4]->name, $data[4]->surname, $data[4]->email);
 //print_r($records[0]["name"]);
 

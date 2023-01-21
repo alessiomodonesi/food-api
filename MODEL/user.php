@@ -330,17 +330,27 @@ class User extends BaseController
     }
 
     public function importUser($name,$surname,$email){
-        $sql="INSERT into `user` (NULL,name,surname,email,password,active)
-              value(NULL,".$name.",".$surname.",".$email.",'','1');";
+        $sql=sprintf("INSERT INTO `user` (name,surname,email,password,active)
+              value('%s', '%s' ,'', '', 1);",
+              $this->conn->real_escape_string($name),
+              $this->conn->real_escape_string($surname)
+            );
 
         $result=$this->conn->query($sql);
         return $result;
     }
 
     public function updateUser($id,$name,$surname,$email,$passwd,$active){
-        $sql="UPDATE `user`
-              set name=".$name.",surname=".$surname.",email=".$email.",password=".$passwd.", active=".$active."
-              where id=".$id.";";
+        $sql=sprintf("UPDATE `user`
+              set name= '%s' ,surname='%s',email='%s',password='%s', active= %d
+              where id= %d;", 
+              $this->conn->real_escape_string($name),
+            $this->conn->real_escape_string($surname),
+            $this->conn->real_escape_string($email),
+            $this->conn->real_escape_string($passwd),
+            $this->conn->real_escape_string($active),
+            $this->conn->real_escape_string($id)
+        );
 
         $result=$this->conn->query($sql);
         
