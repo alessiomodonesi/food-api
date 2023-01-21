@@ -36,12 +36,13 @@ while ($row = $result->fetch_assoc()) {
 $importDataLength = count($data);
 $tableLength = count($records);
 
+//print_r($records);
 
 //IMPORTA O AGGIORNA
 for ($i = 0; $i < $importDataLength; $i++) {
     $nontrovato = 0;
     for ($j = 0; $j < $tableLength; $j++) {
-        if ($data[$i]->name == $result[$j]->name && $data[$i]->surname == $result[$j]->surname && $data[$i]->email == $result[$j]->email) {
+        if ($data[$i]->name == $records[$j]->name && $data[$i]->surname == $records[$j]->surname && $data[$i]->email == $records[$j]->email) {
             $update = $user->updateUser($data[$i]->name, $data[$i]->surname, $data[$i]->email, $data[$i]->password, $data[$i]->active);
             if ($update) {
                 http_response_code(201);
