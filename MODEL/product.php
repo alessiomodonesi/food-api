@@ -104,17 +104,17 @@ class ProductController extends BaseController
     public function setProduct($name, $price, $description, $quantity, $nutritional_value, $active)
     {
         /*$sql = "insert into product(name, price, description, quantity, nutritional_value,active)
-                values
-                (" . $name . ", " . $price . ", " . $description . ", " . $quantity . ", " . $nutritional_value . ", " . $active . ");";*/
+        values
+        (" . $name . ", " . $price . ", " . $description . ", " . $quantity . ", " . $nutritional_value . ", " . $active . ");";*/
 
         $sql = sprintf("INSERT INTO product(name, price, description, quantity, nutritional_value, active)
         VALUES('%s',%d,'%s',%d, %d , %d)",
-        $this->conn->real_escape_string($name),
-        $this->conn->real_escape_string($price),
-        $this->conn->real_escape_string($description),
-        $this->conn->real_escape_string($quantity),
-        $this->conn->real_escape_string($nutritional_value),
-        $this->conn->real_escape_string($active)
+            $this->conn->real_escape_string($name),
+            $this->conn->real_escape_string($price),
+            $this->conn->real_escape_string($description),
+            $this->conn->real_escape_string($quantity),
+            $this->conn->real_escape_string($nutritional_value),
+            $this->conn->real_escape_string($active)
         );
 
         $this->conn->query($sql);
@@ -146,6 +146,7 @@ class ProductController extends BaseController
     }
 
     public function getArchiveProductsLike($name) // mostra i panini che hanno un nome simile a quello passato
+
     {
         $formattedName = str_replace("+", " ", $name);
         $sql = "SELECT distinct p.id as 'ID',p.name as 'Nome prodotto', p.price as 'Prezzo', t.id as 'Tag'
@@ -173,36 +174,42 @@ class ProductController extends BaseController
         $this->SendOutput($result, JSON_OK);
     }
 
-    public function setProductQuantity($id,$value){
+    public function setProductQuantity($id, $value)
+    {
         $sql = sprintf("UPDATE product
         SET quantity = %d
         WHERE id = %d",
-        $this->conn->real_escape_string($value),
-        $this->conn->real_escape_string($id));
+            $this->conn->real_escape_string($value),
+            $this->conn->real_escape_string($id)
+        );
         $result = $this->conn->query($sql);
-        if($result == 1){
+        if ($result == 1) {
             //echo json_encode("Well done");
         }
     }
-    public function addProductQuantity($id,$value){
+    public function addProductQuantity($id, $value)
+    {
         $sql = sprintf("UPDATE product
         SET quantity = quantity + %d
         WHERE id = %d",
-        $this->conn->real_escape_string($value),
-        $this->conn->real_escape_string($id));
+            $this->conn->real_escape_string($value),
+            $this->conn->real_escape_string($id)
+        );
         $result = $this->conn->query($sql);
-        if($result == 1){
+        if ($result == 1) {
             //echo json_encode("Well done");
         }
     }
-    public function removeProductQuantity($id,$value){
+    public function removeProductQuantity($id, $value)
+    {
         $sql = sprintf("UPDATE product
         SET quantity = quantity - %d
         WHERE id = %d",
-        $this->conn->real_escape_string($value),
-        $this->conn->real_escape_string($id));
+            $this->conn->real_escape_string($value),
+            $this->conn->real_escape_string($id)
+        );
         $result = $this->conn->query($sql);
-        if($result == 1){
+        if ($result == 1) {
             //echo json_encode("Well done");
         }
     }
