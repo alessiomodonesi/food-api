@@ -374,5 +374,12 @@ class User extends BaseController
         $result=$this->conn->query($sql);
         return $result;
     }
+    public function getArchiveUser(){
+        $sql = "SELECT *
+        FROM `user` u
+        WHERE 1=1;";
 
+        $result = $this->conn->query($sql);
+        return $
+    }
 }

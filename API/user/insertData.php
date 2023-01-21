@@ -79,7 +79,7 @@ for($j = 0; $j < sizeof($studenti); $j++){
         $result = strcmp($studenti[$j]['name'], $people[$i][0]);
         echo ($result);
         //echo ($studenti[$j]['name'] == $people[$i][0] && $studenti[$j]['surname'] == $people[$i][1] && $studenti[$j]['class'] != substr($people[$i][2], 0, 1) && $studenti[$j]['section'] != substr($people[$i][3], 0, 1));
-        if(strcmp($studenti[$j]['name'], $people[$i][0]) == 0  && strcmp($studenti[$j]['surname'], $people[$i][1]) == 0 && strcmp($studenti[$j]['class'] , substr($people[$i][2], 0, 1)) != 0 && strcmp($studenti[$j]['section'] , substr($people[$i][3], 0 , 1)) != 0){
+        if(strcmp($studenti[$j]['name'], $people[$i][0]) == 0  && strcmp($studenti[$j]['surname'], $people[$i][1]) == 0 && strcmp($studenti[$j]['class'] , substr($people[$i][2], 0, 1)) != 0 && strcmp($studenti[$j]['section'] , substr($people[$i][3], 0 , 1)) != 0 && (intval(substr($people[$i][2], 0 , 1)) - intval($studenti[$j]['class'])) <= 1){
             echo 'Dentro 1';
             $found = true;
             $different_class = true;
@@ -93,17 +93,28 @@ for($j = 0; $j < sizeof($studenti); $j++){
             $id_person = $i;
             break;
         }
+        else if($found && !$different_class){
+            echo 'Dentro 3';
+
+        }
     }
     if($found && $different_class){
         $id_class = $user->getSingleClass(substr($people[$i][2], 0, 1), $people[$id_person][3]);//aggiungere la rimozione di un collegamento user class prima di inserirne uno nuovo in modo che ogni utente sia collegato ad una sola classe ogni anno
         echo json_encode($id_class);
         $result_modify = $user->addClassUser($studenti[$j]['user'], $id_class['id']);
+
         //unset($persons_to_add[]->$id_person); devo rimuovere l'id della persona che è già stata modificata o usando la funzione unset ma poi ponendo attenzione agli id già eliminati oppure mettere campo id più id per capire quale elemento eliminare
         echo json_encode($result_modify);
     }
     else if(!$found){
         $result_deactive = $user->deleteUser($studenti[$j]['user']);
         echo json_encode($result_deactive);
+    }
+    else if($found && !$different_class){
+        echo 'Dentro 3';
+        //remove the id from the list $persons_to_add
+        //array_splice($persons_to_add, $id_person)
+        
     }
     $found = false;
     $different_class = false;
