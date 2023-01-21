@@ -329,24 +329,21 @@ class User extends BaseController
         return $result;
     }
 
-    public function importUser($name,$surname,$email,$active){
+    public function importUser($name,$surname,$email){
         $sql="INSERT INTO `user` (name,surname,email,active)
-              value(".$name.",".$surname.",".$email.",".$active.");";
+              value(".$name.",".$surname.",".$email.");";
 
         $result=$this->conn->query($sql);
         return $result;
     }
 
-    public function updateUser($name,$surname,$email,$passwd,$active){
-        $sql="UPDATE `user` (name,surname,email,password,active)
-              SET 
-              name=".$name."
-              surname=".$surname."
-              email=".$email."
-              password=".$passwd."
-              active=".$active.";";
+    public function updateUser($id,$name,$surname,$email,$passwd,$active){
+        $sql="UPDATE `user`
+              SET name=".$name.",surname=".$surname.",email=".$email.",password=".$passwd.", active=".$active."
+              WHERE id=".$id." ;";
 
         $result=$this->conn->query($sql);
+        
         return $result;
     }
 
@@ -367,4 +364,5 @@ class User extends BaseController
         $result=$this->conn->query($sql);
         return $result;
     }
+
 }
