@@ -11,7 +11,7 @@ class Database
     private $server_local = "localhost";
     private $user_local = "root";
     private $passwd_local = "";
-    private $db_local = "sandwiches";
+    private $db_local = "sandwiches_copy";
 
     //common credentials
     private $port = "3306";
