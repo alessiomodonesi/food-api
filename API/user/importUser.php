@@ -69,13 +69,14 @@ $update = $user->importUser($data[4]->nome, $data[4]->cognome, $data[4]->email);
 for ($i = 0; $i < $recordsLength; $i++) {
     $presence = false;
     for ($j = 0; $j < $dataLength; $j++) {
-        //ultima iterazione
-        if ($j == $dataLength - 1 && $data[$j]->anno == "1" && (strtolower($records[$i]["name"]) == strtolower($data[$j]->nome) && strtolower($records[$i]["surname"]) == strtolower($data[$j]->cognome)) == false) {
-            echo $data[$j]->nome . " " . $data[$j]->cognome . " non trovato e aggiunto, PRIMINO\n";
-        } else if (strtolower($records[$i]["name"]) == strtolower($data[$j]->nome) && strtolower($records[$i]["surname"]) == strtolower($data[$j]->cognome)) {
+        if (strtolower($records[$i]["name"]) == strtolower($data[$j]->nome) && strtolower($records[$i]["surname"]) == strtolower($data[$j]->cognome)) {
             echo $data[$j]->nome . " " . $data[$j]->cognome . " presente e aggioranto\n";
             $presence = true;
             break; // trovato, quindi non serve continuare la corrente iterazione del for
+        }
+        //ultima iterazione
+        else if ($j == $dataLength - 1 && $data[$j]->anno == "1" && (strtolower($records[$i]["name"]) == strtolower($data[$j]->nome) && strtolower($records[$i]["surname"]) == strtolower($data[$j]->cognome)) == false) {
+            echo $data[$j]->nome . " " . $data[$j]->cognome . " non trovato e aggiunto, PRIMINO\n";
         }
     }
     if ($presence == false) {
