@@ -11,14 +11,13 @@ $db_conn = $db->connect();
 $order = new Order($db_conn);
 $result = $order->getOrderByClassAndBreak();
 
-if($result->num_rows > 0){
+if ($result->num_rows > 0) {
     $output = array();
-    while($row = $result->fetch_assoc()){
+    while ($row = $result->fetch_assoc()) {
         array_push($output, [$row['year'], $row['section'], $row['quantity'], $row['product']]);
     }
     echo json_encode($output);
-}
-else{
+} else {
     echo json_encode("Nothing");
 }
 ?>

@@ -19,5 +19,5 @@ $database = new Database();
 $db_connection = $database->connect();
 
 $controller = new ProductController($db_connection);
-$controller->setIngredient($name, $description,$price, $quantity);
+$controller->setIngredient($name, $description, $price, $quantity);
 ?>

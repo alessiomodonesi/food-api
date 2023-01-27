@@ -52,4 +52,34 @@ class BaseController
             }
         }
     }
+    public function StudentAlreadyExists($array, $obj)
+    {
+        //echo "Studente da controllare: " . $obj->nome . " " . $obj->cognome . " Grandezza array: " . count($array) . "\n";
+        if (count($array) == 0) {
+            return false;
+        }
+        for ($i = 0; $i < count($array); $i++) {
+            if (
+                    $array[$i]->nome == $obj->nome
+                && $array[$i]->cognome == $obj->cognome
+                && $array[$i]->classe == $obj->classe
+                && $array[$i]->sezione == $obj->sezione
+                && $array[$i]->indirizzo_studi == $obj->indirizzo_studi
+                && $array[$i]->email == $obj->email
+                && $array[$i]->anno == $obj->anno
+            ) {
+                return true;
+            }
+        }
+        return false;
+        /*
+        [nome] => NOME STUDENTE
+        [cognome] => COGNOME STUDENTE
+        [classe] => 5E ITIS - ITIA - INFORMATICA
+        [sezione] => E
+        [indirizzo_studi] => INFORMATICA
+        [email] => EMAIL STUDENTE
+        [anno] => 5
+        */
+    }
 }

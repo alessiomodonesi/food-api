@@ -2,7 +2,7 @@
 require("../../COMMON/connect.php");
 require("../../MODEL/product.php");
 
-if (!isset($_GET["panino"]) || empty($_GET['panino'])){
+if (!isset($_GET["panino"]) || empty($_GET['panino'])) {
     http_response_code(400);
     echo json_encode(array("Message" => "Bad request"));
     die();

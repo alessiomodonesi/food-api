@@ -5,8 +5,6 @@ require("../../MODEL/user.php");
 header("Content-type: application/json; charset=UTF-8");
 
 $data = json_decode(file_get_contents("php://input"));
-//print_r($data[0]);
-
 /*
 [nome] => ADRIANA
 [cognome] => IACHIM
@@ -46,8 +44,6 @@ while ($row = $result->fetch_assoc()) {
 $dataLength = count($data);
 $recordsLength = count($records);
 
-//print_r($records[0]);
-
 /*
 [id] => 1
 [name] => Mattia
@@ -59,70 +55,62 @@ $recordsLength = count($records);
 
 /*
 $update = $user->updateUser($data[3]->id, $data[3]->nome, $data[3]->cognome, $data[3]->email, $data[3]->password, $data[3]->active);
-$update = $user->importUser($data[4]->nome, $data[4]->cognome, $data[4]->email);*/
-//print_r($records[0]["nome"]);
-
+$update = $user->importUser($data[4]->nome, $data[4]->cognome, $data[4]->email);
+*/
 //echo "DATABASE: " . gettype($records), "\n";
 //echo "DATA: " . gettype($data), "\n";
+
+$newStudents = array(); //array con gli studenti nuovi
+
+$students = array();
+$students["new"] = array(); //nuovi studenti
 
 
 for ($i = 0; $i < $recordsLength; $i++) {
     $presence = false;
     for ($j = 0; $j < $dataLength; $j++) {
-        if (strtolower($records[$i]["name"]) == strtolower($data[$j]->nome) && strtolower($records[$i]["surname"]) == strtolower($data[$j]->cognome)) {
+        if (
+            strtolower($records[$i]["name"]) == strtolower($data[$j]->nome)
+            && strtolower($records[$i]["surname"]) == strtolower($data[$j]->cognome)
+        ) {
             echo $data[$j]->nome . " " . $data[$j]->cognome . " presente e aggioranto\n";
             $presence = true;
             break; // trovato, quindi non serve continuare la corrente iterazione del for
         }
-        //ultima iterazione
-        else if ($j == $dataLength - 1 && $data[$j]->anno == "1" && (strtolower($records[$i]["name"]) == strtolower($data[$j]->nome) && strtolower($records[$i]["surname"]) == strtolower($data[$j]->cognome)) == false) {
-            echo $data[$j]->nome . " " . $data[$j]->cognome . " non trovato e aggiunto, PRIMINO\n";
-        }
     }
-    if ($presence == false) {
+    if ($presence == false && $records[$i]["active"] == "1") {
         echo $records[$i]["name"] . " " . $records[$i]["surname"] . " non trovato e disattivato\n";
     }
 }
+//print_r($newStudents);
+/*
+foreach ($newStudents as $nSTD) {
+    echo $nSTD->nome . " " . $nSTD->cognome . " nuovo studente\n";
+    $userNew = $user->importUser($nSTD->nome, $nSTD->cognome, $nSTD->email);
+}
+*/
 
+$result = $user->getUsers(); //PRENDO TUTTI GLI UTENTI
+$records = array();
+while ($row = $result->fetch_assoc()) {
+    array_push($records, $row);
+}
+$recordsLength = count($records);
 
-
-
-die();
-
-
-//IMPORTA O AGGIORNA
-for ($i = 0; $i < $importDataLength; $i++) {
-    $nontrovato = 0;
-    for ($j = 0; $j < $tableLength; $j++) {
-        if ($data[$i]->nome == $records[$j]["nome"] && $data[$i]->cognome == $records[$j]["cognome"]) {
-            $update = $user->updateUser($data[$i]->id, $data[$i]->nome, $data[$i]->cognome, $data[$i]->email, $data[$i]->password, $data[$i]->active);
-            $user->updateOrderUser($data[$i]->id, $data[$i]->section, $data[$i]->year);
-            if ($update) {
-                http_response_code(201);
-                echo json_encode(["message" => "GGGGGG AGGIORNATO"]);
-            } else {
-                http_response_code(400);
-                echo json_encode(["message" => "MALE MALE"]);
-            }
+for ($i = 0; $i < $dataLength; $i++) {
+    $presence = false;
+    for ($j = 0; $j < $recordsLength; $j++) {
+        if (
+            strtolower($records[$j]["name"]) == strtolower($data[$i]->nome)
+            && strtolower($records[$j]["surname"]) == strtolower($data[$i]->cognome)
+        ) {
+            echo $data[$j]->nome . " " . $data[$j]->cognome . " presente e non cambiato\n";
+            $presence = true;
             break;
-        } else {
-            $nontrovato++;
-        }
-
-        if ($nontrovato == $tableLength) {
-            $import = $user->importUser($data[$i]->nome, $data[$i]->cognome, $data[$i]->email);
-            $user->importOrderUser($data[$i]->id, $data[$i]->section, $data[$i]->year);
-            if ($import) {
-                http_response_code(201);
-                echo json_encode(["message" => "GGGGGG IMPORTATO"]);
-            } else {
-                http_response_code(400);
-                echo json_encode(["message" => "MALE MALE"]);
-            }
         }
     }
+    if ($presence == false) {
+        echo $data[$i]->nome . " " . $data[$i]->cognome . " non trovato e aggiunto\n";
+    }
 }
-
-
-//print_r($records);
 die();

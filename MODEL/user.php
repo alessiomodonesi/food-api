@@ -261,7 +261,8 @@ class User extends BaseController
         $result = $this->conn->query($sql);
     }
 
-    public function addClass($year, $section){
+    public function addClass($year, $section)
+    {
         $sql = sprintf(
             "INSERT INTO class (year, section)
         VALUES(%d , '%s')",
@@ -272,7 +273,8 @@ class User extends BaseController
         $result = $this->conn->query($sql);
         return $result;
     }
-    public function getUserClass(){
+    public function getUserClass()
+    {
         $year = date('Y');
         $sql = sprintf("SELECT *
         FROM user_class uc
@@ -280,14 +282,16 @@ class User extends BaseController
         INNER JOIN class c on c.id =  uc.class 
         WHERE  uc.`year` BETWEEN %d AND %d
         ORDER BY uc.`year` DESC",
-        $this->conn->real_escape_string($year),
-        $this->conn->real_escape_string($year+1)); 
-        
+            $this->conn->real_escape_string($year),
+            $this->conn->real_escape_string($year + 1)
+        );
+
         $result = $this->conn->query($sql);
-        return $result;  
+        return $result;
     }
 
-    public function getActiveUsers(){
+    public function getActiveUsers()
+    {
         $sql = sprintf("SELECT id, email, name , surname 
         FROM `user` 
         WHERE active = 1");
@@ -295,7 +299,8 @@ class User extends BaseController
         return $result;
     }
 
-    public function getSingleClass($class, $section){
+    public function getSingleClass($class, $section)
+    {
         $sql = sprintf("SELECT id
         FROM class
         WHERE year = %d AND section = '%s'",
@@ -305,7 +310,8 @@ class User extends BaseController
         $result = $this->conn->query($sql);
         return $result->fetch_assoc();
     }
-    public function addClassUser($id, $class){
+    public function addClassUser($id, $class)
+    {
         $year = date('Y');
         $sql = sprintf(
             "INSERT INTO user_class (`user`, class, year)
@@ -319,7 +325,8 @@ class User extends BaseController
         return $result;
     }
 
-    public function removeClassUser($user, $class){
+    public function removeClassUser($user, $class)
+    {
         $sql = sprintf(
             "DELETE FROM user_class WHERE `user` = %d AND class = %d",
             $this->conn->real_escape_string($user),
@@ -329,22 +336,25 @@ class User extends BaseController
         return $result;
     }
 
-    public function importUser($name,$surname,$email){
-        $sql=sprintf("INSERT INTO `user` (name,surname,email,password,active)
-              value('%s', '%s' ,'', '', 1);",
-              $this->conn->real_escape_string($name),
-              $this->conn->real_escape_string($surname)
-            );
+    public function importUser($name, $surname, $email)
+    {
+        $sql = sprintf("INSERT INTO `user` (name,surname,email,password,active)
+              value('%s', '%s' ,'%s', '', 1);",
+            $this->conn->real_escape_string($name),
+            $this->conn->real_escape_string($surname),
+            $this->conn->real_escape_string($email)
+        );
 
-        $result=$this->conn->query($sql);
+        $result = $this->conn->query($sql);
         return $result;
     }
 
-    public function updateUser($id,$name,$surname,$email,$passwd,$active){
-        $sql=sprintf("UPDATE `user`
+    public function updateUser($id, $name, $surname, $email, $passwd, $active)
+    {
+        $sql = sprintf("UPDATE `user`
               set name= '%s' ,surname='%s',email='%s',password='%s', active= %d
-              where id= %d;", 
-              $this->conn->real_escape_string($name),
+              where id= %d;",
+            $this->conn->real_escape_string($name),
             $this->conn->real_escape_string($surname),
             $this->conn->real_escape_string($email),
             $this->conn->real_escape_string($passwd),
@@ -352,29 +362,32 @@ class User extends BaseController
             $this->conn->real_escape_string($id)
         );
 
-        $result=$this->conn->query($sql);
-        
+        $result = $this->conn->query($sql);
+
         return $result;
     }
 
-    public function getUsers(){
-        $sql="SELECT * 
+    public function getUsers()
+    {
+        $sql = "SELECT * 
                 FROM `user`
                 WHERE active=1";
 
-        $result=$this->conn->query($sql);
+        $result = $this->conn->query($sql);
         return $result;
     }
 
-    public function disactiveUser($id){
-        $sql="UPDATE `user`
+    public function disactiveUser($id)
+    {
+        $sql = "UPDATE `user`
                 SET active=0
-                WHERE id=".$id.";";
+                WHERE id=" . $id . ";";
 
-        $result=$this->conn->query($sql);
+        $result = $this->conn->query($sql);
         return $result;
     }
-    public function getArchiveUser(){
+    public function getArchiveUser()
+    {
         $sql = "SELECT *
         FROM `user` u
         WHERE 1=1;";
@@ -384,33 +397,33 @@ class User extends BaseController
     }
 
 
-  public function importOrderUser($userID, $section, $year)
-  {
-      $idclass=$this->getSingleClass($year, $section)->fetch_assoc();
+    public function importOrderUser($userID, $section, $year)
+    {
+        $idclass = $this->getSingleClass($year, $section)->fetch_assoc();
 
-      $sql = sprintf(
-          "INSERT INTO user_class(`user`,class)
+        $sql = sprintf(
+            "INSERT INTO user_class(`user`,class)
            value  (%d,%d);",
-          $this->conn->real_escape_string($userID),
-          $this->conn->real_escape_string($idclass["id"])
-      );
+            $this->conn->real_escape_string($userID),
+            $this->conn->real_escape_string($idclass["id"])
+        );
 
-      $result = $this->conn->query($sql);
-  }
+        $result = $this->conn->query($sql);
+    }
 
 
-  public function updateOrderUser($userID, $section, $year)
-  {
-      $idclass=$this->getSingleClass($year, $section)->fetch_assoc();
+    public function updateOrderUser($userID, $section, $year)
+    {
+        $idclass = $this->getSingleClass($year, $section)->fetch_assoc();
 
-      $sql = sprintf(
-          "UPDATE user_class 
+        $sql = sprintf(
+            "UPDATE user_class 
            set class=%d
            where id=%d;",
-          $this->conn->real_escape_string($idclass["id"]),
-          $this->conn->real_escape_string($userID)
-      );
+            $this->conn->real_escape_string($idclass["id"]),
+            $this->conn->real_escape_string($userID)
+        );
 
-      $result = $this->conn->query($sql);
-  }
+        $result = $this->conn->query($sql);
+    }
 }

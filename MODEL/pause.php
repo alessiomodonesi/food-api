@@ -29,14 +29,14 @@ class Pause
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getBreakByPickup($pickup_id) 
+    public function getBreakByPickup($pickup_id)
     {
         $sql = "SELECT break.time, pickup.name
                 FROM pickup_break
                 INNER JOIN break ON break.id = pickup_break.break
                 INNER JOIN pickup ON pickup.id = pickup_break.pickup
                 WHERE pickup_break.pickup = :pickup_id";
-        
+
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':pickup_id', $pickup_id);
 
