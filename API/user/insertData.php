@@ -40,7 +40,7 @@ $user->createTablePersons();
 //e li mette nell'array people
 for ($row = 2; $row < $spreadsheet->getHighestRow(); $row++) {
     $person = array();
-    for ($col = 'A'; $col != $spreadsheet->getHighestColumn(); $col++) {
+    for ($col = 'A'; $col != 'E'; $col++) {
         $value = $spreadsheet->getCell($col . $row)->getValue();
         if ($col == 'A' || $col == 'B') {
             $value = strtolower($value);
@@ -71,11 +71,12 @@ for ($i = 0; $i < sizeof($people); $i++) {
 //echo json_encode($people);
 //echo sizeof($studenti);
 //echo sizeof($people);
-for ($j = 0; $j < sizeof($studenti); $j++) {
-    for ($i = 0; $i < sizeof($people); $i++) {
+for($j = 0; $j < sizeof($studenti); $j++){
+    $total = sizeof($people);
+    for ($i = 0; $i < $total; $i++) {
         //echo $studenti[$j]['name'] . $people[$i][0] . $studenti[$j]['surname'] . $people[$i][1] . $studenti[$j]['class'] . substr($people[$i][2], 0, 1) . $studenti[$j]['section'] . substr($people[$i][3], 0 , 1) . '<br />';
         $test = intval(substr($people[$i][2], 0, 1)) - intval($studenti[$j]['class']); //serve affinchè non controlli utenti che abbiano stesso nome ma che sia in anni differenti e quindi poi il controllo dovrà essere posto a 0 <= $test <= 1in modo che la differenza minima sia di un anno, evenutali casi di cambiamento si devono vedere in altro modo (controllando il cambio della sezione) 
-        echo 'Valore di test:' . $test . '<br />';
+        echo 'Valore di test:' . $test . '<br>';
         $result = strcmp($studenti[$j]['name'], $people[$i][0]);
         echo ($result);
         //echo ($studenti[$j]['name'] == $people[$i][0] && $studenti[$j]['surname'] == $people[$i][1] && $studenti[$j]['class'] != substr($people[$i][2], 0, 1) && $studenti[$j]['section'] != substr($people[$i][3], 0, 1));
@@ -90,27 +91,25 @@ for ($j = 0; $j < sizeof($studenti); $j++) {
             $found = true;
             $different_class = false;
             $id_person = $i;
+            //removeElement($people, $id_person);
             break;
-        } else if ($found && !$different_class) {
-            echo 'Dentro 3';
-
         }
     }
     if ($found && $different_class) {
         $id_class = $user->getSingleClass(substr($people[$i][2], 0, 1), $people[$id_person][3]); //aggiungere la rimozione di un collegamento user class prima di inserirne uno nuovo in modo che ogni utente sia collegato ad una sola classe ogni anno
-        echo json_encode($id_class);
+        //echo json_encode($id_class);
         $result_modify = $user->addClassUser($studenti[$j]['user'], $id_class['id']);
-
+        removeElement($people, $id_person);
         //unset($persons_to_add[]->$id_person); devo rimuovere l'id della persona che è già stata modificata o usando la funzione unset ma poi ponendo attenzione agli id già eliminati oppure mettere campo id più id per capire quale elemento eliminare
-        echo json_encode($result_modify);
+        //echo json_encode($result_modify);
     } else if (!$found) {
-        $result_deactive = $user->deleteUser($studenti[$j]['user']);
-        echo json_encode($result_deactive);
+        //$result_deactive = $user->deleteUser($studenti[$j]['user']);
+        //echo json_encode($result_deactive);
     } else if ($found && !$different_class) {
         echo 'Dentro 3';
         //remove the id from the list $persons_to_add
         //array_splice($persons_to_add, $id_person)
-
+        removeElement($people, $id_person);
     }
     $found = false;
     $different_class = false;
@@ -118,14 +117,22 @@ for ($j = 0; $j < sizeof($studenti); $j++) {
 }
 
 
-
-for ($i = 0; $i < sizeof($persons_to_add); $i++) {
-    //$id_user = $user->insert_user($people[$j]['name']
+//echo json_encode($people);
+for ($i = 0; $i < sizeof($people); $i++) {
+    //$id_user = $user->insert_user($people[$j]['name'])
     //$result->insert_id; per ottenere l'id dell'ultima persona inserita
     //$id_class = $user->getSingleClass(substr($people[$i][2], 0, 1), $people[$i][3]);
     //$result = $user->addClassUser($id_user, $id_class);
 }
 
+function removeElement(&$persons, $id){
+    $counter = 0;
+    echo 'Trovato';
+    for($i = $id; $i < sizeof($persons) - $counter; $i++){
+        $persons[$i] = $persons[$i + 1];
+        $counter++;
+    }
+}
 /* $user->insert_Table($person);
 $result = $user->getUserFromTable();
 $check = false;
@@ -153,5 +160,6 @@ array_push($real_data, array($row["name"], $row["surname"], $row['year'], $row['
 }
 for ($index = 0; $index < sizeof($users); $index++) {
 }*/
+
 die();
 ?>

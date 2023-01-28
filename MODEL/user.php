@@ -292,14 +292,16 @@ class User extends BaseController
     public function getUserClass()
     {
         $year = date('Y');
+        //if(date('m') < 9){
+        //    $year -= 1;
+        //}
         $sql = sprintf("SELECT *
         FROM user_class uc
         INNER JOIN `user` u on u.id = uc.`user`
         INNER JOIN class c on c.id =  uc.class 
-        WHERE  uc.`year` BETWEEN %d AND %d
+        WHERE  uc.`year` = %d
         ORDER BY uc.`year` DESC",
-            $this->conn->real_escape_string($year),
-            $this->conn->real_escape_string($year + 1)
+        $this->conn->real_escape_string($year)
         );
 
         $result = $this->conn->query($sql);
