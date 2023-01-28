@@ -1,4 +1,4 @@
-<?php 
+<?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
@@ -14,7 +14,7 @@ if (!strpos($_SERVER["REQUEST_URI"], "?ID=")) // Controlla se l'URI contiene ?ID
     echo json_encode(array("Message" => "Bad request"));
 }
 
-$id = explode("?ID=" ,$_SERVER['REQUEST_URI'])[1]; // Viene ricavato quello che c'è dopo ?ID
+$id = explode("?ID=", $_SERVER['REQUEST_URI'])[1]; // Viene ricavato quello che c'è dopo ?ID
 
 $order = new Order($db);
 
@@ -23,25 +23,24 @@ $stmt = $order->getOrder($id);
 if ($stmt->num_rows > 0) // Se la funzione getOrder ha ritornato dei record
 {
     $order_arr = array();
-    while($record = $stmt->fetch_assoc()) // trasforma una riga in un array e lo fa per tutte le righe di un record
+    while ($record = $stmt->fetch_assoc()) // trasforma una riga in un array e lo fa per tutte le righe di un record
     {
-       extract($record);
-       $order_record = array(
-        'id' => $id,
-        'user' => $user,
-        'created' => $created,
-        'pickup' => $pickup,
-        'break' => $break,
-        'status' => $status,
-        'json' => json_decode($json)
-       );
-       array_push($order_arr, $order_record);
+        extract($record);
+        $order_record = array(
+            'id' => $id,
+            'user' => $user,
+            'created' => $created,
+            'pickup' => $pickup,
+            'break' => $break,
+            'status' => $status,
+            'json' => json_decode($json)
+        );
+        array_push($order_arr, $order_record);
     }
     http_response_code(200);
     echo json_encode($order_arr, JSON_PRETTY_PRINT);
     //return json_encode($order_arr);
-}
-else {
+} else {
     http_response_code(404);
     echo json_encode(array("Message" => "No record"));
     //return json_encode(array("Message" => "No record"));

@@ -9,23 +9,21 @@ $db = new Database();
 $db_conn = $db->connect();
 
 /*if(!strpos($_SERVER['REQUEST_URI'], "?BREAK_ID=") && !isset(explode("?BREAK_ID=", $_SERVER['REQUEST_URI'])[1])){
-    http_response_code(404);
-    echo json_encode(["message" => "Bad Request"]);
+http_response_code(404);
+echo json_encode(["message" => "Bad Request"]);
 }
-
 $id_break = explode("?BREAK_ID=", $_SERVER['REQUEST_URI'])[1];*/
 
 $order = new Order($db_conn);
 $result = $order->getProductsOrder();
 
-if($result->num_rows > 0){
+if ($result->num_rows > 0) {
     $output = array();
-    while($row = $result->fetch_assoc()){
+    while ($row = $result->fetch_assoc()) {
         array_push($output, [$row['name'], $row['quantity']]);
     }
     echo json_encode($output);
-}
-else{
+} else {
     echo json_encode("Nothing");
 }
 ?>

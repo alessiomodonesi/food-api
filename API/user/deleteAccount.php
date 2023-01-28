@@ -5,7 +5,7 @@ header("Content-type: application/json; charset=UTF-8");
 
 
 //per verificare i parametri della query
-if(parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY) == null){
+if (parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY) == null) {
     http_response_code(400);
     echo json_encode(["message" => "Id missing"]);
     die();
@@ -21,7 +21,7 @@ if (empty($id)) {
 
 
 $db = new Database();
-$db_conn = $db -> connect();
+$db_conn = $db->connect();
 $user = new User($db_conn);
 
 

@@ -12,21 +12,18 @@ $offer = new Offer($db);
 
 $stmt = $offer->getArchiveOffer();
 
-if ($stmt->num_rows > 0) 
-{
+if ($stmt->num_rows > 0) {
     $offer_arr = array();
 
-    while($record = $stmt->fetch_assoc())
-    {
-       $offer_arr[] = $record;
+    while ($record = $stmt->fetch_assoc()) {
+        $offer_arr[] = $record;
     }
 
     $json = json_encode($offer_arr);
     echo $json;
 
     //return $json;
-}
-else {
+} else {
     http_response_code(200);
     echo json_encode(["message" => "No record found"]);
 }

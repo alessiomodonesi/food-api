@@ -12,21 +12,18 @@ $allergen = new Allergen($db);
 
 $stmt = $allergen->getArchiveAllergen();
 
-if ($stmt->num_rows > 0)
-{
+if ($stmt->num_rows > 0) {
     $allergen_arr = array();
 
-    while($record = $stmt->fetch_assoc())
-    {
-       $allergen_arr[] = $record;
+    while ($record = $stmt->fetch_assoc()) {
+        $allergen_arr[] = $record;
     }
     http_response_code(200);
     $json = json_encode($allergen_arr);
     echo $json;
 
     //return $json;
-}
-else {
+} else {
     http_response_code(400);
     echo json_encode(["message" => "No record"]);
 }

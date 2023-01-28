@@ -10,7 +10,7 @@ $db = $database->connect();
 
 $data = json_decode(file_get_contents("php://input"));
 
-if(empty($data) || empty($data->product) || empty($data->allergen)){
+if (empty($data) || empty($data->product) || empty($data->allergen)) {
     http_response_code(400);
     die(json_encode(array("Message" => "Bad request")));
 }
@@ -19,12 +19,10 @@ if(empty($data) || empty($data->product) || empty($data->allergen)){
 $productAllergen = new ProductAllergen($db);
 $stmt = $productAllergen->setProductAllergen($data->product, $data->allergen);
 
-if ($stmt > 0)
-{
+if ($stmt > 0) {
     http_response_code(200);
     echo json_encode(["message" => "Association inserted"]);
-}
-else {
+} else {
     http_response_code(400);
     echo json_encode(["message" => "Association not inserted"]);
 }
