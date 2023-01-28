@@ -44,6 +44,22 @@ class User extends BaseController
         return $result;
     }
 
+    public function GetUserFromCredentials($name, $surname)
+    {
+
+        $sql = sprintf(
+            "SELECT id
+            FROM `user` 
+            WHERE name = '%s' and surname = '%s';",
+            $this->conn->real_escape_string($name),
+            $this->conn->real_escape_string($surname)
+        );
+
+        $result = $this->conn->query($sql);
+
+        return $result;
+    }
+
     public function getLastUserIdFromNameAndSur($name, $surname)
     {
         $sql = sprintf(
@@ -265,7 +281,7 @@ class User extends BaseController
     {
         $sql = sprintf(
             "INSERT INTO class (year, section)
-        VALUES(%d , '%s')",
+            VALUES(%d , '%s')",
             $this->conn->real_escape_string($year),
             $this->conn->real_escape_string($section)
         );
@@ -315,12 +331,54 @@ class User extends BaseController
         $year = date('Y');
         $sql = sprintf(
             "INSERT INTO user_class (`user`, class, year)
-        VALUES(%d, %d, %d)",
+            VALUES(%d, %d, %d)",
             $this->conn->real_escape_string($id),
             $this->conn->real_escape_string($class),
             $this->conn->real_escape_string($year)
         );
+        $result = $this->conn->query($sql);
+        return $result;
+    }
 
+    public function UpdateClassUser($studID, $classID)
+    {
+        $sql = sprintf(
+            "SELECT class
+            FROM user_class uc
+            WHERE uc.`user` = %d;",
+            $this->conn->real_escape_string($studID)
+        );
+        $result = $this->conn->query($sql);
+        $classeStudente = array();
+        while ($row = $result->fetch_assoc()) {
+            array_push($classeStudente, $row);
+        }
+
+        if (($classeStudente == array()) == false) {
+            if ($classID == $classeStudente[0]["class"]) {
+                return -1;
+            }
+        }
+
+
+        $year = date('Y');
+        $sql = sprintf(
+            "UPDATE user_class
+            SET class = %d, year = %d
+            WHERE `user` = %d;",
+            $this->conn->real_escape_string($classID),
+            $this->conn->real_escape_string($year),
+            $this->conn->real_escape_string($studID)
+        );
+        $result = $this->conn->query($sql);
+        return $result;
+    }
+
+    public function GetArchieveClass()
+    {
+        $sql = "SELECT *
+                FROM class
+                WHERE 1=1;";
         $result = $this->conn->query($sql);
         return $result;
     }
@@ -372,6 +430,16 @@ class User extends BaseController
         $sql = "SELECT * 
                 FROM `user`
                 WHERE active=1";
+
+        $result = $this->conn->query($sql);
+        return $result;
+    }
+
+    protected function GetTotalUsers()
+    {
+        $sql = "SELECT * 
+                FROM `user`
+                WHERE 1=1";
 
         $result = $this->conn->query($sql);
         return $result;
