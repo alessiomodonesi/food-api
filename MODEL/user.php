@@ -50,7 +50,7 @@ class User extends BaseController
         $sql = sprintf(
             "SELECT id
             FROM `user` 
-            WHERE name = '%s' and surname = '%s';",
+            WHERE name = '%s' and surname = '%s' and active = 1;",
             $this->conn->real_escape_string($name),
             $this->conn->real_escape_string($surname)
         );
@@ -301,7 +301,7 @@ class User extends BaseController
         INNER JOIN class c on c.id =  uc.class 
         WHERE  uc.`year` = %d
         ORDER BY uc.`year` DESC",
-        $this->conn->real_escape_string($year)
+            $this->conn->real_escape_string($year)
         );
 
         $result = $this->conn->query($sql);
