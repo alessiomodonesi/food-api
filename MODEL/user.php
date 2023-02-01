@@ -520,6 +520,12 @@ class User extends BaseController
         }
     }
 
+    public function createColumnCounter(){
+
+        $sql = "ALTER TABLE `user` ADD COLUMN counter INT NOT NULL DEFAULT 0";
+        $result = $this->conn->query($sql);
+        return $result;
+    }
     // public function registration_Secure($name, $surname, $email, $password, $class, $year){
     //     $sql = "UPDATE `user` ";
     // }
