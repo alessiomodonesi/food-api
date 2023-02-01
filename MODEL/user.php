@@ -275,6 +275,8 @@ class User extends BaseController
         );
 
         $result = $this->conn->query($sql);
+
+        return $this->conn->insert_id;
     }
 
     public function addClass($year, $section)
@@ -496,4 +498,29 @@ class User extends BaseController
 
         $result = $this->conn->query($sql);
     }
+
+    public function convertToHash(){
+
+        $sql = "SELECT id, password 
+        FROM `user` 
+        WHERE 1=1";
+
+        $result = $this->conn->query($sql);
+        $query_sql = null;
+        while($row = $result->fetch_assoc()){
+            if($row['password'] == "" or $row['password'] == null){
+                continue;
+            }
+            $query_sql = sprintf("UPDATE `user` 
+            SET password = '%s'
+            WHERE id = %d" , $this->conn->real_escape_string(hash('sha256', $row['password'])),
+            $this->conn->real_escape_string($row['id']));
+            //$final = $this->conn->query($query_sql);
+            unset($query_sql);
+        }
+    }
+
+    // public function registration_Secure($name, $surname, $email, $password, $class, $year){
+    //     $sql = "UPDATE `user` ";
+    // }
 }
