@@ -551,10 +551,28 @@ class User extends BaseController
     }
 
     public function activateUser($id){
-        return true;
+        $sql = sprintf("UPDATE `user` SET active = 1 WHERE id = %d",$this->conn->real_escape_string($id));
+
+        $result = $this->conn->query($sql);
+        return $result;
     }
+
     //public function 
-    // public function registration_Secure($name, $surname, $email, $password, $class, $year){
-    //     $sql = "UPDATE `user` ";
-    // }
+    public function registration_Secure($name, $surname, $email, $password, $class, $year){
+        $sql = sprintf("UPDATE `user` u
+        inner join user_class uc on uc.`user` = u.id 
+        inner join class c on c.id =  uc.class 
+        set u.email = '%s',
+        u.password = '%s'
+        where uc.`year` = 2023 and c.year = %d and c.section = '%s' and u.name =  '%s' and u.surname = '%s';
+        ", $this->conn->real_escape_string($password),
+            $this->conn->real_escape_string($email),
+            $this->conn->real_escape_string($year),
+            $this->conn->real_escape_string($class),
+            $this->conn->real_escape_string($name)
+        );
+
+        $result = $this->conn->query($sql);
+        return $result;
+    }
 }
