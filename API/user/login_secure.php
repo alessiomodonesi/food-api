@@ -16,7 +16,7 @@ $db = new Database();
 $db_conn = $db->connect();
 $user = new User($db_conn);
 
-$result = $user->login($data->email, hash('sha256', $data->password));
+$result = $user->login($data->email, $data->password);
 
 if ($result != false) {
     http_response_code(200);

@@ -142,7 +142,7 @@ class User extends BaseController
     {
         $sql = sprintf("SELECT email, password, id
         FROM `user`
-        where 1=1 ");
+        where active = 1 ");
         $result = $this->conn->query($sql);
         while ($row = $result->fetch_assoc()) {
             if ($this->conn->real_escape_string($email) == $this->conn->real_escape_string($row["email"]) && $this->conn->real_escape_string($password) == $this->conn->real_escape_string($row["password"])) {
@@ -526,6 +526,34 @@ class User extends BaseController
         $result = $this->conn->query($sql);
         return $result;
     }
+
+    public function checkCounterEmail($email){
+        $sql = sprintf("SELECT id , counter from `user` WHERE email LIKE '%s' and active = 1", $this->conn->real_escape_string($email));
+        $result = $this->conn->query($sql);
+        if ($result->num_rows > 0) {
+            $user =  $result->fetch_assoc();
+            return $user;
+        }else{
+            return -1;
+        }
+    }
+    public function increaseCounter($id){
+        $sql = sprintf("UPDATE `user` SET counter = counter + 1 WHERE id = %d", $this->conn->real_escape_string($id));
+        
+        $this->conn->query($sql);
+    }
+
+    public function resetCounter($id)
+    {
+        $sql = sprintf("UPDATE `user` SET counter = 0 WHERE id = %d ", $this->conn->real_escape_string($id));
+
+        $this->conn->query($sql);
+    }
+
+    public function activateUser($id){
+        return true;
+    }
+    //public function 
     // public function registration_Secure($name, $surname, $email, $password, $class, $year){
     //     $sql = "UPDATE `user` ";
     // }
