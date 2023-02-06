@@ -18,7 +18,7 @@ class User extends BaseController
     public function getUser($id)
     {
         $sql = sprintf(
-            "SELECT name, surname, email
+            "SELECT id, name, surname, email
             FROM user
             WHERE id = %d;",
             $this->conn->real_escape_string($id)
@@ -297,7 +297,8 @@ class User extends BaseController
         //if(date('m') < 9){
         //    $year -= 1;
         //}
-        $sql = sprintf("SELECT *
+        $sql = sprintf(
+            "SELECT *
         FROM user_class uc
         INNER JOIN `user` u on u.id = uc.`user`
         INNER JOIN class c on c.id =  uc.class 
@@ -321,7 +322,8 @@ class User extends BaseController
 
     public function getSingleClass($class, $section)
     {
-        $sql = sprintf("SELECT id
+        $sql = sprintf(
+            "SELECT id
         FROM class
         WHERE year = %d AND section = '%s'",
             $this->conn->real_escape_string($class),
@@ -400,7 +402,8 @@ class User extends BaseController
 
     public function importUser($name, $surname, $email)
     {
-        $sql = sprintf("INSERT INTO `user` (name,surname,email,password,active)
+        $sql = sprintf(
+            "INSERT INTO `user` (name,surname,email,password,active)
               value('%s', '%s' ,'%s', '', 1);",
             $this->conn->real_escape_string($name),
             $this->conn->real_escape_string($surname),
@@ -413,7 +416,8 @@ class User extends BaseController
 
     public function updateUser($id, $name, $surname, $email, $passwd, $active)
     {
-        $sql = sprintf("UPDATE `user`
+        $sql = sprintf(
+            "UPDATE `user`
               set name= '%s' ,surname='%s',email='%s',password='%s', active= %d
               where id= %d;",
             $this->conn->real_escape_string($name),
@@ -499,7 +503,8 @@ class User extends BaseController
         $result = $this->conn->query($sql);
     }
 
-    public function convertToHash(){
+    public function convertToHash()
+    {
 
         $sql = "SELECT id, password 
         FROM `user` 
@@ -507,39 +512,45 @@ class User extends BaseController
 
         $result = $this->conn->query($sql);
         $query_sql = null;
-        while($row = $result->fetch_assoc()){
-            if($row['password'] == "" or $row['password'] == null){
+        while ($row = $result->fetch_assoc()) {
+            if ($row['password'] == "" or $row['password'] == null) {
                 continue;
             }
-            $query_sql = sprintf("UPDATE `user` 
+            $query_sql = sprintf(
+                "UPDATE `user` 
             SET password = '%s'
-            WHERE id = %d" , $this->conn->real_escape_string(hash('sha256', $row['password'])),
-            $this->conn->real_escape_string($row['id']));
+            WHERE id = %d",
+                $this->conn->real_escape_string(hash('sha256', $row['password'])),
+                $this->conn->real_escape_string($row['id'])
+            );
             //$final = $this->conn->query($query_sql);
             unset($query_sql);
         }
     }
 
-    public function createColumnCounter(){
+    public function createColumnCounter()
+    {
 
         $sql = "ALTER TABLE `user` ADD COLUMN counter INT NOT NULL DEFAULT 0";
         $result = $this->conn->query($sql);
         return $result;
     }
 
-    public function checkCounterEmail($email){
+    public function checkCounterEmail($email)
+    {
         $sql = sprintf("SELECT id , counter from `user` WHERE email LIKE '%s' and active = 1", $this->conn->real_escape_string($email));
         $result = $this->conn->query($sql);
         if ($result->num_rows > 0) {
             $user =  $result->fetch_assoc();
             return $user;
-        }else{
+        } else {
             return -1;
         }
     }
-    public function increaseCounter($id){
+    public function increaseCounter($id)
+    {
         $sql = sprintf("UPDATE `user` SET counter = counter + 1 WHERE id = %d", $this->conn->real_escape_string($id));
-        
+
         $this->conn->query($sql);
     }
 
@@ -550,22 +561,26 @@ class User extends BaseController
         $this->conn->query($sql);
     }
 
-    public function activateUser($id){
-        $sql = sprintf("UPDATE `user` SET active = 1 WHERE id = %d",$this->conn->real_escape_string($id));
+    public function activateUser($id)
+    {
+        $sql = sprintf("UPDATE `user` SET active = 1 WHERE id = %d", $this->conn->real_escape_string($id));
 
         $result = $this->conn->query($sql);
         return $result;
     }
 
     //public function 
-    public function registration_Secure($name, $surname, $email, $password, $class, $year){
-        $sql = sprintf("UPDATE `user` u
+    public function registration_Secure($name, $surname, $email, $password, $class, $year)
+    {
+        $sql = sprintf(
+            "UPDATE `user` u
         inner join user_class uc on uc.`user` = u.id 
         inner join class c on c.id =  uc.class 
         set u.email = '%s',
         u.password = '%s'
         where uc.`year` = 2023 and c.year = %d and c.section = '%s' and u.name =  '%s' and u.surname = '%s';
-        ", $this->conn->real_escape_string($password),
+        ",
+            $this->conn->real_escape_string($password),
             $this->conn->real_escape_string($email),
             $this->conn->real_escape_string($year),
             $this->conn->real_escape_string($class),
