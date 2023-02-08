@@ -18,5 +18,12 @@ if(empty($data) || empty($data->name) || empty($data->surname)|| empty($data->pa
 
 $result = $user->registration_Secure($data->name, $data->surname, $data->email, $data->password, $data->year, $data->section);
 
-if($result)
+if($result){
+    http_response_code(200);
+    echo json_encode(["message" => "Registration completed successfully"]);
+}else{
+    http_response_code(400);
+    echo json_encode(["Message" => "Invalid"]);
+}
+die();
 ?>

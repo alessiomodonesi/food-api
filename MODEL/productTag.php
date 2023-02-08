@@ -67,6 +67,16 @@ class ProductTag
         $stmt = $this->conn->query($query);
         return $stmt;
     }
+    public function getActiveProductsByTag($tag){
+        $sql = sprintf("SELECT * 
+        from product p
+        inner join product_tag pt on pt.product = p.id
+        where pt.tag = %d and p.active = 1", $this->conn->real_escape_string($tag));
+
+        $result = $this->conn->query($sql);
+
+        return $result;
+    }
 }
 
 ?>
