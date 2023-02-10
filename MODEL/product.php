@@ -162,4 +162,38 @@ class ProductController extends BaseController
         $result = $this->conn->query($sql);
         $this->SendOutput($result, JSON_OK);
     }
+
+    public function setProductQuantity($id,$value){
+        $sql = sprintf("UPDATE product
+        SET quantity = %d
+        WHERE id = %d",
+        $this->conn->real_escape_string($value),
+        $this->conn->real_escape_string($id));
+        $result = $this->conn->query($sql);
+        if($result == 1){
+            //echo json_encode("Well done");
+        }
+    }
+    public function addProductQuantity($id,$value){
+        $sql = sprintf("UPDATE product
+        SET quantity = quantity + %d
+        WHERE id = %d",
+        $this->conn->real_escape_string($value),
+        $this->conn->real_escape_string($id));
+        $result = $this->conn->query($sql);
+        if($result == 1){
+            //echo json_encode("Well done");
+        }
+    }
+    public function removeProductQuantity($id,$value){
+        $sql = sprintf("UPDATE product
+        SET quantity = quantity - %d
+        WHERE id = %d",
+        $this->conn->real_escape_string($value),
+        $this->conn->real_escape_string($id));
+        $result = $this->conn->query($sql);
+        if($result == 1){
+            //echo json_encode("Well done");
+        }
+    }
 }
