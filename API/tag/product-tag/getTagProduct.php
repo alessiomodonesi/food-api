@@ -12,7 +12,7 @@ $db_connection = $database->connect();
 $_product_tag = new ProductTag($db_connection);
 
 
-if(!isset($_GET['product_id'])){
+if (!isset($_GET['product_id'])) {
     http_response_code(400);
     echo json_encode(["message" => "No id found"]);
 }
@@ -22,16 +22,14 @@ $stmt = $_product_tag->GetTagFromProduct($_GET['product_id']);
 if ($stmt->num_rows > 0) {
     $product_tag_array = array();
 
-    while($record = mysqli_fetch_assoc($stmt))
-    {
+    while ($record = mysqli_fetch_assoc($stmt)) {
         $product_tag_array[] = $record;
     }
 
     $json = json_encode($product_tag_array);
     echo $json;
     return $json;
-}
-else{
+} else {
     echo 'No record';
 }
 ?>

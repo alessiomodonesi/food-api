@@ -20,7 +20,8 @@ class Favourite
                 INNER JOIN product ON product.id = favourite.product
                 INNER JOIN user ON user.id = favourite.`user`
                 WHERE user.id = %d",
-                $this->conn->real_escape_string($id));
+            $this->conn->real_escape_string($id)
+        );
 
         $result = $this->conn->query($sql);
         return $result;
@@ -32,16 +33,17 @@ class Favourite
 
         $favourite = $this->getArchiveFavourite($user_id);
 
-        while($row = $favourite->fetch_assoc()){
-            if($row['id'] == $product_id){
+        while ($row = $favourite->fetch_assoc()) {
+            if ($row['id'] == $product_id) {
                 return -1;
             }
         }
 
         $sql = sprintf("INSERT INTO favourite (user, product)
                 VALUES (%d, %d)",
-                $this->conn->real_escape_string($user_id),
-                $this->conn->real_escape_string($product_id));
+            $this->conn->real_escape_string($user_id),
+            $this->conn->real_escape_string($product_id)
+        );
 
         $stmt = $this->conn->query($sql);
 
@@ -52,8 +54,9 @@ class Favourite
     {
         $sql = sprintf("DELETE FROM favourite
                 WHERE product = %d AND user = %d",
-                $this->conn->real_escape_string($product_id),
-                $this->conn->real_escape_string($user_id));
+            $this->conn->real_escape_string($product_id),
+            $this->conn->real_escape_string($user_id)
+        );
 
         $stmt = $this->conn->query($sql);
 

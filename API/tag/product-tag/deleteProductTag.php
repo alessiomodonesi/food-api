@@ -5,7 +5,7 @@
  * Realizzato dal gruppo Rossi, Di Lena, Marchetto G., Lavezzi, Ferrari
  * Classe 5F
  * A.S. 2022-2023
-**/
+ **/
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: DELETE");

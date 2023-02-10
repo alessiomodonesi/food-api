@@ -5,7 +5,7 @@ require __DIR__ . '/../../../MODEL/favourite.php';
 header("Content-type: application/json; charset=UTF-8");
 
 
-if(!isset($_GET['id'])){
+if (!isset($_GET['id'])) {
     http_response_code(404);
     echo json_encode(["message" => "Insert a valid ID"]);
     exit();
@@ -13,7 +13,7 @@ if(!isset($_GET['id'])){
 
 $id = explode("?id=", $_SERVER["REQUEST_URI"])[1];
 
-if(empty($id)){ 
+if (empty($id)) {
     http_response_code(404);
     echo json_encode(["message" => "Insert a valid ID"]);
     exit();
@@ -32,8 +32,7 @@ if ($result->num_rows > 0) {
     }
     http_response_code(200);
     echo json_encode($json_arr, JSON_PRETTY_PRINT);
-}
-else{
+} else {
     http_response_code(404);
     echo json_encode(["message" => "No record found"]);
 }

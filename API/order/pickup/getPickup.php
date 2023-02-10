@@ -1,4 +1,4 @@
-<?php 
+<?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 
@@ -12,20 +12,16 @@ $pickup = new PickUp($db);
 
 $stmt = $pickup->getArchivePickup();
 
-if ($stmt->num_rows > 0)
-{
+if ($stmt->num_rows > 0) {
     $pickup_array = array();
-    while($record = $stmt->fetch_assoc())
-    {
+    while ($record = $stmt->fetch_assoc()) {
         //extract($record);
         $pickup_array[] = $record;
     }
 
     http_response_code(200);
     echo json_encode($pickup_array, JSON_PRETTY_PRINT);
-}
-else
-{
+} else {
     echo "No records";
 }
 ?>

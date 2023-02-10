@@ -11,7 +11,7 @@ $database = new Database();
 $db = $database->connect();
 
 
-if(empty($data) || empty($data->product) || empty($data->offer)){
+if (empty($data) || empty($data->product) || empty($data->offer)) {
     http_response_code(400);
     die(json_encode(array("Message" => "Bad request")));
 }
@@ -20,9 +20,9 @@ $ProductOffer = new ProductOffer($db);
 
 $stmt = $ProductOffer->getOfferProduct($data->offer);
 
-if($stmt->num_rows > 0){
-    while($row = $stmt->fetch_assoc()){
-        if($row["id"] == $data->product){
+if ($stmt->num_rows > 0) {
+    while ($row = $stmt->fetch_assoc()) {
+        if ($row["id"] == $data->product) {
             http_response_code(400);
             echo json_encode(["message" => "Already exists"]);
             die();
@@ -31,11 +31,9 @@ if($stmt->num_rows > 0){
 }
 
 $result = $ProductOffer->setProductOffer($data->product, $data->offer);
-if ($stmt)
-{
+if ($stmt) {
     echo "Association inserted";
-}
-else {
+} else {
     echo "Association failed";
 }
 ?>

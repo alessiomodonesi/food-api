@@ -16,12 +16,22 @@ $db = new Database();
 $db_conn = $db->connect();
 $user = new User($db_conn);
 
-$result = $user->login($data->email, $data->password);
+$result = $user->login($data->email, hash('sha256', $data->password));
 
 if ($result != false) {
     http_response_code(200);
+    $user->resetCounter($result);
     echo json_encode(["response" => true, "userID" => $result]);
 } else {
+    unset($result);
+    $result = $user->checkCounterEmail($data->email);
+    if($result != -1){
+        if($result['counter'] >= 4){
+            $user->deleteUser($result['id']);
+        }else{
+            $user->increaseCounter($result['id']);
+        }
+    }
     http_response_code(401);
     echo json_encode(["response" => false]);
 }

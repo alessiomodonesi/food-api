@@ -6,7 +6,7 @@ require("../../MODEL/product.php");
 $database = new Database();
 $db_connection = $database->connect();
 
-if(!strpos($_SERVER["REQUEST_URI"], "?INGREDIENT_ID=")){
+if (!strpos($_SERVER["REQUEST_URI"], "?INGREDIENT_ID=")) {
 
     http_response_code(400);
     echo json_encode(array("Message" => "Bad request"));

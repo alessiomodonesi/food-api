@@ -1,9 +1,9 @@
 <?php
 require("../../COMMON/connect.php");
-require ('../../MODEL/user.php');
+require('../../MODEL/user.php');
 header("Content-type: application/json; charset=UTF-8");
 
-if(!isset($_GET['id'])){
+if (!isset($_GET['id'])) {
     http_response_code(400);
     echo json_encode(["message" => "Insert the id param"]);
     exit();

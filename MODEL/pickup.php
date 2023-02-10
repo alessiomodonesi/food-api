@@ -11,19 +11,18 @@ class PickUp
 {
     protected $conn;
 
-    
+
     public function __construct($db)
     {
-        $this->conn=$db;
+        $this->conn = $db;
     }
 
     /*private Connect $db;
     private PDO $conn;
-
     public function __construct()
     {
-        $this->db = new Connect;
-        $this->conn = $this->db->getConnection();
+    $this->db = new Connect;
+    $this->conn = $this->db->getConnection();
     }*/
 
 
@@ -37,14 +36,15 @@ class PickUp
         return $this->conn->query($sql);
 
         /*$stmt = $this->conn->prepare($sql);
-
         return $stmt->execute();*/
     }
 
-    public function addPickup($name){
+    public function addPickup($name)
+    {
         $sql = sprintf("INSERT INTO pickup (name)
         VALUES('%s');",
-        $this->conn->real_escape_string($name));
+            $this->conn->real_escape_string($name)
+        );
 
         $result = $this->conn->query($sql);
 
