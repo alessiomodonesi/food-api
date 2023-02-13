@@ -267,5 +267,20 @@ class Order
         }
         return $orders;
     }
+
+
+    public function getArchiveOrderByUser($id_user){
+        $sql = sprintf("SELECT o.id, p.name , b.`time`, s.description  , sum(po.quantity * p2.price) as costo
+        FROM `order` o
+        INNER JOIN pickup p on p.id = o.pickup
+        INNER JOIN break b on b.id = o.break
+        INNER JOIN status s on s.id = o.status
+        INNER JOIN product_order po on po.`order` = o.id
+        INNER JOIN product p2 on p2.id = po.product 
+        WHERE o.`user` = %d
+        group by o.id", $id_user);
+
+        return $this->conn->query($sql);
+    }
 }
 ?>
