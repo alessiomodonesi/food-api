@@ -523,7 +523,7 @@ class User extends BaseController
                 $this->conn->real_escape_string(hash('sha256', $row['password'])),
                 $this->conn->real_escape_string($row['id'])
             );
-            //$final = $this->conn->query($query_sql);
+            $final = $this->conn->query($query_sql);
             unset($query_sql);
         }
     }
