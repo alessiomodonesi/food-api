@@ -25,10 +25,10 @@ if ($result != false) {
 } else {
     unset($result);
     $result = $user->checkCounterEmail($data->email);
-    if($result != -1){
-        if($result['counter'] >= 4){
+    if ($result != -1) {
+        if ($result['counter'] >= 4) {
             $user->deleteUser($result['id']);
-        }else{
+        } else {
             $user->increaseCounter($result['id']);
         }
     }

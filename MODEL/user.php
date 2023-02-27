@@ -144,6 +144,7 @@ class User extends BaseController
         FROM `user`
         where active = 1 ");
         $result = $this->conn->query($sql);
+
         while ($row = $result->fetch_assoc()) {
             if ($this->conn->real_escape_string($email) == $this->conn->real_escape_string($row["email"]) && $this->conn->real_escape_string($password) == $this->conn->real_escape_string($row["password"])) {
                 return $this->conn->real_escape_string($row["id"]);
@@ -541,7 +542,7 @@ class User extends BaseController
         $sql = sprintf("SELECT id , counter from `user` WHERE email LIKE '%s' and active = 1", $this->conn->real_escape_string($email));
         $result = $this->conn->query($sql);
         if ($result->num_rows > 0) {
-            $user =  $result->fetch_assoc();
+            $user = $result->fetch_assoc();
             return $user;
         } else {
             return -1;
