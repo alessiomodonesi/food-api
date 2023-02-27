@@ -61,5 +61,18 @@ class Cart
         //echo $sql . "</br>";
         return $sql;
     }
+    function addProductCart($item, $user, $quantity){
+        
+    }
+
+    function getPriceCartUser($user){
+        $sql = "SELECT sum(p.price * c.quantity) as prezzo
+        FROM cart c
+        INNER JOIN `user` u on c.`user` = u.id
+        INNER JOIN product p on c.product = p.id
+        WHERE u.id = " . $user;
+
+        return $sql;
+    }
 }
 ?>
