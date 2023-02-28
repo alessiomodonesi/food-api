@@ -1,7 +1,6 @@
 <?php
 class Cart
 {
-
     function getCartItems($user)
     { //ritorna il carrello dell'utente con i relativi prodotti
         $sql = "select p.id, c.quantity, p.name, p.price, p.description, t.id as 'tag_id' ";
@@ -61,11 +60,13 @@ class Cart
         //echo $sql . "</br>";
         return $sql;
     }
-    function addProductCart($item, $user, $quantity){
-        
+    function addProductCart($item, $user, $quantity)
+    {
+
     }
 
-    function getPriceCartUser($user){
+    function getPriceCartUser($user)
+    {
         $sql = "SELECT sum(p.price * c.quantity) as prezzo
         FROM cart c
         INNER JOIN `user` u on c.`user` = u.id
@@ -73,6 +74,34 @@ class Cart
         WHERE u.id = " . $user;
 
         return $sql;
+    }
+
+    public function ClearCart($conn, $userID) //toglie tutti i prodotti dal carrello
+
+    {
+        $sql = sprintf("SELECT `user`, product
+        FROM cart c
+        WHERE c.`user` = %d;",
+            $conn->real_escape_string($userID)
+        );
+        $result = $conn->query($sql);
+
+        $arr = array();
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                array_push($arr, $row);
+            }
+            //print_r(json_encode($arr, JSON_PRETTY_PRINT));
+        } else {
+            return false;
+        }
+
+        foreach ($arr as $element) {
+            $queryDelete = $this->deleteItem($element["product"], $userID);
+            $result = $conn->query($queryDelete);
+        }
+
+        return $result;
     }
 }
 ?>
